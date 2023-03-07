@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Un compte utilisateur existe déja avec cette addresse email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -31,16 +33,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $surname = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adress = null;
+    private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $postalCode = null;
+    private ?string $zipCode = null;
 
     #[ORM\Column(length: 255)]
     private ?string $city = null;
@@ -132,50 +134,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getNom(): ?string
+    public function getLastName(): ?string
     {
-        return $this->nom;
+        return $this->lastName;
     }
 
-    public function setNom(string $nom): self
+    public function setLastName(string $lastName): self
     {
-        $this->nom = $nom;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->surname;
+        return $this->firstName;
     }
 
-    public function setSurname(string $surname): self
+    public function setFirstName(string $firstName): self
     {
-        $this->surname = $surname;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setAddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getPostalCode(): ?string
+    public function getZipCode(): ?string
     {
-        return $this->postalCode;
+        return $this->zipCode;
     }
 
-    public function setPostalCode(string $postalCode): self
+    public function setZipCode(string $zipCode): self
     {
-        $this->postalCode = $postalCode;
+        $this->zipCode = $zipCode;
 
         return $this;
     }
