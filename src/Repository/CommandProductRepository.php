@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Commandes;
+use App\Entity\CommandProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Commandes>
+ * @extends ServiceEntityRepository<CommandProduct>
  *
- * @method Commandes|null find($id, $lockMode = null, $lockVersion = null)
- * @method Commandes|null findOneBy(array $criteria, array $orderBy = null)
- * @method Commandes[]    findAll()
- * @method Commandes[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CommandProduct|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CommandProduct|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CommandProduct[]    findAll()
+ * @method CommandProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CommandesRepository extends ServiceEntityRepository
+class CommandProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Commandes::class);
+        parent::__construct($registry, CommandProduct::class);
     }
 
-    public function save(Commandes $entity, bool $flush = false): void
+    public function save(CommandProduct $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CommandesRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Commandes $entity, bool $flush = false): void
+    public function remove(CommandProduct $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CommandesRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Commandes[] Returns an array of Commandes objects
+//     * @return CommandProduct[] Returns an array of CommandProduct objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CommandesRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Commandes
+//    public function findOneBySomeField($value): ?CommandProduct
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\FidelityCards;
+use App\Entity\FidelityCard;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<FidelityCards>
+ * @extends ServiceEntityRepository<FidelityCard>
  *
- * @method FidelityCards|null find($id, $lockMode = null, $lockVersion = null)
- * @method FidelityCards|null findOneBy(array $criteria, array $orderBy = null)
- * @method FidelityCards[]    findAll()
- * @method FidelityCards[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method FidelityCard|null find($id, $lockMode = null, $lockVersion = null)
+ * @method FidelityCard|null findOneBy(array $criteria, array $orderBy = null)
+ * @method FidelityCard[]    findAll()
+ * @method FidelityCard[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FidelityCardsRepository extends ServiceEntityRepository
+class FidelityCardRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, FidelityCards::class);
+        parent::__construct($registry, FidelityCard::class);
     }
 
-    public function save(FidelityCards $entity, bool $flush = false): void
+    public function save(FidelityCard $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class FidelityCardsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(FidelityCards $entity, bool $flush = false): void
+    public function remove(FidelityCard $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class FidelityCardsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return FidelityCards[] Returns an array of FidelityCards objects
+//     * @return FidelityCard[] Returns an array of FidelityCard objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class FidelityCardsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?FidelityCards
+//    public function findOneBySomeField($value): ?FidelityCard
 //    {
 //        return $this->createQueryBuilder('f')
 //            ->andWhere('f.exampleField = :val')
