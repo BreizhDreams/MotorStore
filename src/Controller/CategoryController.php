@@ -27,7 +27,6 @@ class CategoryController extends AbstractController
   Request $request, 
   EntityManagerInterface $manager)
   {
-      
       if(!$categoryVO)
       {$categoryVO = new Category();}
       

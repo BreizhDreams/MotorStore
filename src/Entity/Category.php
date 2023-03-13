@@ -27,10 +27,14 @@ class Category
     #[ORM\ManyToMany(targetEntity: Advantage::class, inversedBy: 'categoryVOs')]
     private Collection $advantageVOs;
 
+    #[ORM\OneToMany(mappedBy: 'categoryVO', targetEntity: SubCategory::class)]
+    private Collection $subCategoriesVOs;
+
     public function __construct()
     {
         $this->productVOs = new ArrayCollection();
         $this->advantageVOs = new ArrayCollection();
+        $this->subCategoriesVOs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +116,36 @@ class Category
     public function removeAdvantageVO(Advantage $advantageVO): self
     {
         $this->advantageVOs->removeElement($advantageVO);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SubCategory>
+     */
+    public function getSubCategoriesVOs(): Collection
+    {
+        return $this->subCategoriesVOs;
+    }
+
+    public function addSubCategoriesVO(SubCategory $subCategoriesVO): self
+    {
+        if (!$this->subCategoriesVOs->contains($subCategoriesVO)) {
+            $this->subCategoriesVOs->add($subCategoriesVO);
+            $subCategoriesVO->setCategoryVO($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubCategoriesVO(SubCategory $subCategoriesVO): self
+    {
+        if ($this->subCategoriesVOs->removeElement($subCategoriesVO)) {
+            // set the owning side to null (unless already changed)
+            if ($subCategoriesVO->getCategoryVO() === $this) {
+                $subCategoriesVO->setCategoryVO(null);
+            }
+        }
 
         return $this;
     }
