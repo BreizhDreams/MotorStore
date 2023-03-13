@@ -20,34 +20,34 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route("/category/new", name:"newcategory")]
-    #[Route("/category/{id}/edit", name:"updatecategory")]
-   
-  public function GestionProprietaires(Category $categoryVO = null,
-  Request $request, 
-  EntityManagerInterface $manager)
-  {
-      if(!$categoryVO)
-      {$categoryVO = new Category();}
-      
+    #[Route("/category/new", name: "newcategory")]
+    #[Route("/category/{id}/edit", name: "updatecategory")]
+    public function CategoryManager(
+        Category $categoryVO = null,
+        Request $request,
+        EntityManagerInterface $manager
+    ) {
+        if (!$categoryVO) {
+            $categoryVO = new Category();
+        }
 
-      $form = $this->createForm(CategoryType::class,$categoryVO);
 
-      $form->handleRequest($request);
+        $form = $this->createForm(CategoryType::class, $categoryVO);
 
-      if(($form->isSubmitted() && $form->isValid()))
-      {
-          
-          $manager->persist($categoryVO);
-          
-          $manager->flush();
+        $form->handleRequest($request);
 
-          return $this->redirectToRoute('retour');
-      }
+        if (($form->isSubmitted() && $form->isValid())) {
 
-      return $this->render('category/manageCategory.html.twig', [
-          'form' => $form->createView(),
-          'editmode' => $categoryVO->getId() !== null
-      ]);
-  }
+            $manager->persist($categoryVO);
+
+            $manager->flush();
+
+            return $this->redirectToRoute('retour');
+        }
+
+        return $this->render('category/manageCategory.html.twig', [
+            'form' => $form->createView(),
+            'editmode' => $categoryVO->getId() !== null
+        ]);
+    }
 }

@@ -20,36 +20,34 @@ class SubCategoryController extends AbstractController
         ]);
     }
 
-    
-    #[Route("/subCategory/new", name:"newcategory")]
-    #[Route("/subCategory/{id}/edit", name:"updatecategory")]
-   
-  public function GestionProprietaires(SubCategory $subCategoryVO = null,
-  Request $request, 
-  EntityManagerInterface $manager)
-  {
-      
-      if(!$subCategoryVO)
-      {$subCategoryVO = new SubCategory();}
-      
+    #[Route("/subcategory/new", name: "newsubcategory")]
+    #[Route("/subcategory/{id}/edit", name: "updatesubcategory")]
+    public function SubCategoryManager(
+        SubCategory $subCategoryVO = null,
+        Request $request,
+        EntityManagerInterface $manager
+    ) {
+        if (!$subCategoryVO) {
+            $subCategoryVO = new SubCategory();
+        }
 
-      $form = $this->createForm(SubCategoryType::class,$subCategoryVO);
 
-      $form->handleRequest($request);
+        $form = $this->createForm(SubCategoryType::class, $subCategoryVO);
 
-      if(($form->isSubmitted() && $form->isValid()))
-      {
-          
-          $manager->persist($subCategoryVO);
-          
-          $manager->flush();
+        $form->handleRequest($request);
 
-          return $this->redirectToRoute('retour');
-      }
+        if (($form->isSubmitted() && $form->isValid())) {
 
-      return $this->render('sub_category/manageSubCategory.html.twig', [
-          'form' => $form->createView(),
-          'editmode' => $subCategoryVO->getId() !== null
-      ]);
-  }
+            $manager->persist($subCategoryVO);
+
+            $manager->flush();
+
+            return $this->redirectToRoute('retour');
+        }
+
+        return $this->render('sub_category/manageSubCategory.html.twig', [
+            'form' => $form->createView(),
+            'editmode' => $subCategoryVO->getId() !== null
+        ]);
+    }
 }

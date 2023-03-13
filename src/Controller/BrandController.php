@@ -23,7 +23,7 @@ class BrandController extends AbstractController
     #[Route("/brand/new", name:"newbrand")]
     #[Route("/brand/{id}/edit", name:"updatebrand")]
    
-  public function GestionProprietaires(Brand $brandVO = null,
+  public function BrandManager(Brand $brandVO = null,
   Request $request, 
   EntityManagerInterface $manager)
   {

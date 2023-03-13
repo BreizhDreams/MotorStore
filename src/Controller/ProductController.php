@@ -23,7 +23,7 @@ class ProductController extends AbstractController
     #[Route("/product/new", name:"newprodut")]
     #[Route("/product/{id}/edit", name:"updateproduct")]
    
-  public function GestionProprietaires(Product $productVO = null,
+  public function ProductManager(Product $productVO = null,
   Request $request, 
   EntityManagerInterface $manager)
   {
