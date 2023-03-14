@@ -20,8 +20,8 @@ class SubCategoryController extends AbstractController
         ]);
     }
 
-    #[Route("/subcategory/new", name: "newsubcategory")]
-    #[Route("/subcategory/{id}/edit", name: "updatesubcategory")]
+    #[Route("/admin/subcategory/new", name: "newsubcategory")]
+    #[Route("/admin/subcategory/{id}/edit", name: "updatesubcategory")]
     public function SubCategoryManager(
         SubCategory $subCategoryVO = null,
         Request $request,
@@ -45,7 +45,7 @@ class SubCategoryController extends AbstractController
             return $this->redirectToRoute('retour');
         }
 
-        return $this->render('sub_category/manageSubCategory.html.twig', [
+        return $this->render('admin/manageSubCategory.html.twig', [
             'form' => $form->createView(),
             'editmode' => $subCategoryVO->getId() !== null
         ]);

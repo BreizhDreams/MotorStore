@@ -20,8 +20,8 @@ class BrandController extends AbstractController
         ]);
     }
     
-    #[Route("/brand/new", name:"newbrand")]
-    #[Route("/brand/{id}/edit", name:"updatebrand")]
+    #[Route("/admin/brand/new", name:"newbrand")]
+    #[Route("/admin/brand/{id}/edit", name:"updatebrand")]
    
   public function BrandManager(Brand $brandVO = null,
   Request $request, 
@@ -46,7 +46,7 @@ class BrandController extends AbstractController
           return $this->redirectToRoute('retour');
       }
 
-      return $this->render('brand/manageBrand.html.twig', [
+      return $this->render('admin/manageBrand.html.twig', [
           'form' => $form->createView(),
           'editmode' => $brandVO->getId() !== null
       ]);

@@ -20,8 +20,8 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route("/category/new", name: "newcategory")]
-    #[Route("/category/{id}/edit", name: "updatecategory")]
+    #[Route("/admin/category/new", name: "newcategory")]
+    #[Route("/admin/category/{id}/edit", name: "updatecategory")]
     public function CategoryManager(
         Category $categoryVO = null,
         Request $request,
@@ -45,7 +45,7 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('retour');
         }
 
-        return $this->render('category/manageCategory.html.twig', [
+        return $this->render('admin/manageCategory.html.twig', [
             'form' => $form->createView(),
             'editmode' => $categoryVO->getId() !== null
         ]);
