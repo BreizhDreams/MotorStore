@@ -30,7 +30,7 @@ class ProductType extends AbstractType
             ->add('subCategoryVO', EntityType::class, array(
                 'class'        => SubCategory::class,
                 'choice_label' => 'designation',
-                'muliple' => false))
+                'multiple' => false))
         ;
     }
 

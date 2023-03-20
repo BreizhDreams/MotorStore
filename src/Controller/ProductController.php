@@ -20,7 +20,7 @@ class ProductController extends AbstractController
         ]);
     }
     
-    #[Route("/admin/product/new", name:"newprodut")]
+    #[Route("/admin/product/new", name:"newproduct")]
     #[Route("/admin/product/{id}/edit", name:"updateproduct")]
    
   public function ProductManager(Product $productVO = null,
