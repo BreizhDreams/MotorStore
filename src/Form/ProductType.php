@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Brand;
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\SubCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,15 +19,18 @@ class ProductType extends AbstractType
             ->add('designation')
             ->add('prixTTC')
             ->add('photoURL')
-            ->add('categoryVO', EntityType::class, array(
-                'class'        => Category::class,
-                'choice_label' => 'designation',
-                'multiple' => false ))
             ->add('brandVO', EntityType::class, array(
                 'class'        => Brand::class,
                 'choice_label' => 'name',
                 'multiple' => false ))
-
+            ->add('categoryVO', EntityType::class, array(
+                'class'        => Category::class,
+                'choice_label' => 'designation',
+                'multiple' => false ))
+            ->add('subCategoryVO', EntityType::class, array(
+                'class'        => SubCategory::class,
+                'choice_label' => 'designation',
+                'muliple' => false))
         ;
     }
 

@@ -35,6 +35,9 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Brand $brandVO = null;
 
+    #[ORM\ManyToOne(inversedBy: 'productVOs')]
+    private ?SubCategory $subCategoryVO = null;
+
     public function __construct()
     {
         $this->advantageVOs = new ArrayCollection();
@@ -125,6 +128,18 @@ class Product
     public function setBrandVO(?Brand $brandVO): self
     {
         $this->brandVO = $brandVO;
+
+        return $this;
+    }
+
+    public function getSubCategoryVO(): ?SubCategory
+    {
+        return $this->subCategoryVO;
+    }
+
+    public function setSubCategoryVO(?SubCategory $subCategoryVO): self
+    {
+        $this->subCategoryVO = $subCategoryVO;
 
         return $this;
     }
