@@ -6142,6 +6142,7 @@ __metadata:
     node-sass: ^8.0.0
     regenerator-runtime: ^0.13.9
     sass-loader: ^13.2.0
+    themify-icons: ^1.0.0
     webpack: ^5.74.0
     webpack-cli: ^4.10.0
     webpack-notifier: ^1.15.0
@@ -6802,6 +6803,13 @@ __metadata:
   bin:
     terser: bin/terser
   checksum: f2c1a087fac7f4ff04b1b4e79bffc52e2fc0b068b98912bfcc0b341184c284c30c19ed73f76ac92b225b71668f7f8fc586d99a7e50a29cdc1c916cb1265522ec
+  languageName: node
+  linkType: hard
+
+"themify-icons@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "themify-icons@npm:1.0.0"
+  checksum: 7a78b080606011979967cd00d9a5cb6126664f1d47436993ba44489db7ace94bb1c4e511749913df9da6a8bd3e61bef799137afc983c849de15b62bfabc07735
   languageName: node
   linkType: hard
 

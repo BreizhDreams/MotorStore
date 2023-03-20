@@ -2,5 +2,39 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
 body {
+    background-color: white;
+}
+
+.navbar{
     background-color: lightgray;
+    text-align: center;
+    padding-bottom: 1em;
+    padding-top: 1em;
+}
+
+.navbar ul{
+    margin-left: 35%;
+    margin-right: 50px;
+}
+
+.navbar ul li{
+    margin-left: 1em;
+    margin-right: 1em;
+    font-weight: bold;
+    color: black;
+}
+
+.navbar ul li.connected {
+    margin-right: 0em;
+    width: 150%;
+}
+
+
+.navbar ul li ul {
+    margin-left: -1em;
+}
+
+.navbar ul li ul li {
+    font-weight: bold;
+    text-align: center;
 }

@@ -20,34 +20,4 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route("/admin/category/new", name: "newcategory")]
-    #[Route("/admin/category/{id}/edit", name: "updatecategory")]
-    public function CategoryManager(
-        Category $categoryVO = null,
-        Request $request,
-        EntityManagerInterface $manager
-    ) {
-        if (!$categoryVO) {
-            $categoryVO = new Category();
-        }
-
-
-        $form = $this->createForm(CategoryType::class, $categoryVO);
-
-        $form->handleRequest($request);
-
-        if (($form->isSubmitted() && $form->isValid())) {
-
-            $manager->persist($categoryVO);
-
-            $manager->flush();
-
-            return $this->redirectToRoute('retour');
-        }
-
-        return $this->render('admin/manageCategory.html.twig', [
-            'form' => $form->createView(),
-            'editmode' => $categoryVO->getId() !== null
-        ]);
-    }
 }

@@ -1,63 +1,77 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
+    <div class="container-fluid menuNavbar">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown" >
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Casque</a>
-                    <ul class="dropdown-menu"> 
+                <li class="nav-item dropdown">
+                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Casque</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Casque Intégrale</a></li>
                         <li><a class="dropdown-item" href="#">Casque Modulable</a></li>
                         <li><a class="dropdown-item" href="#">Casque Jet</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" >
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Veste</a>
-                    <ul class="dropdown-menu"> 
+                <li class="nav-item dropdown">
+                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Veste</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Combinaison Cuir</a></li>
                         <li><a class="dropdown-item" href="#">Blouson Cuir</a></li>
                         <li><a class="dropdown-item" href="#">Blouson Textile</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" >
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gants</a>
-                    <ul class="dropdown-menu"> 
+                <li class="nav-item dropdown">
+                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Gants</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Gants été</a></li>
                         <li><a class="dropdown-item" href="#">Gants mi-saison</a></li>
                         <li><a class="dropdown-item" href="#">Gants hiver</a></li>
                         <li><a class="dropdown-item" href="#">Gants chauffants</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" >
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pantalons</a>
-                    <ul class="dropdown-menu"> 
+                <li class="nav-item dropdown">
+                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Pantalons</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Jean</a></li>
                         <li><a class="dropdown-item" href="#">Pantalon Cuir</a></li>
                         <li><a class="dropdown-item" href="#">Pantalon Textile</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" >
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chaussures</a>
-                    <ul class="dropdown-menu"> 
+                <li class="nav-item dropdown">
+                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Chaussures</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Baskets</a></li>
                         <li><a class="dropdown-item" href="#">Chaussures </a></li>
                         <li><a class="dropdown-item" href="#">Bottes</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" >
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Protection</a>
-                    <ul class="dropdown-menu"> 
+                <li class="nav-item dropdown">
+                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Protection</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Dorsales</a></li>
                         <li><a class="dropdown-item" href="#">Airbag</a></li>
                     </ul>
                 </li>
+                <li>
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Mon compte</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
+                <li class="nav-item dropdown connected" >
+                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mon Compte</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"></a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Mes Commandes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </li>
+                    </ul>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -67,11 +81,12 @@
                     <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
                 </li>
                 {% endif %}
-
-
+                <li class="nav-item mt-2"> 
+                    <a href="#">
+                        <i class="fa-solid fa-cart-shopping" style="font-size: 150%;" ></i>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
-
-

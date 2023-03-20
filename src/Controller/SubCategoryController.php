@@ -19,35 +19,4 @@ class SubCategoryController extends AbstractController
             'controller_name' => 'SubCategoryController',
         ]);
     }
-
-    #[Route("/admin/subcategory/new", name: "newsubcategory")]
-    #[Route("/admin/subcategory/{id}/edit", name: "updatesubcategory")]
-    public function SubCategoryManager(
-        SubCategory $subCategoryVO = null,
-        Request $request,
-        EntityManagerInterface $manager
-    ) {
-        if (!$subCategoryVO) {
-            $subCategoryVO = new SubCategory();
-        }
-
-
-        $form = $this->createForm(SubCategoryType::class, $subCategoryVO);
-
-        $form->handleRequest($request);
-
-        if (($form->isSubmitted() && $form->isValid())) {
-
-            $manager->persist($subCategoryVO);
-
-            $manager->flush();
-
-            return $this->redirectToRoute('retour');
-        }
-
-        return $this->render('admin/manageSubCategory.html.twig', [
-            'form' => $form->createView(),
-            'editmode' => $subCategoryVO->getId() !== null
-        ]);
-    }
 }

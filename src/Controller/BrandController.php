@@ -20,35 +20,4 @@ class BrandController extends AbstractController
         ]);
     }
     
-    #[Route("/admin/brand/new", name:"newbrand")]
-    #[Route("/admin/brand/{id}/edit", name:"updatebrand")]
-   
-  public function BrandManager(Brand $brandVO = null,
-  Request $request, 
-  EntityManagerInterface $manager)
-  {
-      
-      if(!$brandVO)
-      {$brandVO = new Brand();}
-      
-
-      $form = $this->createForm(BrandType::class,$brandVO);
-
-      $form->handleRequest($request);
-
-      if(($form->isSubmitted() && $form->isValid()))
-      {
-          
-          $manager->persist($brandVO);
-          
-          $manager->flush();
-
-          return $this->redirectToRoute('retour');
-      }
-
-      return $this->render('admin/manageBrand.html.twig', [
-          'form' => $form->createView(),
-          'editmode' => $brandVO->getId() !== null
-      ]);
-  }
 }

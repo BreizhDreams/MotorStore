@@ -20,35 +20,4 @@ class ProductController extends AbstractController
         ]);
     }
     
-    #[Route("/admin/product/new", name:"newproduct")]
-    #[Route("/admin/product/{id}/edit", name:"updateproduct")]
-   
-  public function ProductManager(Product $productVO = null,
-  Request $request, 
-  EntityManagerInterface $manager)
-  {
-      
-      if(!$productVO)
-      {$productVO = new Product();}
-      
-
-      $form = $this->createForm(ProductType::class,$productVO);
-
-      $form->handleRequest($request);
-
-      if(($form->isSubmitted() && $form->isValid()))
-      {
-          
-          $manager->persist($productVO);
-          
-          $manager->flush();
-
-          return $this->redirectToRoute('retour');
-      }
-
-      return $this->render('admin/manageProduct.html.twig', [
-          'form' => $form->createView(),
-          'editmode' => $productVO->getId() !== null
-      ]);
-  }
 }
