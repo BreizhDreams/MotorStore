@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<fieldset class="mb-3">
+    <legend>Mon identité</legend>
+    <span>
+        <label>Nom de Famille</label> <input type="text" placeholder="{{ app.user.lastName }}">
+        <label>Prénom</label> <input type="text" placeholder="{{ app.user.firstName }}">
+    </span>
+    <label>Email</label> <input type="text" placeholder="{{ app.user.email }}">
+</fieldset>
+<fieldset class="mb-3">
+    <legend>Mes coordonnées</legend>
+    {{ app.user.address }}
+    {{ app.user.zipCode }}
+    {{ app.user.city }}
+    {{ app.user.telNumber }}
+</fieldset>
+
+<button type="submit" class="btn btn-primary btn-lg my-3">Soumettre</button>
+{% endblock body %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="categoryStyle">
+    <h2 class="categoryTitle">{{ categoryVO.designation}} </h2>
+    <p class="categoryDescr">{{categoryVO.description}}</p>
+</div>
+{% for subCategoryVO in categoryVO.getSubCategoriesVOs() %}
+    <h5 class="subCategoryTitle">{{subCategoryVO.designation}}</h5>
+    <div class="divSubCategory">
+        {% set i= 0 %}
+        {% for productVO in subCategoryVO.getProductVOs() %}
+        {% set i = i+1%}
+            {% if i < 5 %} 
+            <a href="{{ path('voirProduit',{'designation' : productVO.designation}) }}">
+                <div class="itemProduct">
+                    <div class="imageProductItem">
+                        <img src="{{productVO.photoURL}}" alt="">
+                    </div>
+                    <p class="productDesc">{{ productVO.designation }}</p>
+                    <p class="brandDesc">{{ productVO.getBrandVO()}}</p>
+                    <span class="productPrice">
+                        <button type="button" class="btn btn-success">Ajouter au Panier</button>
+                        <p>{{productVO.prixTTC / 100}} €</p>
+                    </span>
+                </div>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="text-center mt-2 mb-5">
+        <a href="{{ path('voirSousCategorie',{'designation' : subCategoryVO.designation}) }}"><button type="button" class="btn btn-primary showMoreButton">Voir +</button>
+        </a>
+    </div>
+{% endfor %}
+
+
+
+{% endblock %}

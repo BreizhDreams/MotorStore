@@ -4,20 +4,30 @@
 body {
     background-color: white;
 }
+ 
+p{
+    font-style: italic;
+    font-weight: bold;
+}
 
-.navbar{
+.navbar {
     background-color: lightgray;
     text-align: center;
     padding-bottom: 1em;
     padding-top: 1em;
 }
 
-.navbar ul{
-    margin-left: 35%;
+.navbar h4 {
+    margin-left: 2em;
+    font-weight: bold;
+}
+
+.navbar ul {
+    margin-left: 20%;
     margin-right: 50px;
 }
 
-.navbar ul li{
+.navbar ul li {
     margin-left: 1em;
     margin-right: 1em;
     font-weight: bold;
@@ -26,7 +36,6 @@ body {
 
 .navbar ul li.connected {
     margin-right: 0em;
-    width: 150%;
 }
 
 
@@ -38,3 +47,93 @@ body {
     font-weight: bold;
     text-align: center;
 }
+
+.categoryStyle{
+    text-align: center;
+    padding: 1em;
+    background-color: lightgray;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border: 2px;
+    border-radius: 30px;
+    border-color: black;
+}
+
+.subCategoryTitle{
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+}
+
+.divSubCategory {
+    width: 100%;
+    height: 550px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5em;
+}
+
+.divSubCategory a{
+    text-decoration: none;
+    color: black;
+}
+
+.itemProduct{
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    height: 700px;
+    background-color: white;
+}
+
+.productDesc{
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 1em;
+}
+
+.itemProduct p{
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.imageProductItem{
+    display: flex;
+    justify-content: center;
+}
+
+.imageProductItem img{
+    margin: auto;
+    width: 100%;    
+    max-width: 300px;
+}
+
+.productPrice{
+    display: flex;
+    justify-content: center;  
+}
+
+.productPrice p{
+    text-align: center;
+    margin-left: 2em;
+    margin-top: 1em;
+}
+
+//.showMoreButton{}
+
+.searchBar{
+    display: flex;
+    justify-content: center;
+    margin-top: 3em !important;
+
+}
+
+.searchBar input{
+    margin-right: 1em;
+    background-color: lightgrey;
+    width: 30%;
+}
+

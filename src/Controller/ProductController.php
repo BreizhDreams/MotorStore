@@ -19,5 +19,12 @@ class ProductController extends AbstractController
             'controller_name' => 'ProductController',
         ]);
     }
-    
+
+    #[Route('/product/{designation}', name: "voirProduit")]
+    public function showProduct(Product $productVO): Response
+    {
+        return $this->render('product/showProduct.html.twig',[
+            'productVO' => $productVO,
+        ]);
+    }
 }

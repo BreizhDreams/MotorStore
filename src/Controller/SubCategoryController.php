@@ -19,4 +19,12 @@ class SubCategoryController extends AbstractController
             'controller_name' => 'SubCategoryController',
         ]);
     }
+
+    #[Route('/sub/category/{designation}', name: "voirSousCategorie")]
+    public function showSubCategory(SubCategory $subCategoryVO): Response
+    {
+        return $this->render('sub_category/showSubCategory.html.twig',[
+            'subCategoryVO' => $subCategoryVO,
+        ]);
+    }
 }

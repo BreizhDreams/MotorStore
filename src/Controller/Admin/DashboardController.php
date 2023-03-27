@@ -33,11 +33,15 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('ProjetMoto');
+            ->setTitle('Motor\'Store');
     }
 
     public function configureMenuItems(): iterable
     {
+        yield MenuItem::section('Navigation');
+        yield MenuItem::linkToDashboard('Accueil du Panel', 'fa fa-home');
+        yield MenuItem::linkToRoute('Quitter le panel Admin', 'fa fa-arrow-left','app_main');
+        
         yield MenuItem::section('Utilisateur');
         yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
             MenuItem::linkToCrud('Ajout Utilisateur', 'fas fa-add', User::class)->setAction(Crud::PAGE_NEW),
@@ -79,5 +83,6 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajout Avantage', 'fas fa-add', Advantage::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('Voir les Avantages', 'fas fa-eye', Advantage::class)
         ]);
+
     }
 }
