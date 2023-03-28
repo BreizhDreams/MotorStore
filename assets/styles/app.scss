@@ -10,6 +10,12 @@ p{
     font-weight: bold;
 }
 
+a{
+    text-decoration: none;
+    color: black;
+    list-style-type: none;
+}
+
 .navbar {
     background-color: lightgray;
     text-align: center;
@@ -127,7 +133,8 @@ p{
 .searchBar{
     display: flex;
     justify-content: center;
-    margin-top: 3em !important;
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
 
 }
 
