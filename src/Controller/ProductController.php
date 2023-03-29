@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classe\Search;
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,13 +22,14 @@ class ProductController extends AbstractController
     #[Route('/product/{slug}', name: "voirProduit")]
     public function showProduct(EntityManagerInterface $entityManager, $slug): Response
     {
-        
+        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
         $productVO = $entityManager->getRepository(Product::class)->findOneBySlug($slug);
         if(!$productVO){
             return $this->redirectToRoute('app_main');
         }
 
         return $this->render('product/showProduct.html.twig',[
+            'categoryVOs' => $categoryVOs,
             'productVO' => $productVO,
         ]);
     }
@@ -48,8 +50,10 @@ class ProductController extends AbstractController
         else{
             $productVOs = $entityManager->getRepository(Product::class)->findAll();
         }
+        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
 
         return $this->render('product/showAllProducts.html.twig',[
+            'categoryVOs' => $categoryVOs,
             'productVOs' => $productVOs,
             'form' => $form->createView(),
         ]);

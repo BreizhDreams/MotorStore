@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block body %}
+<h1>Bienvenue dans votre espace personnelle ! </h1>
+<p>Bonjour {{app.user.firstName}} ! C'est sur cette page que vous allez pouvoir modifier toutes vos informations personnelles ! </p>
+<hr>
+{% for message in app.flashes('success') %}
+<div class="alert alert-success mt-4">
+    {{message}}
+</div>
+{% endfor %}
+<ul>
+    <a href=" {{path('editPassword')}}"><li>Modifier mon Mot de Passe</li></a>
+    <a href=" {{path('app_main')}}"><li>Mes Commandes</li></a>
+    <a href=" {{path('app_main')}}"><li>Modifier mon Mot de Passe</li></a>
+</ul>
+{% endblock %}

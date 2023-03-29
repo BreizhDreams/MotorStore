@@ -119,4 +119,53 @@
     <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Search">
     <button class="btn btn-primary my-2 my-sm-0" type="submit">Rechercher</button>
 </form> 
-<hr>#}
+<hr>#} 
+
+
+{# <div class="row">
+    <nav class="navbar navbar-expanded">
+        <div class="col-md-2">
+            <h4><a class="nav-link" href="{{ path('app_main') }}">Motor'Store</a></h4>
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-3"><input type="text"></div>
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-5">Connexion</div>
+                <div class="col-md-5">Inscription</div>
+                <div class="col-md-2" style="background-color: blue;">                        <i class="fa-solid fa-cart-shopping" style="font-size: 150%;"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <nav class="navbar navbar-expanded">
+            <div class="col-md-2">
+                <h4><a class="nav-link" href="{{ path('app_main') }}">Motor'Store</a></h4>
+            </div>
+            <div class="col-md-5"></div>
+            <div class="col-md-3"><input type="text"></div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-5">Connexion</div>
+                    <div class="col-md-5">Inscription</div>
+                    <div class="col-md-2" style="background-color: blue;">                        <i class="fa-solid fa-cart-shopping" style="font-size: 150%;"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div> #}
+
+{% for categoryVO in categoryVOs %}
+<h5>    {{categoryVO.designation}}
+</h5>
+    {% for subCategoryVO in categoryVO.subCategoriesVOs %}
+    <h6>        {{subCategoryVO.designation}}
+    </h6>
+    {% endfor %}
+{% endfor %}

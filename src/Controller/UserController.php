@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\User;
 use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,9 +16,13 @@ class UserController extends AbstractController
 {
 
     #[Route('/profile', name: 'profile')]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('user/index.html.twig');
+        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+
+        return $this->render('user/profile.html.twig',[
+            'categoryVOs' => $categoryVOs
+        ]);
     }
 
     #[Route('profile/password', name: 'editPassword')]
@@ -51,9 +56,11 @@ class UserController extends AbstractController
                 );
             }
         }
-        
+        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+
         return $this->render('user/password.html.twig',[
             'form' => $form->createView(),
+            'categoryVOs' => $categoryVOs
         ]);
     }
 }
