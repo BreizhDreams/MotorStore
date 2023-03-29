@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ProductCrudController extends AbstractCrudController
@@ -23,6 +24,7 @@ class ProductCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             AssociationField::new('brandVO','Marque'),
             TextField::new('designation', 'Désignation'),
+            SlugField::new('slug')->setTargetFieldName('designation'),
             MoneyField::new('prixTTC', 'Prix en €')->setCurrency('EUR'),
             TextField::new('photoURL','Lien de la Photo'),
             AssociationField::new('categoryVO','Catégorie'),

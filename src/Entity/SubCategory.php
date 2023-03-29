@@ -28,6 +28,9 @@ class SubCategory
     #[ORM\OneToMany(mappedBy: 'subCategoryVO', targetEntity: Product::class)]
     private Collection $productVOs;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->productVOs = new ArrayCollection();
@@ -107,5 +110,17 @@ class SubCategory
     public function __toString()
     {
         return $this->designation;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

@@ -6,6 +6,7 @@ use App\Entity\SubCategory;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class SubCategoryCrudController extends AbstractCrudController
@@ -22,6 +23,7 @@ class SubCategoryCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             AssociationField::new('categoryVO','Catégorie'),
             TextField::new('designation','Désignation'),
+            SlugField::new('slug')->setTargetFieldName('designation'),
             TextField::new('description','Description'),
         ];
     }

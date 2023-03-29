@@ -21,28 +21,32 @@ class ChangePasswordType extends AbstractType
         $builder
             ->add('email', EmailType::class,[
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'style' => 'width: 15%;',
                 ],
                 'disabled' => true,
                 'label' => 'Mon Adresse Email'
             ])
             ->add('lastname', TextType::class,[
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'style' => 'width: 15%;',
                 ],
                 'disabled' => true,
                 'label' => 'Mon Nom'
             ])
             ->add('firstname', TextType::class,[
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'style' => 'width: 15%;',
                 ],
                 'disabled' => true,
                 'label' => 'Mon Prénom'
             ])
             ->add('old_password', PasswordType::class,[
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'style' => 'width: 15%;',
                 ],
                 'label' => 'Mon Mot de Passe',
                 'mapped' => false,
@@ -56,20 +60,23 @@ class ChangePasswordType extends AbstractType
                     'label' => 'Mon Nouveau mot de Passe',
                     'attr' => [
                         'class' => 'form-control',
-                        'placeholder' => 'Merci de saisir votre mot de passe'
+                        'style' => 'width: 15%;',
+                        'placeholder' => 'Nouveau mot de passe'
                     ]
                 ],
                 'second_options' => [
                     'label' => 'Confirmez votre mot de Passe',
                     'attr' => [
                         'class' => 'form-control',
-                        'placeholder' => 'Merci de confirmer votre nouveau mot de passe'
+                        'style' => 'width: 15%;',
+                        'placeholder' => 'Confirmer le mot de passe'
                     ]
                 ],
 
                 'attr' => [
                     'autocomplete' => 'new-password',
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'style' => 'width: 15%;',
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -85,7 +92,8 @@ class ChangePasswordType extends AbstractType
             ->add('submit', SubmitType::class,[
                 'label' => 'Mettre à Jour',
                 'attr' => [
-                    'class' => 'btn btn-primary form-control'
+                    'class' => 'btn btn-primary form-control',
+                    'style' => 'width: 15%;',
                 ]
             ])
         ;

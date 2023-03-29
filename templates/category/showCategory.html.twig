@@ -20,7 +20,8 @@
                     <p class="brandDesc">{{ productVO.getBrandVO()}}</p>
                     <span class="productPrice">
                         <button type="button" class="btn btn-success">Ajouter au Panier</button>
-                        <p>{{productVO.prixTTC / 100}} €</p>
+                        <p>{{(productVO.prixTTC /100)|number_format(2,',','.')}} €</p>
+
                     </span>
                 </div>
             </a>

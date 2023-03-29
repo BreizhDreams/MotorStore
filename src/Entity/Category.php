@@ -30,6 +30,9 @@ class Category
     #[ORM\OneToMany(mappedBy: 'categoryVO', targetEntity: SubCategory::class)]
     private Collection $subCategoriesVOs;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->productVOs = new ArrayCollection();
@@ -153,5 +156,17 @@ class Category
     public function __toString()
     {
         return $this->designation;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }
