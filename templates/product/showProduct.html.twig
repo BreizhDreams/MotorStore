@@ -1,5 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-{{ productVO.designation }}
-<img src="{{ productVO.photoURL}}" alt="{{ productVO.designation}}">
+<div class="row">
+    <div class="col-md-5">
+        <img src="{{ productVO.photoURL}}" alt="{{ productVO.designation}}" class="img-fluid">
+    </div>
+    <div class="col-md-7 my-auto">
+        <div class="productDescPage">
+            <h2>{{ productVO.designation }}</h2>
+            <p>{{productVO.brandVO }} </p>
+            <p>{{productVO.details}}</p>
+            <p>{{(productVO.prixTTC /100)|number_format(2,',','.')}} €</p>
+            <hr>
+            <a href="#" class="btn btn-primary">Ajouter au panier</a>
+        </div>
+    </div>
+</div>
 {% endblock body %}

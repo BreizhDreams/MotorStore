@@ -3,17 +3,19 @@
 <div class="row">
     {% for productVO in productVOs %}
     <div class="col-md-4">
-        <div class="itemProduct">
-            <div class="imageProductItem">
-                <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+        <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
+            <div class="itemProduct">
+                <div class="imageProductItem">
+                    <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+                </div>
+                <h5>{{productVO.designation}}</h5>
+                <p>{{productVO.brandVO}}</p>
+                <span class="productPrice">
+                    <a  href="#" class="btn btn-primary">Ajouter au Panier</a>
+                    <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
+                </span>
             </div>
-            <h5>{{productVO.designation}}</h5>
-            <p>{{productVO.brandVO}}</p>
-            <span class="productPrice">
-                <button type="button" class="btn">Ajouter au Panier</button>
-                <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
-            </span>
-        </div>
+        </a>
     </div>
     {% endfor %}
 </div>

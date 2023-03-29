@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<h1>coucou</h1>
-{% for productVO in subCategoryVO.getProductVOs() %}
-<a href="{{ path('voirProduit',{'designation' : productVO.designation}) }}">
-    <div class="itemProduct">
-        <div class="imageProductItem">
-            <img src="{{productVO.photoURL}}" alt="">
-        </div>
-        <p class="productDesc">{{ productVO.designation }}</p>
-        <p class="brandDesc">{{ productVO.getBrandVO()}}</p>
-        <span class="productPrice">
-            <button type="button" class="btn btn-success">Ajouter au Panier</button>
-            <p>{{(productVO.prixTTC /100)|number_format(2,',','.')}} €</p>
-
-        </span>
+<div class="row">
+    {% for productVO in subCategoryVO.getProductVOs() %}
+    <div class="col-md-4">
+        <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
+            <div class="itemProduct">
+                <div class="imageProductItem">
+                    <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+                </div>
+                <h5>{{productVO.designation}}</h5>
+                <p>{{productVO.brandVO}}</p>
+                <span class="productPrice">
+                    <a  href="#" class="btn btn-primary">Ajouter au Panier</a>
+                    <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
+                </span>
+            </div>
+        </a>
     </div>
-</a>
-{% endfor %}
+    {% endfor %}
+</div>
 {% endblock body %}

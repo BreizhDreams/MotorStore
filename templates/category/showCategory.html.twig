@@ -11,17 +11,16 @@
         {% for productVO in subCategoryVO.getProductVOs() %}
         {% set i = i+1%}
             {% if i < 5 %} 
-            <a href="{{ path('voirProduit',{'designation' : productVO.designation}) }}">
+            <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
                 <div class="itemProduct">
                     <div class="imageProductItem">
-                        <img src="{{productVO.photoURL}}" alt="">
+                        <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
                     </div>
-                    <p class="productDesc">{{ productVO.designation }}</p>
-                    <p class="brandDesc">{{ productVO.getBrandVO()}}</p>
+                    <h5>{{productVO.designation}}</h5>
+                    <p>{{productVO.brandVO}}</p>
                     <span class="productPrice">
-                        <button type="button" class="btn btn-success">Ajouter au Panier</button>
-                        <p>{{(productVO.prixTTC /100)|number_format(2,',','.')}} €</p>
-
+                        <a  href="#" class="btn btn-primary">Ajouter au Panier</a>
+                        <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
                     </span>
                 </div>
             </a>
@@ -29,8 +28,7 @@
         {% endfor %}
     </div>
     <div class="text-center mt-2 mb-5">
-        <a href="{{ path('voirSousCategorie',{'designation' : subCategoryVO.designation}) }}"><button type="button" class="btn btn-primary showMoreButton">Voir +</button>
-        </a>
+        <a href="{{ path('voirSousCategorie',{'slug' : subCategoryVO.slug}) }}" class="btn btn-primary showMoreButton">Voir +</a>
     </div>
 {% endfor %}
 

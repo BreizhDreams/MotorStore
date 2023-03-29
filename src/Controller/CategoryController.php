@@ -17,7 +17,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/category/{designation}', name: "voirCategorie")]
+    #[Route('/category/{slug}', name: "voirCategorie")]
     public function showCategory(Category $categoryVO): Response
     {
         return $this->render('category/showCategory.html.twig',[

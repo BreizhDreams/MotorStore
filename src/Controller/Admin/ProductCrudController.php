@@ -24,6 +24,7 @@ class ProductCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             AssociationField::new('brandVO','Marque'),
             TextField::new('designation', 'Désignation'),
+            TextField::new('details', 'Détails'),
             SlugField::new('slug')->setTargetFieldName('designation'),
             MoneyField::new('prixTTC', 'Prix en €')->setCurrency('EUR'),
             TextField::new('photoURL','Lien de la Photo'),

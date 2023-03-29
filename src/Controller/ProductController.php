@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,15 +17,14 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/{designation}', name: "voirProduit")]
-    public function showProduct(EntityManagerInterface $entityManager, Product $productVO): Response
+    #[Route('/product/{slug}', name: "voirProduit")]
+    public function showProduct(EntityManagerInterface $entityManager, $slug): Response
     {
-        if(empty($productVO)){
-            return $this->redirectToRoute('app_products');
+        
+        $productVO = $entityManager->getRepository(Product::class)->findOneBySlug($slug);
+        if(!$productVO){
+            return $this->redirectToRoute('app_main');
         }
-        $productVO = $entityManager->getRepository(Product::class)->find($productVO->getId());
-        dd($productVO);
-
 
         return $this->render('product/showProduct.html.twig',[
             'productVO' => $productVO,
@@ -35,7 +33,7 @@ class ProductController extends AbstractController
 
     #[Route('products', name: 'app_products')]
     public function showAllProducts(EntityManagerInterface $entityManager): Response
-    {
+    {        
         $productVOs = $entityManager->getRepository(Product::class)->findAll();
 
         return $this->render('product/showAllProducts.html.twig',[
