@@ -2,21 +2,22 @@
 
 namespace App\Controller;
 
+use App\Classe\Search;
 use App\Entity\Product;
+use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/product', name: 'app_product')]
-    public function index(): Response
-    {
-        return $this->render('product/index.html.twig', [
-        ]);
-    }
 
+    /**
+     *  Fonction qui renvoi le produit qui a été sélectionner par l'utilisateur
+     *  Dans l'url on retrouve le slug
+     */
     #[Route('/product/{slug}', name: "voirProduit")]
     public function showProduct(EntityManagerInterface $entityManager, $slug): Response
     {
@@ -31,13 +32,26 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * Recherche tous les produits, si filtrage choisi par l'utilisateur alors recherche selon la requête de l'utilisateur. 
+     */
     #[Route('products', name: 'app_products')]
-    public function showAllProducts(EntityManagerInterface $entityManager): Response
+    public function showAllProducts(EntityManagerInterface $entityManager, HttpFoundationRequest $request): Response
     {        
-        $productVOs = $entityManager->getRepository(Product::class)->findAll();
+        $search = new Search();
+        $form = $this->createForm(SearchType::class, $search);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $productVOs = $entityManager->getRepository(Product::class)->findWithSearch($search);
+        }
+        else{
+            $productVOs = $entityManager->getRepository(Product::class)->findAll();
+        }
 
         return $this->render('product/showAllProducts.html.twig',[
-            'productVOs' => $productVOs
+            'productVOs' => $productVOs,
+            'form' => $form->createView(),
         ]);
     }
 }

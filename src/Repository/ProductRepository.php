@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,44 @@ class ProductRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * Requête permettant de récupérer les produits en fonction de la recherche du User
+     */
+    public function findWithSearch(Search $search){
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('c','p','b','s')
+            ->join('p.categoryVO','c')
+            ->join('p.brandVO','b')
+            ->join('p.subCategoryVO','s');
+
+        if (!empty($search->categoryVOs)){
+            $query = $query
+                -> andWhere('c.id IN (:categoryVO)')
+                ->setParameter('categoryVO', $search->categoryVOs);
+        }
+        
+        if (!empty($search->subCategoryVOs)){
+            $query = $query
+                -> andWhere('s.id IN (:subCategoryVO)')
+                ->setParameter('subCategoryVO', $search->subCategoryVOs);
+        }
+
+        if (!empty($search->string)){
+            $query = $query
+                -> andWhere('p.designation LIKE :string')
+                ->setParameter('string', "%{$search->string}%");
+        }
+
+        if (!empty($search->brandVOs)){
+            $query = $query
+                -> andWhere('b.id IN (:brandVO)')
+                ->setParameter('brandVO', $search->brandVOs);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
 //    /**

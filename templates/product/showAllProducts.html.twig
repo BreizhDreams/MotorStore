@@ -1,24 +1,32 @@
+{% extends 'base.html.twig' %}
 {% block body %}
-<h1>Tous nos Produits ! </h1>
 <div class="row">
-    {% for productVO in productVOs %}
-    <div class="col-md-4">
-        <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
-            <div class="itemProduct">
-                <div class="imageProductItem">
-                    <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
-                </div>
-                <h5>{{productVO.designation}}</h5>
-                <p>{{productVO.brandVO}}</p>
-                <span class="productPrice">
-                    <a  href="#" class="btn btn-primary">Ajouter au Panier</a>
-                    <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
-                </span>
-            </div>
-        </a>
+    <div class="col-md-3">
+        <h3>Filtrer :</h3>
+        {{ form(form) }}
     </div>
-    {% endfor %}
+    <div class="col-md-9">
+        <div class="row">
+            <h3>Tous nos Produits ! </h3>
+            {% for productVO in productVOs %}
+            <div class="col-md-4">
+                <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
+                    <div class="itemProduct">
+                        <div class="imageProductItem">
+                            <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+                        </div>
+                        <h5>{{productVO.designation}}</h5>
+                        <p>{{productVO.brandVO}}</p>
+                        <span class="productPrice">
+                            <a  href="#" class="btn btn-primary">Ajouter au Panier</a>
+                            <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
+                        </span>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
-
 
 {% endblock %}
