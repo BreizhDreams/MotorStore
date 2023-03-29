@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% block title %} MotorStore - Nos Produits {% endblock %}
+
 {% block body %}
 <div class="row">
     <div class="col-md-3">
@@ -13,7 +15,7 @@
                 <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
                     <div class="itemProduct">
                         <div class="imageProductItem">
-                            <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+                            <img src="/uploads/{{productVO.photoURL}}" alt="" class="img-fluid rounded">
                         </div>
                         <h5>{{productVO.designation}}</h5>
                         <p>{{productVO.brandVO}}</p>

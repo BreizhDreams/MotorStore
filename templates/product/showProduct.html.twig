@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block title %} MotorStore - {{productVO.designation}} {% endblock %}
+
 {% block body %}
 <div class="row">
     <div class="col-md-5">
-        <img src="{{ productVO.photoURL}}" alt="{{ productVO.designation}}" class="img-fluid">
+        <img src="/uploads/{{ productVO.photoURL}}" alt="{{ productVO.designation}}" class="img-fluid">
     </div>
     <div class="col-md-7 my-auto">
         <div class="productDescPage">

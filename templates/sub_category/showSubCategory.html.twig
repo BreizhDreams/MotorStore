@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% block title %} MotorStore - {{ subCategoryVO.designation}} {% endblock %}
+
 {% block body %}
 <div class="row">
     {% for productVO in subCategoryVO.getProductVOs() %}
@@ -6,7 +8,7 @@
         <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
             <div class="itemProduct">
                 <div class="imageProductItem">
-                    <img src="{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+                    <img src="/uploads/{{productVO.photoURL}}" alt="" class="img-fluid rounded">
                 </div>
                 <h5>{{productVO.designation}}</h5>
                 <p>{{productVO.brandVO}}</p>
