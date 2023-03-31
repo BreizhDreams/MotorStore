@@ -63,6 +63,7 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('subCategoryVO', $search->subCategoryVOs);
         }
 
+        // Recherche de marque manuellement ? 
         if (!empty($search->string)){
             $query = $query
                 -> andWhere('p.designation LIKE :string')

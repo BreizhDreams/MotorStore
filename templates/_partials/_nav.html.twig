@@ -107,7 +107,7 @@
                 </li>
                 {% endif %}
                 <li class="nav-item mt-2">
-                    <a href="#">
+                    <a href="{{ path('cart') }}">
                         <i class="fa-solid fa-cart-shopping" style="font-size: 150%;"></i>
                     </a>
                 </li>
@@ -161,11 +161,11 @@
     </div>
 </div> #}
 
-{% for categoryVO in categoryVOs %}
+{# {% for categoryVO in categoryVOs %}
 <h5>    {{categoryVO.designation}}
 </h5>
     {% for subCategoryVO in categoryVO.subCategoriesVOs %}
     <h6>        {{subCategoryVO.designation}}
     </h6>
     {% endfor %}
-{% endfor %}
+{% endfor %} #}

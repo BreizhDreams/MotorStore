@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MotorStore - Panier{% endblock %}
+
+{% block body %}
+<section>
+    <h1>Votre Panier</h1>
+</section>
+<table class="table mt-3">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">Produit</th>
+            <th scope="col"></th>
+            <th scope="col">Quantité</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Total</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        {% set total = 0 %}
+        {% set articleNb = 0 %}
+        {% for cartVO in cartVOs %}
+
+        <tr class="text-center">
+            <a href="{{ path('voirProduit',{'slug' : cartVO.product.slug}) }}">
+                <th><img src="/uploads/{{cartVO.product.photoURL}}" alt="{{cartVO.product.designation}}"
+                        style="height: 75px"></th>
+                <td>{{cartVO.product.designation}}</td>
+                <td>{{(cartVO.product.prixTTC /100)|number_format(2,',','.')}} €</td>
+                <td>{{cartVO.quantity}}</td>
+                <td>{{((cartVO.quantity * cartVO.product.prixTTC) /100)|number_format(2,',','.')}} €</td>
+                <td>
+                    <a href="{{ path("cart_add", {id : cartVO.product.id}) }}" class="btn btn-success"><i
+                            class="fa-solid fa-plus"></i></a>
+                    <a href="{{ path("cart_remove", {id : cartVO.product.id}) }}" class="btn btn-warning"><i
+                            class="fa-solid fa-minus"></i></a>
+                    <a href="{{ path("cart_delete", {id : cartVO.product.id}) }}" class="btn btn-danger"><i
+                            class="fa-solid fa-trash"></i></a>
+                </td>
+            </a>
+        </tr>
+        {% set total = total + (cartVO.product.prixTTC * cartVO.quantity ) %}
+        {% set articleNb = articleNb + cartVO.quantity %}
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">
+                Votre panier est Vide
+            </td>
+        </tr>
+
+        {% endfor %}
+        </tr>
+    </tbody>
+
+</table>
+<div class="text-end mt-5">
+    <b>Nombre de Produits : {{cartVOs|length}} </b><br>
+    <b>Nombre d'Articles : {{articleNb}} </b><br>
+    <b>Total de mon panier : {{(total / 100)|number_format(2,',','.')}} €</b><br>
+    <a href="" class="btn btn-success btn-block mt-3">Valider mon Panier</a>
+</div>
+
+{% endblock %}
