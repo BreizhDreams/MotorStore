@@ -34,7 +34,7 @@ class SearchType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'attr' => [
-                    'class' => 'form-check'
+                    'class' => 'form-check',
                 ]
             ])
             ->add('subCategoryVOs', EntityType::class ,[
@@ -54,7 +54,7 @@ class SearchType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'attr' => [
-                    'class' => 'form-check d-block',
+                    'class' => 'form-check',
                 ]
             ])
             ->add('submit', SubmitType::class,[

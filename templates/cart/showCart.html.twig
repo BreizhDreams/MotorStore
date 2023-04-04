@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MotorStore - Panier{% endblock %}
+{% block title %}Mon Panier - MotorStore{% endblock %}
 
 {% block body %}
-<section>
-    <h1>Votre Panier</h1>
-</section>
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Votre Panier</h1>
+</div>
 <table class="table mt-3">
     <thead>
         <tr class="text-center">
@@ -55,11 +55,14 @@
     </tbody>
 
 </table>
+{% if cartVOs|length != 0 %}
 <div class="text-end mt-5">
     <b>Nombre de Produits : {{cartVOs|length}} </b><br>
     <b>Nombre d'Articles : {{articleNb}} </b><br>
     <b>Total de mon panier : {{(total / 100)|number_format(2,',','.')}} €</b><br>
     <a href="" class="btn btn-success btn-block mt-3">Valider mon Panier</a>
 </div>
+{% endif %}
+
 
 {% endblock %}

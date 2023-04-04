@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CartController extends AbstractController
 {
     #[Route('/cart', name: 'cart')]
-    public function index(SessionInterface $session, ProductRepository $productRepository): Response
+    public function index(SessionInterface $session, ProductRepository $productRepository, EntityManagerInterface $entityManager): Response
     {
         $cart = $session->get('cart', []);
 
@@ -26,9 +27,12 @@ class CartController extends AbstractController
                 'quantity' => $quantity,
             ];
         }
+        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+
 
         return $this->render('cart/showCart.html.twig',[
-            'cartVOs' => $cartVOs
+            'cartVOs' => $cartVOs,
+            'categoryVOs' => $categoryVOs
         ]);
     }
 
@@ -37,8 +41,7 @@ class CartController extends AbstractController
     {
         // Récupération du panier ou à défaut un panier vide ([])
         $cart = $session->get('cart', [] );
-        $id = $productVO->getId() ? '8' : '9' ;
-        dd($id);
+        $id = $productVO->getId();
         if(empty($cart[$productVO->getId()])){
             $cart[$id] = 1;
         }

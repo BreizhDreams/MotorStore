@@ -24,7 +24,6 @@ class CategoryController extends AbstractController
         $categoryVO = $entityManager->getRepository(Category::class)->findOneBySlug($slug);
         $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
 
-
         return $this->render('category/showCategory.html.twig',[
             'categoryVOs' => $categoryVOs,
             'categoryVO' => $categoryVO,

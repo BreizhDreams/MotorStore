@@ -1,10 +1,16 @@
 {% extends 'base.html.twig' %}
-{% block title %} MotorStore - {{ subCategoryVO.designation}} {% endblock %}
+{% block title %}{{ subCategoryVO.designation}} - MotorStore {% endblock %}
 
 {% block body %}
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">{{ subCategoryVO.designation }}</h1>
+</div>
+<div class="categoryStyle" style="margin-left: 15%; margin-right: 15%; margin-top:3em">
+    <p class="categoryDescr">{{subCategoryVO.description}}</p>
+</div>
 <div class="row">
     {% for productVO in subCategoryVO.getProductVOs() %}
-    <div class="col-md-4">
+    <div class="col-md-4 px-5 pt-5">
         <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
             <div class="itemProduct">
                 <div class="imageProductItem">

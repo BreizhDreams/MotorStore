@@ -1,86 +1,39 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid menuNavbar">
+{# <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <h4><a class="nav-link" href="{{ path('app_main') }}">Motor'Store</a></h4>
+            <h4 class="mr-5"><a class="nav-link" href="{{ path('app_main') }}">Motor'Store</a></h4>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Casques
-                        <i class="fa-solid fa-angle-down fa-xs"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{path('voirCategorie', {'slug' : 'casque'})}}">
-                                <h6>CASQUES</h6>
-                            </a></li>
-                        <li><a class="dropdown-item" href="#">Casque Intégrale</a></li>
-                        <li><a class="dropdown-item" href="#">Casque Modulable</a></li>
-                        <li><a class="dropdown-item" href="#">Casque Jet</a></li>
+                {% for categoryVO in categoryVOs %}
+                <li class="nav-item dropdown"><span>
+                    </span>
+                    <a class="mr-1" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                        href="{{path('voirCategorie', {'slug' : categoryVO.slug })}}">
+                        <h5 class="nav-link" style="display: inline-block">{{categoryVO.designation}}</h5> <i
+                            class="fa-solid fa-angle-down fa-xs"></i>
+                    </a>
+                    <ul class="dropdown-menu ">
+                        {% for subCategoryVO in categoryVO.subCategoriesVOs %}
+                        <li><a class="dropdown-item nav-link"
+                                href="{{path('voirSousCategorie', {'slug' : subCategoryVO.slug })}}">{{subCategoryVO.designation}}</a>
+                        </li>
+                        {% endfor %}
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vestes <i
-                            class="fa-solid fa-angle-down fa-xs"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{path('voirCategorie', {'slug' : 'veste'})}}">
-                                <h6>VESTES</h6>
-                            </a></li>
-                        <li><a class="dropdown-item" href="#">Combinaison Cuir</a></li>
-                        <li><a class="dropdown-item" href="#">Blouson Cuir</a></li>
-                        <li><a class="dropdown-item" href="#">Blouson Textile</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gants
-                        <i class="fa-solid fa-angle-down fa-xs"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{path('voirCategorie', {'slug' : 'gants'})}}">
-                                <h6>GANTS</h6>
-                            </a></li>
-                        <li><a class="dropdown-item" href="#">Gants été</a></li>
-                        <li><a class="dropdown-item" href="#">Gants mi-saison</a></li>
-                        <li><a class="dropdown-item" href="#">Gants hiver</a></li>
-                        <li><a class="dropdown-item" href="#">Gants chauffants</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Pantalons <i class="fa-solid fa-angle-down fa-xs"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{path('voirCategorie', {'slug' : 'pantalon'})}}">
-                                <h6>PANTALONS</h6>
-                            </a></li>
-                        <li><a class="dropdown-item" href="#">Jean</a></li>
-                        <li><a class="dropdown-item" href="#">Pantalon Cuir</a></li>
-                        <li><a class="dropdown-item" href="#">Pantalon Textile</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Chaussures <i class="fa-solid fa-angle-down fa-xs"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{path('voirCategorie', {'slug' : 'chaussures'})}}">
-                                <h6>CHAUSSURES</h6>
-                            </a></li>
-                        <li><a class="dropdown-item" href="#">Baskets</a></li>
-                        <li><a class="dropdown-item" href="#">Chaussures </a></li>
-                        <li><a class="dropdown-item" href="#">Bottes</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Protections <i class="fa-solid fa-angle-down fa-xs"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{path('voirCategorie', {'slug' : 'protections'})}}">
-                                <h6>PROTECTIONS</h6>
-                            </a></li>
-                        <li><a class="dropdown-item" href="#">Dorsales</a></li>
-                        <li><a class="dropdown-item" href="#">Airbag</a></li>
-                    </ul>
-                </li>
+                {% endfor %}
             </ul>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Nom du produit">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">Rechercher</button>
+                </div>
+            </div>
+            <ul class="navbar-nav ms-auto">
                 {% if app.user %}
                 <li class="nav-item dropdown connected">
-                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mon
-                        Compte <i class="fa-solid fa-angle-down fa-xs"></i></a>
+                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <h5 class="nav-link" style="display: inline-block"> Mon Compte</h5>
+                        <i class="fa-solid fa-angle-down fa-xs"></i>
+                    </a>
                     <ul class="dropdown-menu">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('profile') }}">Mon profil</a>
@@ -115,57 +68,81 @@
         </div>
     </div>
 </nav>
-{# <form class="searchBar form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Search">
-    <button class="btn btn-primary my-2 my-sm-0" type="submit">Rechercher</button>
-</form> 
-<hr>#} 
+#}
 
-
-{# <div class="row">
-    <nav class="navbar navbar-expanded">
-        <div class="col-md-2">
-            <h4><a class="nav-link" href="{{ path('app_main') }}">Motor'Store</a></h4>
+<nav class="navbar navbar-expand container-fluid">
+    <div class="row collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="col-md-1">
+            <h4><a class="logoHome" href="{{ path('app_main') }}">Motor'Store</a></h4>
         </div>
-        <div class="col-md-5"></div>
-        <div class="col-md-3"><input type="text"></div>
-        <div class="col-md-2">
-            <div class="row">
-                <div class="col-md-5">Connexion</div>
-                <div class="col-md-5">Inscription</div>
-                <div class="col-md-2" style="background-color: blue;">                        <i class="fa-solid fa-cart-shopping" style="font-size: 150%;"></i>
+        <div class="col-md-5">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% for categoryVO in categoryVOs %}
+                <li class="nav-item dropdown"><span>
+                    </span>
+                    <a class="mr-1" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                        href="{{path('voirCategorie', {'slug' : categoryVO.slug })}}">
+                        <h5 class="nav-link" style="display: inline-block">{{categoryVO.designation}}</h5> <i
+                            class="fa-solid fa-angle-down fa-xs"></i>
+                    </a>
+                    <ul class="dropdown-menu ">
+                        {% for subCategoryVO in categoryVO.subCategoriesVOs %}
+                        <li><a class="dropdown-item nav-link"
+                                href="{{path('voirSousCategorie', {'slug' : subCategoryVO.slug })}}">{{subCategoryVO.designation}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Nom du produit ...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" style="background-color:white; color:black; border-width:2px">Rechercher</button >
                 </div>
             </div>
         </div>
-    </nav>
-</div>
-
-
-<div class="container">
-    <div class="row">
-        <nav class="navbar navbar-expanded">
-            <div class="col-md-2">
-                <h4><a class="nav-link" href="{{ path('app_main') }}">Motor'Store</a></h4>
-            </div>
-            <div class="col-md-5"></div>
-            <div class="col-md-3"><input type="text"></div>
-            <div class="col-md-2">
-                <div class="row">
-                    <div class="col-md-5">Connexion</div>
-                    <div class="col-md-5">Inscription</div>
-                    <div class="col-md-2" style="background-color: blue;">                        <i class="fa-solid fa-cart-shopping" style="font-size: 150%;"></i>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <div class="col-md-3" style="justify-content: end;">
+            <ul class="navbar-nav ms-auto">
+                {% if app.user %}
+                <li class="nav-item dropdown connected">
+                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <h5 class="nav-link" style="display: inline-block"> Mon Compte</h5>
+                        <i class="fa-solid fa-angle-down fa-xs"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('profile') }}">Mon profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('voirProgFidelite')}}">Fideli'trip</a>
+                        </li>
+                        {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin') }}">Administrateur</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+                </li>
+                {% endif %}
+                <li class="nav-item mt-2">
+                    <a href="{{ path('cart') }}">
+                        <i class="fa-solid fa-cart-shopping" style="font-size: 150%;"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div> #}
-
-{# {% for categoryVO in categoryVOs %}
-<h5>    {{categoryVO.designation}}
-</h5>
-    {% for subCategoryVO in categoryVO.subCategoriesVOs %}
-    <h6>        {{subCategoryVO.designation}}
-    </h6>
-    {% endfor %}
-{% endfor %} #}
+</nav>

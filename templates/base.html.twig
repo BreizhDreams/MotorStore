@@ -3,8 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %} MotorStore - La référence pour les motards{% endblock %}</title>
+  <title>{% block title %} La passion de la Moto - MotorStore{% endblock %}</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@700;900&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
 </head>
@@ -14,6 +17,7 @@
     {% include "_partials/_nav.html.twig" %}
   {% endblock %}
   {% block body %}
+  {% include "product/showAllProducts.html.twig" %}
   {% endblock %}
   {# {% include "_partials/_footer.html.twig" %} #}
   {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}

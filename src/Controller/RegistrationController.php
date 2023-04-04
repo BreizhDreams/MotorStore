@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\UserAuthenticator;
@@ -43,8 +44,11 @@ class RegistrationController extends AbstractController
             );
         }
 
+        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'categoryVOs' => $categoryVOs
         ]);
     }
 }

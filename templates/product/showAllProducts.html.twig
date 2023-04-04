@@ -1,15 +1,19 @@
 {% extends 'base.html.twig' %}
-{% block title %} MotorStore - Nos Produits {% endblock %}
+{% block title %} Nos Produits - MotorStore {% endblock %}
 
 {% block body %}
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Tous nos Produits :</h1>
+</div>
 <div class="row">
     <div class="col-md-3">
-        <h3>Filtrer :</h3>
-        {{ form(form) }}
+        <div class="form-control">
+            <h3>Filtrer :</h3>
+            {{ form(form) }}
+        </div>
     </div>
     <div class="col-md-9">
         <div class="row">
-            <h3>Tous nos Produits ! </h3>
             {% for productVO in productVOs %}
             <div class="col-md-4">
                 <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">

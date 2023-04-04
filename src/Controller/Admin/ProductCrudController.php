@@ -28,7 +28,7 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('details', 'Détails'),
             SlugField::new('slug')->setTargetFieldName('designation'),
             MoneyField::new('prixTTC', 'Prix en €')->setCurrency('EUR'),
-            ImageField::new('photoURL','Lien de la Photo')->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')->setBasePath('uploads/')->setUploadDir('public/uploads/'),
+            ImageField::new('photoURL','Lien de la Photo')->setUploadedFileNamePattern('[slug].[extension]')->setBasePath('uploads/')->setUploadDir('public/uploads/'),
             AssociationField::new('categoryVO','Catégorie'),
             AssociationField::new('subCategoryVO','Sous-Catégorie'),
 
