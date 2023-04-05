@@ -3,11 +3,12 @@
 {% block title %}Inscription - MotorStore{% endblock %}
 
 {% block body %}
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Inscription</h1>
+</div>
 <section class="container">
     <div class="row">
         <div class="col">
-            <h1>Inscription</h1>
-
             {{ form_start(registrationForm) }}
             <fieldset class="mb-3">
                 <legend>Mon identité</legend>
@@ -28,7 +29,7 @@
                 }) }}
                 {{ form_row(registrationForm.agreeTerms) }}
         
-                <button type="submit" class="btn btn-primary btn-lg my-3">Soumettre</button>
+                <button type="submit" class="btn btn-outline-info btn-lg my-3">Soumettre</button>
                 <a href="{{path('app_login')}}" class="btn btn-secondary">Connexion</a>
             {{ form_end(registrationForm) }}
         </div>

@@ -7,16 +7,24 @@
     <h1 class="pageTitleH1">Mon Compte</h1>
 </div>
 <h1>Bienvenue dans votre espace personnelle ! </h1>
-<p>Bonjour {{app.user.firstName}} ! C'est sur cette page que vous allez pouvoir modifier toutes vos informations personnelles ! </p>
+<p>Bonjour {{app.user.firstName}} ! C'est sur cette page que vous allez pouvoir modifier toutes vos informations personnelles et consulter les commandes que vous avez déja passer ! </p>
 <hr>
 {% for message in app.flashes('success') %}
 <div class="alert alert-success mt-4">
     {{message}}
 </div>
 {% endfor %}
-<ul>
-    <a href=" {{path('editPassword')}}"><li>Modifier mon Mot de Passe</li></a>
-    <a href=" {{path('app_main')}}"><li>Mes Commandes</li></a>
-    <a href=" {{path('app_main')}}"><li>Modifier mon Mot de Passe</li></a>
-</ul>
+<div class="row">
+    <div class="col-md-4">
+        <a href=" {{path('app_main')}}">Mes Commandes</a>
+    </div>
+    <div class="col-md-4">
+        <a href=" {{path('editPassword')}}">Modifier mon Mot de Passe</a>
+    </div>
+    <div class="col-md-4">
+        <a href=" {{path('showAddress')}}">Modifier mes Adresses</a>
+    </div>
+</div>
+
+
 {% endblock %}

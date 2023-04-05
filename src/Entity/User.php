@@ -59,9 +59,13 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthDate = null;
 
+    #[ORM\OneToMany(mappedBy: 'userVO', targetEntity: Address::class)]
+    private Collection $addressVOs;
+
     public function __construct()
     {
         $this->commandVOs = new ArrayCollection();
+        $this->addressVOs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -256,6 +260,36 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function setBirthDate(\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Address>
+     */
+    public function getAddressVOs(): Collection
+    {
+        return $this->addressVOs;
+    }
+
+    public function addAddressVO(Address $addressVO): self
+    {
+        if (!$this->addressVOs->contains($addressVO)) {
+            $this->addressVOs->add($addressVO);
+            $addressVO->setUserVO($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddressVO(Address $addressVO): self
+    {
+        if ($this->addressVOs->removeElement($addressVO)) {
+            // set the owning side to null (unless already changed)
+            if ($addressVO->getUserVO() === $this) {
+                $addressVO->setUserVO(null);
+            }
+        }
 
         return $this;
     }

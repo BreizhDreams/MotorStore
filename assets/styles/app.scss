@@ -1,6 +1,12 @@
 @import "custom";
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
+
+header{
+    margin-left: 0%;
+    margin-right: 0%;
+}
+
 body{
     background: white;
     position: absolute;
@@ -30,15 +36,13 @@ h5{
     color: black;
 }
 
-
-
-
 .navbar{
     text-align: center;
     margin-bottom: 2em;
     background-color: goldenrod;
     position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
+    left: 0;
     width: 100%; /* Full width */
     z-index: 15;
     height: 75px;
