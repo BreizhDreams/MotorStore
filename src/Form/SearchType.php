@@ -20,11 +20,11 @@ class SearchType extends AbstractType
     {
         $builder
             ->add('string', TextType::class, [
-                'label' => 'Rechercher : ',
+                'label' => 'Rechercher:',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher',
-                    'class' => 'form-control'
+                    'placeholder' => 'Rechercher un produit, une marque ...',
+                    'class' => 'form-control',
                 ]
                 ])
             ->add('categoryVOs', EntityType::class ,[
