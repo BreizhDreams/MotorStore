@@ -25,23 +25,34 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
+
+
+            $searchEmail = $entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
+
+            if (!$searchEmail) {
+                // encode the plain password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+                // do anything else you need here, like send an email
+                $notifications = 'Votre inscription s\'est correctement déroulé. Vous pouvez des à présent vous connecter à votre compte.';
+
+                return $userAuthenticator->authenticateUser(
                     $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+                    $authenticator,
+                    $request
+                );
+            }
+            else
+            {
+                $notifications = 'L\'email que vous avez renseigner existe déja.';
+            }
         }
 
         $categoryVOs = $entityManager->getRepository(Category::class)->findAll();

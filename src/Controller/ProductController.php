@@ -28,9 +28,12 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('app_main');
         }
 
+        $productVOs = $entityManager->getRepository(Product::class)->findByIsBest(1);
+
         return $this->render('product/showProduct.html.twig',[
             'categoryVOs' => $categoryVOs,
             'productVO' => $productVO,
+            'productVOs' => $productVOs
         ]);
     }
 

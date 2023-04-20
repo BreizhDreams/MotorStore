@@ -1,0 +1,12 @@
+<a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
+    <div class="itemProduct">
+        <div class="imageProductItem">
+            <img src="/uploads/{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+        </div>
+        <h5>{{productVO.designation}}</h5>
+        <p>{{productVO.brandVO}}</p>
+        <span class="productPrice">
+            <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
+        </span>
+    </div>
+</a>

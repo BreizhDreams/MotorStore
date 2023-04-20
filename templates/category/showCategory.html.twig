@@ -17,18 +17,7 @@
     {% set i = i+1%}
     {% if i < 4 %}
      <div class="col-md-4 px-5 pt-5">
-        <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
-            <div class="itemProduct">
-                <div class="imageProductItem">
-                    <img src="/uploads/{{productVO.photoURL}}" alt="" class="img-fluid rounded">
-                </div>
-                <h5>{{productVO.designation}}</h5>
-                <p>{{productVO.brandVO}}</p>
-                <span class="productPrice">
-                    <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
-                </span>
-            </div>
-        </a>
+        {% include 'product/singleProduct.html.twig'%}
      </div>
     {% endif %}
     {% endfor %}

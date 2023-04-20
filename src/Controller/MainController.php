@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Classe\Search;
-use App\Form\SearchType;
 use App\Entity\Category;
+use App\Entity\Header;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +17,7 @@ class MainController extends AbstractController
     public function index(EntityManagerInterface $entityManager, HttpFoundationRequest $request): Response
     {
         $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
-
+/*
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
@@ -29,12 +28,17 @@ class MainController extends AbstractController
         else{
             $productVOs = $entityManager->getRepository(Product::class)->findAll();
         }
+        */
+        $productVOs = $entityManager->getRepository(Product::class)->findByIsBest(1);
         $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
-
+        $headerVOs = $entityManager->getRepository(Header::class)->findAll();
         return $this->render('base.html.twig',[
             'categoryVOs' => $categoryVOs,
             'productVOs' => $productVOs,
-            'form' => $form->createView(),  
+            'headerVOs' => $headerVOs,
+            /*
+            'productVOs' => $productVOs,
+            'form' => $form->createView(),  */
         ]);
     }
 }

@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %} La passion de la Moto - MotorStore{% endblock %}</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@700;900&display=swap" rel="stylesheet">
@@ -14,10 +16,49 @@
 
 <body>
   {% block header %}
-    {% include "_partials/_nav.html.twig" %}
+  {% include "_partials/_nav.html.twig" %}
   {% endblock %}
   {% block body %}
-  {% include "product/showAllProducts.html.twig" %}
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-indicators">
+      {% for key,headerVO in headerVOs %}
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ key }}" {% if key == 0 %} class="active" {% endif %}></button>
+      {% endfor %}
+    </div>
+
+    <div class="carousel-inner">
+      {% for key,headerVO in headerVOs %}
+      <div class="carousel-item {% if key == 0 %} active {% endif %}" style="background: url('/uploads/utility/{{headerVO.imageUrl}}'); background-size:cover; background-position:center; height: 275px">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1 style="text-align: left; color:black">{{headerVO.title}}</h1>
+            <p style="text-align: left; color:black; width:425px">{{headerVO.content}}</p>
+            <p style="text-align: left; color:black"><a class="btn btn-lg btn-info " href="{{headerVO.btnUrl}}">{{headerVO.btnTitle}}</a></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <a class="carousel-control-prev" data-bs-target="#myCarousel" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" data-bs-target="#myCarousel" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+
+  <h3>Nos meilleures ventes</h3>
+  <p>Découvrez les articles les plus vendus</p>
+  <div class="row">
+    {% for productVO in productVOs %}
+    <div class="col-md-3">
+      {% include 'product/singleProduct.html.twig'%}
+    </div>
+    {% endfor %}
+  </div>
   {% endblock %}
   {# {% include "_partials/_footer.html.twig" %} #}
   {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}

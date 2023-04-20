@@ -44,6 +44,9 @@ class Product
     #[ORM\Column(length: 800)]
     private ?string $details = null;
 
+    #[ORM\Column]
+    private ?bool $isBest = null;
+
     public function __construct()
     {
         $this->advantageVOs = new ArrayCollection();
@@ -170,6 +173,18 @@ class Product
     public function setDetails(string $details): self
     {
         $this->details = $details;
+
+        return $this;
+    }
+
+    public function isIsBest(): ?bool
+    {
+        return $this->isBest;
+    }
+
+    public function setIsBest(bool $isBest): self
+    {
+        $this->isBest = $isBest;
 
         return $this;
     }

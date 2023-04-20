@@ -6,6 +6,7 @@ use App\Entity\Advantage;
 use App\Entity\AdvantageType;
 use App\Entity\Brand;
 use App\Entity\Category;
+use App\Entity\Header;
 use App\Entity\Product;
 use App\Entity\SubCategory;
 use App\Entity\User;
@@ -82,6 +83,12 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
             MenuItem::linkToCrud('Ajout Avantage', 'fas fa-add', Advantage::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('Voir les Avantages', 'fas fa-eye', Advantage::class)
+        ]);
+        
+        yield MenuItem::section('Headers');
+        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
+            MenuItem::linkToCrud('Ajout Header', 'fas fa-add', Header::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('Voir les Headers', 'fas fa-eye', Header::class)
         ]);
 
     }

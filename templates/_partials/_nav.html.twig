@@ -80,12 +80,12 @@
                 {% for categoryVO in categoryVOs %}
                 <li class="nav-item dropdown"><span>
                     </span>
-                    <a class="mr-1" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                        href="{{path('voirCategorie', {'slug' : categoryVO.slug })}}">
-                        <h5 class="nav-link" style="display: inline-block">{{categoryVO.designation}}</h5> <i
-                            class="fa-solid fa-angle-down fa-xs"></i>
+                    <a class="mr-1 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <h5 class="nav-link" style="display: inline-block">{{categoryVO.designation}}</h5>
                     </a>
                     <ul class="dropdown-menu ">
+                        <li><a class="dropdown-item nav-link" href="{{path('voirCategorie', {'slug' : categoryVO.slug })}}">{{categoryVO.designation}}</a></li>
+                        <hr style="margin: 0;">
                         {% for subCategoryVO in categoryVO.subCategoriesVOs %}
                         <li><a class="dropdown-item nav-link"
                                 href="{{path('voirSousCategorie', {'slug' : subCategoryVO.slug })}}">{{subCategoryVO.designation}}</a>
@@ -109,8 +109,7 @@
                 {% if app.user %}
                 <li class="nav-item dropdown connected">
                     <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <h5 class="nav-link" style="display: inline-block"> {{app.user.firstName}} {{app.user.lastName}}</h5>
-                        <i class="fa-solid fa-angle-down fa-xs"></i>
+                        <h5 class="nav-link dropdown-toggle" style="display: inline-block"> {{app.user.firstName}} {{app.user.lastName}}</h5>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="nav-item">
