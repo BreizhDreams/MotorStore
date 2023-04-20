@@ -58,24 +58,30 @@
     </div>
     <div class="col-md-9">
         <div class="row">
-            {% for productVO in productVOs %}
-            <div class="col-md-4">
-                <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
-                    <div class="itemProduct">
-                        <div class="imageProductItem">
-                            <img src="/uploads/{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+            {% if productVOs|length != 0 %}
+                {% for productVO in productVOs %}
+                <div class="col-md-4">
+                    <a href="{{ path('voirProduit',{'slug' : productVO.slug}) }}">
+                        <div class="itemProduct">
+                            <div class="imageProductItem">
+                                <img src="/uploads/{{productVO.photoURL}}" alt="" class="img-fluid rounded">
+                            </div>
+                            <h5>{{productVO.designation}}</h5>
+                            <p>{{productVO.brandVO}}</p>
+                            <span class="productPrice">
+                                <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
+                            </span>
                         </div>
-                        <h5>{{productVO.designation}}</h5>
-                        <p>{{productVO.brandVO}}</p>
-                        <span class="productPrice">
-                            <p>{{(productVO.prixTTC / 100)|number_format(2,',','.')}} €</p>
-                        </span>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
+                    </a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12">
+                    <h5 class="mt-5 text-danger"> Nous n'avons trouvé aucun résultat pour votre recherche </h5>
+                </div>
+            {% endif %}
+
         </div>
     </div>
 </div>
-
 {% endblock %}
