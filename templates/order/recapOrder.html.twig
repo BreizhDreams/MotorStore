@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement - MotorStore{% endblock %}
+
+{% block body %}
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Récapitulatif de la Commande</h1>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div style="width:500px; margin:auto; text-align:left">
+            <strong>Votre Adresse de Livraison</strong>
+            <hr>
+            {{addressVO|raw}}
+        </div>
+
+        <div style="width:500px; margin:auto; margin-top:50px; margin-bottom:50px; text-align:left">
+            <strong>Votre Transporteur </strong>
+            <hr>
+            {{transporterVO.name}}<br/>
+            {{transporterVO.description}}<br/>
+            {{(transporterVO.price /100)|number_format(2,',','.')}} €<br/>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <b>Récapitulatif de la Commande</b>
+        <hr>
+        {% set total = 0 %}
+        {% for productVO in cartVO %}
+            <div class="row">
+                <div class="col-2">
+                    <img src="/uploads/{{ productVO.productVO.photoURL}}" alt="{{ productVO.productVO.designation}}" class="img-fluid" style="height: 100px;">
+                </div>
+                <div class="col-6 my-auto">
+                    {{productVO.productVO.designation}}
+                    <br>
+                    Quantité : {{productVO.quantity}}
+                </div>
+                <div class="col-4 my-auto"> {{((productVO.quantity * productVO.productVO.prixTTC) /100)|number_format(2,',','.')}} €</div>
+            </div>
+            {% set total = total + (productVO.productVO.prixTTC * productVO.quantity ) %}
+        {% endfor %}
+    </div>
+    <hr>
+    <strong style="text-align: right; padding-right:250px">Sous total : {{(total / 100)|number_format(2,',','.')}} €</strong>
+    <strong style="text-align: right; padding-right:250px">Livraison : {{(transporterVO.price /100)|number_format(2,',','.')}}€</strong>
+    <strong style="text-align: right; padding-right:250px">Total TTC : {{((total / 100)+ (transporterVO.price/100))|number_format(2,',','.')}} €</strong>
+    <a href="" class="btn btn-success btn-block" style="width: 500px; margin:auto">Payer | {{((total / 100)+ (transporterVO.price/100))|number_format(2,',','.')}} €</a>
+</div>
+{% endblock %}

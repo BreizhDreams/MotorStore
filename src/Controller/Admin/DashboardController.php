@@ -7,8 +7,10 @@ use App\Entity\AdvantageType;
 use App\Entity\Brand;
 use App\Entity\Category;
 use App\Entity\Header;
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\SubCategory;
+use App\Entity\Transporter;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -20,15 +22,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
-    public function __construct(private AdminUrlGenerator $adminUrlGenerator){
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator)
+    {
     }
 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $url = $this->adminUrlGenerator->setController(CategoryCrudController::class)->generateUrl();
+        $url = $this->adminUrlGenerator->setController(OrderCrudController::class)->generateUrl();
         return $this->redirect($url);
-
     }
 
     public function configureDashboard(): Dashboard
@@ -41,55 +43,17 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::section('Navigation');
         yield MenuItem::linkToDashboard('Accueil du Panel', 'fa fa-home');
-        yield MenuItem::linkToRoute('Quitter le panel Admin', 'fa fa-arrow-left','app_main');
-        
-        yield MenuItem::section('Utilisateur');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Utilisateur', 'fas fa-add', User::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Utilisateurs', 'fas fa-eye', User::class)
-        ]);
+        yield MenuItem::linkToRoute('Quitter le panel Admin', 'fa fa-arrow-left', 'app_main');
 
-        yield MenuItem::section('Catégories');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Catégorie', 'fas fa-add', Category::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Catégories', 'fas fa-eye', Category::class)
-        ]);
-
-        yield MenuItem::section('Sous-Catégories');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Sous-Catégorie', 'fas fa-add', SubCategory::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Sous-Catégories', 'fas fa-eye', SubCategory::class)
-        ]);
-
-        yield MenuItem::section('Produits');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Produit', 'fas fa-add', Product::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Produits', 'fas fa-eye', Product::class)
-        ]);
-
-        yield MenuItem::section('Marques');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Marque', 'fas fa-add', Brand::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Marques', 'fas fa-eye', Brand::class)
-        ]);
-
-        yield MenuItem::section('Type d\'Avantages');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Types Avantages', 'fas fa-add', AdvantageType::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Types d\'Avantages', 'fas fa-eye', AdvantageType::class)
-        ]);
-
-        yield MenuItem::section('Avantages');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Avantage', 'fas fa-add', Advantage::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Avantages', 'fas fa-eye', Advantage::class)
-        ]);
-        
-        yield MenuItem::section('Headers');
-        yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Ajout Header', 'fas fa-add', Header::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les Headers', 'fas fa-eye', Header::class)
-        ]);
-
+        yield MenuItem::linkToCrud('Utilisateur', 'fas fa-add', User::class);
+        yield MenuItem::linkToCrud('Commandes', 'fas fa-add', Order::class);
+        yield MenuItem::linkToCrud('Catégorie', 'fas fa-add', Category::class);
+        yield MenuItem::linkToCrud('Sous-Catégorie', 'fas fa-add', SubCategory::class);
+        yield MenuItem::linkToCrud('Produit', 'fas fa-add', Product::class);
+        yield MenuItem::linkToCrud('Marque', 'fas fa-add', Brand::class);
+        yield MenuItem::linkToCrud('Types Avantages', 'fas fa-add', AdvantageType::class);
+        yield MenuItem::linkToCrud('Avantage', 'fas fa-add', Advantage::class);
+        yield MenuItem::linkToCrud('Transporteur', 'fas fa-add', Transporter::class);
+        yield MenuItem::linkToCrud('Header', 'fas fa-add', Header::class);
     }
 }

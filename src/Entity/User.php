@@ -62,10 +62,14 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(mappedBy: 'userVO', targetEntity: Address::class)]
     private Collection $addressVOs;
 
+    #[ORM\OneToMany(mappedBy: 'userVO', targetEntity: Order::class)]
+    private Collection $orderVOs;
+
     public function __construct()
     {
         $this->commandVOs = new ArrayCollection();
         $this->addressVOs = new ArrayCollection();
+        $this->orderVOs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,6 +142,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         // $this->plainPassword = null;
     }
 
+
     public function getLastName(): ?string
     {
         return $this->lastName;
@@ -162,6 +167,10 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
+    public function getFullName(): string
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
     public function getAddress(): ?string
     {
         return $this->address;
@@ -288,6 +297,36 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
             // set the owning side to null (unless already changed)
             if ($addressVO->getUserVO() === $this) {
                 $addressVO->setUserVO(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrderVOs(): Collection
+    {
+        return $this->orderVOs;
+    }
+
+    public function addOrderVO(Order $orderVO): self
+    {
+        if (!$this->orderVOs->contains($orderVO)) {
+            $this->orderVOs->add($orderVO);
+            $orderVO->setUserVO($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderVO(Order $orderVO): self
+    {
+        if ($this->orderVOs->removeElement($orderVO)) {
+            // set the owning side to null (unless already changed)
+            if ($orderVO->getUserVO() === $this) {
+                $orderVO->setUserVO(null);
             }
         }
 

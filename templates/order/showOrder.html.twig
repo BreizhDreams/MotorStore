@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande - MotorStore{% endblock %}
+
+{% block body %}
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Votre Commande</h1>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {% set formHtml %}
+        {{form_start(form, {action: path('order_recap')})}}
+            {{form_label(form.Adresses,'Choisissez votre Adresse de Livraison:')}}
+                <br/><a href="path:{{'addAddress'}}">Ajouter une adresse</a>
+            {{form_end(form)}}
+        {% endset %}
+
+        {{formHtml|replace({'[br]' : '<br/>'})|raw}}
+    </div>
+    <div class="col-md-6">
+        <b>Récapitulatif de la Commande</b>
+        {% for productVO in cartVO %}
+            <div class="row">
+                <div class="col-2">
+                    <img src="/uploads/{{ productVO.productVO.photoURL}}" alt="{{ productVO.productVO.designation}}" class="img-fluid" style="height: 100px;">
+                </div>
+                <div class="col-6 my-auto">
+                    {{productVO.productVO.designation}}
+                </div>
+                <div class="col-4 my-auto">Quantité : {{productVO.quantity}}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

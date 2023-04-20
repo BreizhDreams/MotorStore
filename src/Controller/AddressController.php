@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Cart;
 use App\Entity\Address;
 use App\Entity\Category;
 use App\Form\AddressType;
@@ -25,7 +26,7 @@ class AddressController extends AbstractController
     }
 
     #[Route('/profile/addAddress', name: 'addAddress')]
-    public function addAddress(EntityManagerInterface $entityManager, Request $request): Response
+    public function addAddress(EntityManagerInterface $entityManager, Request $request, Cart $cartVO): Response
     {
 
         $addressVO = new Address();
@@ -39,7 +40,11 @@ class AddressController extends AbstractController
             $entityManager->persist($addressVO);
             $entityManager->flush();
 
-            return $this->redirectToRoute('showAddress');
+            if ($cartVO->get()) {
+                return $this->redirectToRoute('order');
+            } else {
+                return $this->redirectToRoute('showAddress');
+            }
         }
 
         $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
@@ -86,6 +91,5 @@ class AddressController extends AbstractController
             $entityManager->flush();
         }
         return $this->redirectToRoute('showAddress');
-
     }
 }
