@@ -28,9 +28,9 @@
                 <th><img src="/uploads/{{cartVO.productVO.photoURL}}" alt="{{cartVO.productVO.designation}}"
                         style="height: 75px"></th>
                 <td>{{cartVO.productVO.designation}}</td>
-                <td>{{(cartVO.productVO.prixTTC /100)|number_format(2,',','.')}} €</td>
+                <td>{{(cartVO.productVO.prixTTC /100)|number_format(2,',',',')}} €</td>
                 <td>{{cartVO.quantity}}</td>
-                <td>{{((cartVO.quantity * cartVO.productVO.prixTTC) /100)|number_format(2,',','.')}} €</td>
+                <td>{{((cartVO.quantity * cartVO.productVO.prixTTC) /100)|number_format(2,',',',')}} €</td>
                 <td>
                     <a href="{{ path("cart_add", {id : cartVO.productVO.id}) }}" class="btn btn-success"><i
                             class="fa-solid fa-plus"></i></a>
@@ -59,7 +59,7 @@
 <div class="text-end mt-5">
     <b>Nombre de Produits : {{cartVOs|length}} </b><br>
     <b>Nombre d'Articles : {{articleNb}} </b><br>
-    <b>Total de mon panier : {{(total / 100)|number_format(2,',','.')}} €</b><br>
+    <b>Total de mon panier : {{(total / 100)|number_format(2,',',',')}} €</b><br>
     <a href="{{path('order')}}" class="btn btn-success btn-block mt-3">Valider mon Panier</a>
 </div>
 {% endif %}

@@ -50,9 +50,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255)]
     private ?string $telNumber = null;
 
-    #[ORM\OneToMany(mappedBy: 'userVO', targetEntity: Command::class)]
-    private Collection $commandVOs;
-
     #[ORM\OneToOne(inversedBy: 'userVO', cascade: ['persist', 'remove'])]
     private ?FidelityCard $fidelityCardVO = null;
 
@@ -215,36 +212,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function setTelNumber(string $telNumber): self
     {
         $this->telNumber = $telNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Command>
-     */
-    public function getCommandVOs(): Collection
-    {
-        return $this->commandVOs;
-    }
-
-    public function addCommandVO(Command $commandVO): self
-    {
-        if (!$this->commandVOs->contains($commandVO)) {
-            $this->commandVOs->add($commandVO);
-            $commandVO->setUserVO($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommandVO(Command $commandVO): self
-    {
-        if ($this->commandVOs->removeElement($commandVO)) {
-            // set the owning side to null (unless already changed)
-            if ($commandVO->getUserVO() === $this) {
-                $commandVO->setUserVO(null);
-            }
-        }
 
         return $this;
     }

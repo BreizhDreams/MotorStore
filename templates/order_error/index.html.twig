@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de paiement - MotorStore {% endblock %}
+
+{% block body %}
+<h2>Erreur de paiement</h2>
+<p>Bonjour <strong>{{orderVO.userVO.firstName}} {{orderVO.userVO.lastName}} </strong>,<br/>
+    Le paiement pour la commande n°{{orderVO.reference}} a echoué.<br/>
+    <hr>
+    <a class="btn btn-block btn-danger" href="{{path('order')}}">Reessayer le paiement</a>
+</p>
+{% endblock %}

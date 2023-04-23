@@ -53,13 +53,10 @@ class Cart
         return $cartVO;
     }
 
-    public function delete($id)
+    public function delete()
     {
         $cartVO =  $this->requestStack->getSession()->remove('cart');
 
-        unset($cartVO[$id]);
-
-        $cartVO = $this->requestStack->getSession()->set('cart', $cartVO);
         return $cartVO;
     }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 20 avr. 2023 à 21:02
+-- Généré le : dim. 23 avr. 2023 à 12:41
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.2.0
 
@@ -216,7 +216,9 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 ('DoctrineMigrations\\Version20230420113947', '2023-04-20 11:39:51', 22),
 ('DoctrineMigrations\\Version20230420135720', '2023-04-20 13:57:27', 36),
 ('DoctrineMigrations\\Version20230420142215', '2023-04-20 14:22:24', 289),
-('DoctrineMigrations\\Version20230420172009', '2023-04-20 17:20:13', 54);
+('DoctrineMigrations\\Version20230420172009', '2023-04-20 17:20:13', 54),
+('DoctrineMigrations\\Version20230421214635', '2023-04-21 21:46:46', 346),
+('DoctrineMigrations\\Version20230423100951', '2023-04-23 10:09:56', 129);
 
 -- --------------------------------------------------------
 
@@ -293,16 +295,19 @@ CREATE TABLE IF NOT EXISTS `order` (
   `transporter_price` double NOT NULL,
   `delivry` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_paid` tinyint(1) NOT NULL,
+  `reference` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stripe_session_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_F5299398A837E25D` (`user_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order`
 --
 
-INSERT INTO `order` (`id`, `user_vo_id`, `created_at`, `transporter_name`, `transporter_price`, `delivry`, `is_paid`) VALUES
-(6, 1, '2023-04-20 20:43:01', 'La Poste', 2.5, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0);
+INSERT INTO `order` (`id`, `user_vo_id`, `created_at`, `transporter_name`, `transporter_price`, `delivry`, `is_paid`, `reference`, `stripe_session_id`) VALUES
+(25, 1, '2023-04-23 12:28:43', 'Collisimo', 1000, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445247b4545f', 'cs_test_b1TaX3JaxoHQ8w9QLqcaHV71ejcPSTZeq9eyNNZOosroj4cbjoJNuLSOe1'),
+(26, 1, '2023-04-23 12:39:55', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445271bc5a2a', 'cs_test_b1nIAMTtMMa7MP9rHA9g4qN2vs4qngNjKM1AmiU6iykKs6GjrZsyULkuKE');
 
 -- --------------------------------------------------------
 
@@ -320,20 +325,16 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `total` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_845CA2C1C96B6DF8` (`order_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order_details`
 --
 
 INSERT INTO `order_details` (`id`, `order_vo_id`, `product`, `quantity`, `price`, `total`) VALUES
-(21, 6, 'ARGON', 1, 19995, 19995),
-(22, 6, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
-(23, 6, 'AVRO 4', 1, 64995, 64995),
-(24, 6, 'GP5 AIR', 1, 10499, 10499),
-(25, 6, 'PRO RAGNAR', 1, 10900, 10900),
-(26, 6, 'MIKE C C-SIZING', 1, 19999, 19999),
-(27, 6, 'Zarco Replica', 1, 19999, 19999);
+(52, 25, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(53, 26, 'SMART JACKET', 1, 69995, 69995),
+(54, 26, 'ATOMIC', 1, 39995, 39995);
 
 -- --------------------------------------------------------
 
@@ -559,9 +560,9 @@ CREATE TABLE IF NOT EXISTS `transporter` (
 --
 
 INSERT INTO `transporter` (`id`, `name`, `description`, `price`) VALUES
-(1, 'Collisimo', 'Profitez d\'une livraison prémium avec un colis chez vous dans les 72 prochaines heures !', 990),
-(2, 'Chronopost', 'Profitez du seul transporteur au monde qui est capable de ne jamais réussir à vous livrer vos colis en temps et en heure !', 2500),
-(3, 'La Poste', 'Par ce que voila quoi.', 250);
+(1, 'Collisimo', 'Profitez d\'une livraison prémium avec un colis chez vous dans les 72 prochaines heures !', 1000),
+(2, 'Chronopost', 'Profitez du seul transporteur au monde qui est capable de ne jamais réussir à vous livrer vos colis en temps et en heure !', 1500),
+(3, 'La Poste', 'Par ce que voila quoi.', 499);
 
 -- --------------------------------------------------------
 

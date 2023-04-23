@@ -11,7 +11,7 @@
             <h2>{{ productVO.designation }}</h2>
             <p>{{productVO.brandVO }} </p>
             <p>{{productVO.details}}</p>
-            <p>{{(productVO.prixTTC /100)|number_format(2,',','.')}} €</p>
+            <p>{{(productVO.prixTTC /100)|number_format(2,',',',')}} €</p>
             <hr>
             <a href="{{ path("cart_add" , { id : productVO.id}) }}" class="btn btn-outline-info">Ajouter au panier</a>
         </div>

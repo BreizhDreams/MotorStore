@@ -67,10 +67,12 @@ class OrderController extends AbstractController
 
             // Créer la commande avec les données du transporteur / Utilisateur / Adresse
             $orderVO = new Order();
+            $reference = $date->format('dmY').'_'.uniqid();
+            $orderVO->setReference($reference);
             $orderVO->setUserVO($this->getUser());
             $orderVO->setCreatedAt($date);
             $orderVO->setTransporterName($transporterVO->getName());
-            $orderVO->setTransporterPrice($transporterVO->getPrice() / 100);
+            $orderVO->setTransporterPrice($transporterVO->getPrice());
             $orderVO->setDelivry($addressVO_content);
             $orderVO->setIsPaid(0);
 
@@ -91,11 +93,10 @@ class OrderController extends AbstractController
 
             return $this->render('order/recapOrder.html.twig', [
                 'categoryVOs' => $categoryVOs,
-                'form' => $form->createView(),
                 'cartVO' => $cartVO->getFull(),
                 'transporterVO' => $transporterVO,
-                'addressVO' => $addressVO_content
-
+                'addressVO' => $addressVO_content,
+                'reference' => $orderVO->getReference()
             ]);
         }
         // Redirect si l'utilisateur essaye d'afficher la page sans panier, transporteur, adresse, etc...
