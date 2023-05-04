@@ -7,37 +7,41 @@
 <div class="pageTitleDiv">
     <h1 class="pageTitleH1">Gestion de vos adresses</h1>
 </div>
-<div style="margin-left: 10%; margin-right:10%">
-    <a href="{{ path('addAddress' )}}" class="btn btn-info btn-sm"
-        style="float: inline-end; margin-right: 5%; margin-top:1%">Ajouter une adresse</a>
-    <h1 style="text-align: start; margin-left:10%">Bienvenue dans votre espace personnelle ! </h1>
-    <p style="text-align: start; margin-left:10%">C'est dans cette espace que vous pourrez ajouter, modifier ou bien
-        supprimer vos différentes adresses.</p>
-    <hr>
-    {% if app.user.addressVOs|length == 0 %}
-    <h6>Vous n'avez pas encore ajouter d'adresse à votre compte client. Pour en ajouter une, <a
-            href="{{ path('addAddress' )}}">cliquer ici ! </a></h6>
-    {% else %}
-
-    <div class="row mt-5">
-        {% for addressVO in app.user.addressVOs %}
-        <div class="col-md-6 mb-4">
-            <div class="card" style="width: 18rem; ">
-                <div class="card-body">
-                    <h5 class="card-title">{{ addressVO.name }}</h5>
-                    <p class="card-text">{{ addressVO.address }} <br> {{ addressVO.postalCode }} {{ addressVO.city }} -
-                        {{ addressVO.country}}</p>
-                    <a href="{{path('editAddress', {id : addressVO.id })}}" class="btn btn-warning mx-2"><i class="fa-solid fa-pen-to-square"></i>
-                        <a href="{{path('removeAddress',{id : addressVO.id})}}" class="btn btn-danger mx-2"><i class="fa-solid fa-trash"></i></a>
-
+{% block container %}
+    <div class="container">
+        <div>
+            <a href="{{ path('addAddress' )}}" class="btn btn-info btn-sm"
+                style="float: inline-end; margin-right: 5%; margin-top:1%">Ajouter une adresse</a>
+            <h1 style="text-align: start; margin-left:10%">Bienvenue dans votre espace personnelle ! </h1>
+            <p style="text-align: start; margin-left:10%">C'est dans cette espace que vous pourrez ajouter, modifier ou bien
+                supprimer vos différentes adresses.</p>
+            <hr>
+            {% if app.user.addressVOs|length == 0 %}
+            <h6>Vous n'avez pas encore ajouter d'adresse à votre compte client. Pour en ajouter une, <a
+                    href="{{ path('addAddress' )}}">cliquer ici ! </a></h6>
+            {% else %}
+        
+            <div class="row mt-5">
+                {% for addressVO in app.user.addressVOs %}
+                <div class="col-md-6 mb-4">
+                    <div class="card" style="width: 18rem; margin:auto">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ addressVO.name }}</h5>
+                            <p class="card-text">{{ addressVO.address }} <br> {{ addressVO.postalCode }} {{ addressVO.city }} -
+                                {{ addressVO.country}}</p>
+                            <a href="{{path('editAddress', {id : addressVO.id })}}" class="btn btn-warning mx-2"><i class="fa-solid fa-pen-to-square"></i>
+                                <a href="{{path('removeAddress',{id : addressVO.id})}}" class="btn btn-danger mx-2"><i class="fa-solid fa-trash"></i></a>
+        
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
+        
             </div>
+        
+            {% endif %}
         </div>
-        {% endfor %}
-
     </div>
-
-    {% endif %}
-</div>
+{% endblock container %}
 
 {% endblock %}

@@ -2,29 +2,33 @@
 {% block title %}{{productVO.designation}} - MotorStore {% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-md-5">
-        <img src="/uploads/{{ productVO.photoURL}}" alt="{{ productVO.designation}}" class="img-fluid">
-    </div>
-    <div class="col-md-7 my-auto">
-        <div class=" ">
-            <h2>{{ productVO.designation }}</h2>
-            <p>{{productVO.brandVO }} </p>
-            <p>{{productVO.details}}</p>
-            <p>{{(productVO.prixTTC /100)|number_format(2,',',',')}} €</p>
-            <hr>
-            <a href="{{ path("cart_add" , { id : productVO.id}) }}" class="btn btn-outline-info">Ajouter au panier</a>
+{% block container %}
+    <div class="container">
+      <div class="row">
+          <div class="col-md-5">
+              <img src="/uploads/{{ productVO.photoURL}}" alt="{{ productVO.designation}}" class="img-fluid">
+          </div>
+          <div class="col-md-7 my-auto">
+              <div class=" ">
+                  <h2>{{ productVO.designation }}</h2>
+                  <p>{{productVO.brandVO }} </p>
+                  <p>{{productVO.details}}</p>
+                  <p>{{(productVO.prixTTC /100)|number_format(2,',',',')}} €</p>
+                  <hr>
+                  <a href="{{ path("cart_add" , { id : productVO.id}) }}" class="btn btn-outline-info">Ajouter au panier</a>
+              </div>
+          </div>
+      </div>
+      <hr>
+      <h3>Nos autres produits !</h3>
+      <p>Découvrez les articles les plus plébiscités par la communeauté et qui pourrais vous intéresser ! </p>
+      <div class="row">
+        {% for productVO in productVOs %}
+        <div class="col-md-3">
+          {% include 'product/singleProduct.html.twig'%}
         </div>
+        {% endfor %}
+      </div>
     </div>
-</div>
-<hr>
-<h3>Nos autres produits !</h3>
-<p>Découvrez les articles les plus plébiscités par la communeauté et qui pourrais vous intéresser ! </p>
-<div class="row">
-  {% for productVO in productVOs %}
-  <div class="col-md-3">
-    {% include 'product/singleProduct.html.twig'%}
-  </div>
-  {% endfor %}
-</div>
+{% endblock container %}
 {% endblock body %} 

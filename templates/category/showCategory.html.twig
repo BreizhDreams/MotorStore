@@ -2,31 +2,31 @@
 {% block title %} {{categoryVO.designation}} - MotorStore {% endblock %}
 
 {% block body %}
-<div class="pageTitleDiv">
-    <h1 class="pageTitleH1">{{ categoryVO.designation}}</h1>
-</div>
-<div class="categoryStyle" style="margin-left: 15%; margin-right: 15%; margin-top:3em">
-    <p class="categoryDescr">{{categoryVO.description}}</p>
-</div>
-
-{% for subCategoryVO in categoryVO.getSubCategoriesVOs() %}
-
-<div class="row">
-    {% set i= 0 %}
-    {% for productVO in subCategoryVO.getProductVOs() %}
-    {% set i = i+1%}
-    {% if i < 4 %}
-     <div class="col-md-4 px-5 pt-5">
-        {% include 'product/singleProduct.html.twig'%}
-     </div>
-    {% endif %}
-    {% endfor %}
-</div>
-<div class="text-center mt-2 mb-5">
-    <a href="{{ path('voirSousCategorie',{'slug' : subCategoryVO.slug}) }}" class="btn btn-outline-info showMoreButton">Voir
-        +</a>
-</div>
-{% endfor %}
-
-
+    <div class="pageTitleDiv">
+        <h1 class="pageTitleH1">{{ categoryVO.designation}}</h1>
+    </div>
+    {% block container %}
+        <div class="container">
+            <div class="categoryStyle" style="">
+                <p>{{categoryVO.description}}</p>
+            </div>
+            {% for subCategoryVO in categoryVO.getSubCategoriesVOs() %}
+            <div class="row">
+                {% set i= 0 %}
+                {% for productVO in subCategoryVO.getProductVOs() %}
+                {% set i = i+1%}
+                {% if i < 4 %}
+                 <div class="col-md-4 px-5 pt-5">
+                    {% include 'product/singleProduct.html.twig'%}
+                 </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="text-center mt-2 mb-5">
+                <a href="{{ path('voirSousCategorie',{'slug' : subCategoryVO.slug}) }}" class="btn btn-outline-info showMoreButton">Voir
+                    +</a>
+            </div>
+            {% endfor %}
+        </div>
+    {% endblock container %}
 {% endblock %}

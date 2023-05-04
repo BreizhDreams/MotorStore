@@ -22,8 +22,7 @@ class OrderErrorController extends AbstractController
             return $this->redirectToRoute('app_main');
         }
 
-
-        return $this->render('order_error/index.html.twig', [
+        return $this->render('order_error/error.html.twig', [
             'categoryVOs' => $categoryVOs,
             'orderVO' => $orderVO,
         ]);

@@ -3,15 +3,16 @@
 {% block title %} Fideli'Trip - MotorStore{% endblock %}
 
 {% block body %}
-<div>
-    <div class="pageTitleDiv">
-        <h1 class="pageTitleH1">Fideli'Trip</h1>
-    </div>
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Fideli'Trip</h1>
+</div>
+{% block container %}
+<div class="container">
     <div class="row" style="margin-top: 2em;">
         <div class="col-md-6">
             <div style="text-align:center">
-                <img src="/uploads/utility/FIDELI'TRIP.png" alt="Affiche du programme Fideli'TRIP" class="img-fluid rounded"
-                    style="height: 60%; width: 60%">
+                <img src="/uploads/utility/FIDELI'TRIP.png" alt="Affiche du programme Fideli'TRIP"
+                    class="img-fluid rounded">
             </div>
         </div>
         <div class="col-md-6" style="padding-right:10%; padding-left:5%;">
@@ -36,5 +37,6 @@
         </div>
     </div>
 </div>
+{% endblock container %}
 
 {% endblock %}

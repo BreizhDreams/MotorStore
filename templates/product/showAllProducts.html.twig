@@ -5,72 +5,76 @@
 <div class="pageTitleDiv">
     <h1 class="pageTitleH1">Tous nos Produits :</h1>
 </div>
-<div class="row">
-    <div class="col-md-3" style="padding-left: 20px;">
-        <div class="form-control">
-            <h3 class="col-md-12">Filtrer :</h3>
-            {{ form_start(form) }}
-            <div class="row form-group mt-3">
-                <div class="col-md-3">{{form_label(form.string)}} </div>
-                <div class="col-md-9">{{form_widget(form.string)}} </div>
-            </div>
-            <div class="row form-group mt-4">
-                <div class="col-md-3">{{form_label(form.categoryVOs)}} </div>
-                <div class="col-md-9">
-                    <div class="row">
-                        {% for categoryVO in form.categoryVOs %}
-                        <div class="col-md-6" style="font-size: 14px; text-align:left">
-                            <span style="padding-right: 5px;">{{ form_widget(categoryVO)}}</span>
-                            <span>{{ form_label(categoryVO) }}</span>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group mt-4">
-                <div class="col-md-3">{{form_label(form.subCategoryVOs)}} </div>
-                <div class="col-md-9">
-                    <div class="row">
-                        {% for subCategoryVO in form.subCategoryVOs %}
-                        <div class="col-md-6" style="font-size: 14px; text-align:left">
-                            <span style="padding-right: 5px;">{{ form_widget(subCategoryVO)}}</span>
-                            <span>{{ form_label(subCategoryVO) }}</span>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group mt-4 mb-4">
-                <div class="col-md-3">{{form_label(form.brandVOs)}} </div>
-                <div class="col-md-9">
-                    <div class="row">
-                        {% for brandVO in form.brandVOs %}
-                        <div class="col-md-6" style="font-size: 14px; text-align:left">
-                            <span style="padding-right: 5px;">{{ form_widget(brandVO)}}</span>
-                            <span>{{ form_label(brandVO) }}</span>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            {{ form_end(form)}}
-        </div>
-    </div>
-    <div class="col-md-9">
+{% block container %}
+    <div class="container" style="padding-left: 0;">
         <div class="row">
-            {% if productVOs|length != 0 %}
-                {% for productVO in productVOs %}
-                <div class="col-md-4">
-                    {% include 'product/singleProduct.html.twig'%}
+            <div class="col-md-4">
+                <div class="form-control">
+                    <h3 class="col-md-12">Filtrer :</h3>
+                    {{ form_start(form) }}
+                    <div class="row form-group mt-3">
+                        <div class="col-md-3">{{form_label(form.string)}} </div>
+                        <div class="col-md-9">{{form_widget(form.string)}} </div>
+                    </div>
+                    <div class="row form-group mt-4">
+                        <div class="col-md-3">{{form_label(form.categoryVOs)}} </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                {% for categoryVO in form.categoryVOs %}
+                                <div class="col-md-6" style="font-size: 14px; text-align:left">
+                                    <span >{{ form_widget(categoryVO)}}</span>
+                                    <span>{{ form_label(categoryVO) }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group mt-4">
+                        <div class="col-md-3">{{form_label(form.subCategoryVOs)}} </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                {% for subCategoryVO in form.subCategoryVOs %}
+                                <div class="col-md-6" style="font-size: 14px; text-align:left">
+                                    <span >{{ form_widget(subCategoryVO)}}</span>
+                                    <span>{{ form_label(subCategoryVO) }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group mt-4 mb-4">
+                        <div class="col-md-3">{{form_label(form.brandVOs)}} </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                {% for brandVO in form.brandVOs %}
+                                <div class="col-md-6" style="font-size: 14px; text-align:left">
+                                    <span >{{ form_widget(brandVO)}}</span>
+                                    <span>{{ form_label(brandVO) }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(form)}}
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="col-md-12">
-                    <h5 class="mt-5 text-danger"> Nous n'avons trouvé aucun résultat pour votre recherche </h5>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    {% if productVOs|length != 0 %}
+                        {% for productVO in productVOs %}
+                        <div class="col-md-6">
+                            {% include 'product/singleProduct.html.twig'%}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-md-12">
+                            <h5 class="mt-5 text-danger"> Nous n'avons trouvé aucun résultat pour votre recherche </h5>
+                        </div>
+                    {% endif %}
+        
                 </div>
-            {% endif %}
-
+            </div>
         </div>
     </div>
-</div>
+{% endblock container %}
 {% endblock %}

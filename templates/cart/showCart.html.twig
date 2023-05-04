@@ -3,66 +3,70 @@
 {% block title %}Mon Panier - MotorStore{% endblock %}
 
 {% block body %}
-<div class="pageTitleDiv">
-    <h1 class="pageTitleH1">Votre Panier</h1>
-</div>
-<table class="table mt-3">
-    <thead>
-        <tr class="text-center">
-            <th scope="col">Produit</th>
-            <th scope="col"></th>
-            <th scope="col">Prix</th>
-            <th scope="col">Quantité</th>
-            <th scope="col">Total</th>
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        {% set total = 0 %}
-        {% set articleNb = 0 %}
-        {% for cartVO in cartVOs %}
-
-        <tr class="text-center">
-            <a href="{{ path('voirProduit',{'slug' : cartVO.productVO.slug}) }}">
-                <th><img src="/uploads/{{cartVO.productVO.photoURL}}" alt="{{cartVO.productVO.designation}}"
-                        style="height: 75px"></th>
-                <td>{{cartVO.productVO.designation}}</td>
-                <td>{{(cartVO.productVO.prixTTC /100)|number_format(2,',',',')}} €</td>
-                <td>{{cartVO.quantity}}</td>
-                <td>{{((cartVO.quantity * cartVO.productVO.prixTTC) /100)|number_format(2,',',',')}} €</td>
-                <td>
-                    <a href="{{ path("cart_add", {id : cartVO.productVO.id}) }}" class="btn btn-success"><i
-                            class="fa-solid fa-plus"></i></a>
-                    <a href="{{ path("cart_remove", {id : cartVO.productVO.id}) }}" class="btn btn-warning"><i
-                            class="fa-solid fa-minus"></i></a>
-                    <a href="{{ path("cart_delete", {id : cartVO.productVO.id}) }}" class="btn btn-danger"><i
-                            class="fa-solid fa-trash"></i></a>
-                </td>
-            </a>
-        </tr>
-        {% set total = total + (cartVO.productVO.prixTTC * cartVO.quantity ) %}
-        {% set articleNb = articleNb + cartVO.quantity %}
-        {% else %}
-        <tr>
-            <td colspan="5" class="text-center">
-                Votre panier est Vide
-            </td>
-        </tr>
-
-        {% endfor %}
-        </tr>
-    </tbody>
-
-</table>
-{% if cartVOs|length != 0 %}
-<div class="text-end mt-5">
-    <b>Nombre de Produits : {{cartVOs|length}} </b><br>
-    <b>Nombre d'Articles : {{articleNb}} </b><br>
-    <b>Total de mon panier : {{(total / 100)|number_format(2,',',',')}} €</b><br>
-    <a href="{{path('order')}}" class="btn btn-success btn-block mt-3">Valider mon Panier</a>
-</div>
-{% endif %}
+    <div class="pageTitleDiv">
+        <h1 class="pageTitleH1">Votre Panier</h1>
+    </div>
+    {% block container %}
+        <div class="container">
+            <table class="table mt-3">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Produit</th>
+                        <th scope="col"></th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    {% set total = 0 %}
+                    {% set articleNb = 0 %}
+                    {% for cartVO in cartVOs %}
+            
+                    <tr class="text-center">
+                        <a href="{{ path('voirProduit',{'slug' : cartVO.productVO.slug}) }}">
+                            <th><img src="/uploads/{{cartVO.productVO.photoURL}}" alt="{{cartVO.productVO.designation}}"
+                                    style="height: 75px"></th>
+                            <td>{{cartVO.productVO.designation}}</td>
+                            <td>{{(cartVO.productVO.prixTTC /100)|number_format(2,',',',')}} €</td>
+                            <td>{{cartVO.quantity}}</td>
+                            <td>{{((cartVO.quantity * cartVO.productVO.prixTTC) /100)|number_format(2,',',',')}} €</td>
+                            <td>
+                                <a href="{{ path("cart_add", {id : cartVO.productVO.id}) }}" class="btn btn-success"><i
+                                        class="fa-solid fa-plus"></i></a>
+                                <a href="{{ path("cart_remove", {id : cartVO.productVO.id}) }}" class="btn btn-warning"><i
+                                        class="fa-solid fa-minus"></i></a>
+                                <a href="{{ path("cart_delete", {id : cartVO.productVO.id}) }}" class="btn btn-danger"><i
+                                        class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </a>
+                    </tr>
+                    {% set total = total + (cartVO.productVO.prixTTC * cartVO.quantity ) %}
+                    {% set articleNb = articleNb + cartVO.quantity %}
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Votre panier est Vide
+                        </td>
+                    </tr>
+            
+                    {% endfor %}
+                    </tr>
+                </tbody>
+            
+            </table>
+            {% if cartVOs|length != 0 %}
+            <div class="text-end mt-5">
+                <b>Nombre de Produits : {{cartVOs|length}} </b><br>
+                <b>Nombre d'Articles : {{articleNb}} </b><br>
+                <b>Total de mon panier : {{(total / 100)|number_format(2,',',',')}} €</b><br>
+                <a href="{{path('order')}}" class="btn btn-success btn-block mt-3">Valider mon Panier</a>
+            </div>
+            {% endif %}
+        </div>
+    {% endblock container %}
 
 
 {% endblock %}

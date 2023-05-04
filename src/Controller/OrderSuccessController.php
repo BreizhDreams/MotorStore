@@ -28,7 +28,7 @@ class OrderSuccessController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->render('order_success/index.html.twig', [
+        return $this->render('order_success/success.html.twig', [
             'categoryVOs' =>  $categoryVOs,
             'orderVO' => $orderVO
         ]);
