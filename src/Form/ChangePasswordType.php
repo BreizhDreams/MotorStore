@@ -85,7 +85,7 @@ class ChangePasswordType extends AbstractType
             ->add('submit', SubmitType::class,[
                 'label' => 'Mettre à Jour',
                 'attr' => [
-                    'class' => 'btn btn-outline-info form-control',
+                    'class' => 'btn btn-success form-control',
                 ]
             ])
         ;

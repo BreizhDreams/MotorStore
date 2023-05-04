@@ -91,7 +91,7 @@ class AddressType extends AbstractType
             ->add('submit',SubmitType::class,[
                 'label' => 'Valider',
                 'attr' => [
-                    'class' => 'btn btn-block btn-info my-3'
+                    'class' => 'btn btn-block btn-dark my-3'
                 ]
             ])
         ;
