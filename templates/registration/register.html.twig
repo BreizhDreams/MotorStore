@@ -24,13 +24,9 @@
                 {{ form_row(registrationForm.city) }}
                 {{ form_row(registrationForm.telNumber) }}
             </fieldset>
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Mot de Passe'
-                }) }}
-                {{ form_row(registrationForm.agreeTerms) }}
-        
-                <button type="submit" class="btn btn-success btn-lg my-3">Soumettre</button>
-                <a href="{{path('app_login')}}" class="btn btn-secondary">Connexion</a>
+                {{ form_row(registrationForm.password) }}
+                {{ form_row(registrationForm.agreeTerms) }}                          
+            <a href="{{path('app_login')}}" class="btn btn-secondary">Connexion</a>
             {{ form_end(registrationForm) }}
         </div>
     </div>

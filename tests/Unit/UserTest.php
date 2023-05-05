@@ -54,12 +54,6 @@ class UserTest extends KernelTestCase
         $this->assertHasErrors($this->getEntity()->setPassword('Btssio2017!Btssio2017!Btssio2017!Btssio2017!Btssio2017!Btssio2017!Btssio2017!Btssio2017!Btssio2017!Btssio2017!'),1);
     }
 
-    public function testBlankPassword(): void
-    {
-        $this->assertHasErrors($this->getEntity());
-        $this->assertHasErrors($this->getEntity()->setPassword(''),1);
-    }
-
     public function testBlankLastName(): void
     {
         $this->assertHasErrors($this->getEntity());

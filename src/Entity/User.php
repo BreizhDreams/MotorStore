@@ -32,7 +32,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank()]
     #[Assert\Regex("/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,100}$/")]
     private ?string $password = null;
     

@@ -72,13 +72,10 @@ class ChangePasswordType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci de saisir un Mot de Passe',
-                    ]),
                     new Length([
-                        'min' => 6,
+                        'min' => 8,
                         'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères',
-                        'max' => 4096,
+                        'max' => 100,
                     ]),
                 ],
             ])
