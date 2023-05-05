@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -16,21 +17,24 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $designation = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $description = null;
-
+    
     #[ORM\OneToMany(mappedBy: 'categoryVO', targetEntity: Product::class)]
     private Collection $productVOs;
-
+    
     #[ORM\ManyToMany(targetEntity: Advantage::class, inversedBy: 'categoryVOs')]
     private Collection $advantageVOs;
-
+    
     #[ORM\OneToMany(mappedBy: 'categoryVO', targetEntity: SubCategory::class)]
     private Collection $subCategoriesVOs;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $slug = null;
 
     public function __construct()

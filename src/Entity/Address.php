@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -18,30 +19,40 @@ class Address
     private ?User $userVO = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $name = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $firstName = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $lastName = null;
-
+    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $company = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $address = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/")]
     private ?string $postalCode = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $city = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $country = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^((\+)33|0)[1-9](\d{2}){4}$/")]
     private ?string $phone = null;
 
     public function __toString()

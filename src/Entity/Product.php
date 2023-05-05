@@ -6,6 +6,7 @@ use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -16,32 +17,41 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $designation = null;
-
+    
     #[ORM\Column]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^\d+(.\d{1,2})?$/")]
     private ?float $prixTTC = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'productVOs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank()]
     private ?Category $categoryVO = null;
-
+    
     #[ORM\ManyToMany(targetEntity: Advantage::class, inversedBy: 'productVOs')]
     private Collection $advantageVOs;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $photoURL = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'productVOs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank()]
     private ?Brand $brandVO = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'productVOs')]
+    #[Assert\NotBlank()]
     private ?SubCategory $subCategoryVO = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $slug = null;
-
+    
     #[ORM\Column(length: 800)]
+    #[Assert\NotBlank()]
     private ?string $details = null;
 
     #[ORM\Column]

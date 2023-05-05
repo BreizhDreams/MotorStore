@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -25,12 +26,16 @@ class Order
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $transporterName = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^\d+(.\d{1,2})?$/")]
     private ?float $transporterPrice = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
     private ?string $delivry = null;
 
     #[ORM\OneToMany(mappedBy: 'orderVO', targetEntity: OrderDetails::class)]
@@ -38,8 +43,10 @@ class Order
 
     #[ORM\Column]
     private ?bool $isPaid = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^([\d]{8})([\_]{1})([a-zA-Z\d]*)$/")]
     private ?string $reference = null;
 
     #[ORM\Column(length: 255, nullable: true)]

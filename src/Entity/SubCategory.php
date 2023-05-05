@@ -6,6 +6,8 @@ use App\Repository\SubCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: SubCategoryRepository::class)]
 class SubCategory
@@ -16,19 +18,22 @@ class SubCategory
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $designation = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $description = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'subCategoriesVOs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $categoryVO = null;
-
+    
     #[ORM\OneToMany(mappedBy: 'subCategoryVO', targetEntity: Product::class)]
     private Collection $productVOs;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $slug = null;
 
     public function __construct()

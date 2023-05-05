@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Un compte utilisateur existe déja avec cette addresse email.')]
@@ -21,38 +23,48 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank()]
     private ?string $email = null;
-
+    
     #[ORM\Column]
     private array $roles = [];
-
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,100}$/")]
     private ?string $password = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $lastName = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $firstName = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $address = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/")]
     private ?string $zipCode = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $city = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^((\+)33|0)[1-9](\d{2}){4}$/")]
     private ?string $telNumber = null;
-
+    
     #[ORM\OneToOne(inversedBy: 'userVO', cascade: ['persist', 'remove'])]
     private ?FidelityCard $fidelityCardVO = null;
-
+    
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthDate = null;
 
@@ -64,7 +76,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function __construct()
     {
-        $this->commandVOs = new ArrayCollection();
         $this->addressVOs = new ArrayCollection();
         $this->orderVOs = new ArrayCollection();
     }

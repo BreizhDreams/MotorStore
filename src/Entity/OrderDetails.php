@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OrderDetailsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderDetailsRepository::class)]
 class OrderDetails
@@ -18,15 +19,22 @@ class OrderDetails
     private ?Order $orderVO = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $product = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^(\d*)$/")]
     private ?int $quantity = null;
-
+    
     #[ORM\Column]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^\d+(.\d{1,2})?$/")]
     private ?float $price = null;
-
+    
     #[ORM\Column]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^\d+(.\d{1,2})?$/")]
     private ?float $total = null;
 
     public function getId(): ?int
