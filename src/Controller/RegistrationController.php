@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\UserAuthenticator;
+use App\Service\NavbarService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,12 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager, NavbarService $navbarService): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -55,11 +54,21 @@ class RegistrationController extends AbstractController
             }
         }
 
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request);
 
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+        
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'categoryVOs' => $categoryVOs
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 }

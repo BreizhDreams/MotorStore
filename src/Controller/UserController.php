@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
-use App\Entity\User;
 use App\Form\ChangePasswordType;
+use App\Service\NavbarService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,17 +15,27 @@ class UserController extends AbstractController
 {
 
     #[Route('/profile', name: 'profile')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
     {
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
 
         return $this->render('user/profile.html.twig',[
-            'categoryVOs' => $categoryVOs
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 
     #[Route('profile/password', name: 'editPassword')]
-    public function editPassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
+    public function editPassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher, NavbarService $navbarService): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(ChangePasswordType::class, $user);
@@ -56,11 +65,22 @@ class UserController extends AbstractController
                 );
             }
         }
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+
+        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
 
         return $this->render('user/password.html.twig',[
             'form' => $form->createView(),
-            'categoryVOs' => $categoryVOs
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 }

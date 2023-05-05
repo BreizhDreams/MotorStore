@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Classe\Cart;
 use App\Entity\Address;
-use App\Entity\Category;
 use App\Form\AddressType;
+use App\Service\NavbarService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,18 +15,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddressController extends AbstractController
 {
     #[Route('/profile/address', name: 'showAddress')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
     {
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request );
 
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
 
         return $this->render('user/address.html.twig', [
-            'categoryVOs' => $categoryVOs
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
+
         ]);
     }
 
     #[Route('/profile/addAddress', name: 'addAddress')]
-    public function addAddress(EntityManagerInterface $entityManager, Request $request, Cart $cartVO): Response
+    public function addAddress(EntityManagerInterface $entityManager, Request $request, Cart $cartVO, NavbarService $navbarService): Response
     {
 
         $addressVO = new Address();
@@ -47,16 +57,26 @@ class AddressController extends AbstractController
             }
         }
 
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request );
 
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+        
         return $this->render('user/addAddress.html.twig', [
             'form' => $form->createView(),
-            'categoryVOs' => $categoryVOs
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 
     #[Route('/profile/editAddress/{id}', name: 'editAddress')]
-    public function editAddress(EntityManagerInterface $entityManager, Request $request, int $id): Response
+    public function editAddress(EntityManagerInterface $entityManager, Request $request, int $id, NavbarService $navbarService): Response
     {
 
         $addressVO = $entityManager->getRepository(Address::class)->findOneById($id);
@@ -73,11 +93,21 @@ class AddressController extends AbstractController
             return $this->redirectToRoute('showAddress');
         }
 
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request );
 
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+        
         return $this->render('user/addAddress.html.twig', [
             'form' => $form->createView(),
-            'categoryVOs' => $categoryVOs
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 

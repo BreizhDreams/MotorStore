@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Classe\Search;
+use App\Classe\SearchBar;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,19 +64,39 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('subCategoryVO', $search->subCategoryVOs);
         }
 
-        if (!empty($search->string)){
+        if (!empty($search->stringSearch)){
             $query = $query
-                -> andWhere('p.designation LIKE :string')
-                -> orWhere('b.name LIKE :string')
-                -> orWhere('c.designation LIKE :string')
-                -> orWhere('s.designation LIKE :string')
-                ->setParameter('string', "%{$search->string}%");
+                -> andWhere('p.designation LIKE :stringSearch')
+                -> orWhere('b.name LIKE :stringSearch')
+                -> orWhere('c.designation LIKE :stringSearch')
+                -> orWhere('s.designation LIKE :stringSearch')
+                ->setParameter('stringSearch', "%{$search->stringSearch}%");
         }
 
         if (!empty($search->brandVOs)){
             $query = $query
                 -> andWhere('b.id IN (:brandVO)')
                 ->setParameter('brandVO', $search->brandVOs);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function findWithSearchBar(SearchBar $searchBar){
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('c','p','b','s')
+            ->join('p.categoryVO','c')
+            ->join('p.brandVO','b')
+            ->join('p.subCategoryVO','s');
+
+        if (!empty($searchBar->search)){
+            $query = $query
+                -> andWhere('p.designation LIKE :search')
+                -> orWhere('b.name LIKE :search')
+                -> orWhere('c.designation LIKE :search')
+                -> orWhere('s.designation LIKE :search')
+                ->setParameter('search', "%{$searchBar->search}%");
         }
 
         return $query->getQuery()->getResult();

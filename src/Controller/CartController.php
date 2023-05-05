@@ -3,23 +3,32 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
-use App\Entity\Category;
-use App\Entity\Product;
+use App\Service\NavbarService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
 {
     #[Route('/cart', name: 'cart')]
-    public function index(Cart $cart, EntityManagerInterface $entityManager)
+    public function index(Cart $cart, EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService)
     {
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request);
 
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+        
         return $this->render('cart/showCart.html.twig', [
-            'categoryVOs' => $categoryVOs,
-            'cartVOs' => $cart->getFull()
+            'categoryVOs' => $navbar[0],
+            'cartVOs' => $cart->getFull(),
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 

@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
-use App\Entity\Category;
 use App\Entity\Order;
 use App\Entity\OrderDetails;
 use App\Form\OrderType;
+use App\Service\NavbarService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class OrderController extends AbstractController
 {
     #[Route('/order', name: 'order')]
-    public function index(EntityManagerInterface $entityManager, Cart $cartVO, Request $request): Response
+    public function index(EntityManagerInterface $entityManager, Cart $cartVO, Request $request, NavbarService $navbarService): Response
     {
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
-
         if (!$this->getUser()->getAddressVOs()->getValues()) {
             return $this->redirectToRoute('addAddress');
         }
@@ -29,17 +27,28 @@ class OrderController extends AbstractController
             'user' => $this->getUser()
         ]);
 
+        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+
         return $this->render('order/showOrder.html.twig', [
-            'categoryVOs' => $categoryVOs,
+            'categoryVOs' => $navbar[0],
             'form' => $form->createView(),
-            'cartVO' => $cartVO->getFull()
+            'cartVO' => $cartVO->getFull(),
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 
     #[Route('/order/recap', name: 'order_recap')]
-    public function add(EntityManagerInterface $entityManager, Cart $cartVO, Request $request): Response
+    public function add(EntityManagerInterface $entityManager, Cart $cartVO, Request $request, NavbarService $navbarService): Response
     {
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
 
         if (!$this->getUser()->getAddressVOs()->getValues()) {
             return $this->redirectToRoute('addAddress');
@@ -91,12 +100,24 @@ class OrderController extends AbstractController
 
             $entityManager->flush();
 
+            $navbar = $navbarService->getFullNavbar($entityManager , $request);
+
+            if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+                return $this->render('product/showAllProducts.html.twig',[
+                    'categoryVOs' => $navbar[0],
+                    'productVOs' => $navbar[3],
+                    'form' => $navbar[2]->createView(),
+                    'formMenu' => $navbar[1]->createView(),
+                ]);
+            }
+
             return $this->render('order/recapOrder.html.twig', [
-                'categoryVOs' => $categoryVOs,
+                'categoryVOs' => $navbar[0],
                 'cartVO' => $cartVO->getFull(),
                 'transporterVO' => $transporterVO,
                 'addressVO' => $addressVO_content,
-                'reference' => $orderVO->getReference()
+                'reference' => $orderVO->getReference(),
+                'formMenu' => $navbar[1]->createView(),
             ]);
         }
         // Redirect si l'utilisateur essaye d'afficher la page sans panier, transporteur, adresse, etc...

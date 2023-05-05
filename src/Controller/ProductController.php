@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Classe\Search;
-use App\Entity\Category;
 use App\Entity\Product;
-use App\Form\SearchType;
+use App\Service\NavbarService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
@@ -20,9 +18,19 @@ class ProductController extends AbstractController
      *  Dans l'url on retrouve le slug
      */
     #[Route('/product/{slug}', name: "voirProduit")]
-    public function showProduct(EntityManagerInterface $entityManager, $slug): Response
+    public function showProduct(EntityManagerInterface $entityManager, $slug, NavbarService $navbarService, HttpFoundationRequest $request): Response
     {
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+        
         $productVO = $entityManager->getRepository(Product::class)->findOneBySlug($slug);
         if(!$productVO){
             return $this->redirectToRoute('app_main');
@@ -31,9 +39,10 @@ class ProductController extends AbstractController
         $productVOs = $entityManager->getRepository(Product::class)->findByIsBest(1);
 
         return $this->render('product/showProduct.html.twig',[
-            'categoryVOs' => $categoryVOs,
+            'categoryVOs' => $navbar[0],
             'productVO' => $productVO,
-            'productVOs' => $productVOs
+            'productVOs' => $productVOs,
+            'formMenu' => $navbar[1]->createView(),
         ]);
     }
 
@@ -41,24 +50,33 @@ class ProductController extends AbstractController
      * Recherche tous les produits, si filtrage choisi par l'utilisateur alors recherche selon la requête de l'utilisateur. 
      */
     #[Route('products', name: 'app_products')]
-    public function showAllProducts(EntityManagerInterface $entityManager, HttpFoundationRequest $request): Response
+    public function showAllProducts(EntityManagerInterface $entityManager, HttpFoundationRequest $request, NavbarService $navbarService): Response
     {        
-        $search = new Search();
-        $form = $this->createForm(SearchType::class, $search);
-        $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            $productVOs = $entityManager->getRepository(Product::class)->findWithSearch($search);
-        }
-        else{
-            $productVOs = $entityManager->getRepository(Product::class)->findAll();
-        }
-        $categoryVOs = $entityManager->getRepository(Category::class)->findAll();
+        $navbar = $navbarService->getFullNavbar($entityManager , $request);
 
-        return $this->render('product/showAllProducts.html.twig',[
-            'categoryVOs' => $categoryVOs,
-            'productVOs' => $productVOs,
-            'form' => $form->createView(),
-        ]);
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        } else if($navbar[2]->isSubmitted() && $navbar[2]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        } else {
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+
     }
 }
