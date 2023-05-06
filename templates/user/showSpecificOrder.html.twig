@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Votre Commande - MotorStore {% endblock %}
+
+{% block body %}
+
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Votre Commande</h1>
+</div>
+{% block container %}
+<div class="container">
+    <h2>Commande n°{{orderVO.reference}}</h2>
+    <hr class="mb-5">
+    <div class="row mt-4">
+        <div class="col-md-5" style="text-align: left;">
+            <p>Date de la commande : <strong>{{orderVO.createdAt|date("d/m/Y")}}</strong></p>
+            <p>Réference : <strong>{{orderVO.reference}}</strong></p>
+            <p>Transporteur : <strong>{{orderVO.transporterName}}</strong></p>
+            <p>Adresse de livraison : <br><strong>{{orderVO.delivry|raw}}</strong></p>
+        </div>
+        <div class="col-md-7 ">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Nom du Produit</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Prix Unitaire</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for productVO in orderVO.orderDetails %}
+                    <tr>
+                      <td></td>
+                      <td><a href="">{{productVO.product}}</a></td>
+                      <td>{{productVO.quantity}}</td>
+                      <td>{{((productVO.price) / 100)|number_format(2,',',',')}} €</td>
+                      <td>{{(((productVO.price) / 100)*productVO.quantity)|number_format(2,',',',')}} €</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="mt-5" style="text-align: right;">
+        <p>Sous total :<strong> {{(orderVO.getTotal / 100)|number_format(2,',',',')}} €</strong></p>
+        <p>Livraison :<strong> {{(orderVO.transporterPrice /100)|number_format(2,',',',')}}€</strong>
+        </p>
+        <p>Total TTC :<strong> {{((orderVO.getTotal / 100)+ (orderVO.transporterPrice / 100))|number_format(2,',',',')}} €</strong>
+        </p>
+    </div>
+</div>
+{% endblock container %}
+
+{% endblock %}

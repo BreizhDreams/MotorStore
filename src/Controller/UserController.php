@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use App\Form\ChangePasswordType;
 use App\Service\NavbarService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,10 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
 
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/profile', name: 'profile')]
-    public function index(EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
+    public function index(Request $request, NavbarService $navbarService): Response
     {
-        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[
@@ -33,9 +39,9 @@ class UserController extends AbstractController
             'formMenu' => $navbar[1]->createView(),
         ]);
     }
-
+    
     #[Route('profile/password', name: 'editPassword')]
-    public function editPassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher, NavbarService $navbarService): Response
+    public function editPassword(Request $request, UserPasswordHasherInterface $hasher, NavbarService $navbarService): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(ChangePasswordType::class, $user);
@@ -46,10 +52,10 @@ class UserController extends AbstractController
             if ($hasher->isPasswordValid($user, $oldPassword )){
                 $newPassword = $form->get('new_password')->getData();
                 $password = $hasher->hashPassword($user, $newPassword);
-
+                
                 $user->setPassword($password);
-                $entityManager->persist($user);
-                $entityManager->flush();
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
                 
                 $this->addFlash(
                     'success',
@@ -65,9 +71,55 @@ class UserController extends AbstractController
                 );
             }
         }
+        
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
+        
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+        
+        return $this->render('user/password.html.twig',[
+            'form' => $form->createView(),
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
+        ]);
+    }
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+    #[Route('/profile/orders', name: 'showOrders')]
+    public function showOrders(Request $request, NavbarService $navbarService): Response
+    {
 
+        $orderVOs = $this->entityManager->getRepository(Order::class)->findSuccessOrders($this->getUser());
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
+    
+        if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
+            return $this->render('product/showAllProducts.html.twig',[
+                'categoryVOs' => $navbar[0],
+                'productVOs' => $navbar[3],
+                'form' => $navbar[2]->createView(),
+                'formMenu' => $navbar[1]->createView(),
+            ]);
+        }
+    
+        return $this->render('user/showOrders.html.twig',[
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
+            'orderVOs' => $orderVOs,
+        ]);
+    }
+
+    #[Route('/profile/orders/{reference}', name: 'showSpecificOrder')]
+    public function showOrder(Request $request, NavbarService $navbarService, $reference): Response
+    {
+
+        $orderVO = $this->entityManager->getRepository(Order::class)->findOneByReference($reference);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
+    
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[
                 'categoryVOs' => $navbar[0],
@@ -77,10 +129,14 @@ class UserController extends AbstractController
             ]);
         }
 
-        return $this->render('user/password.html.twig',[
-            'form' => $form->createView(),
+        if (!$orderVO || $orderVO->getUserVO() != $this->getUser()){
+            return $this->redirectToRoute('showOrders');
+        }
+    
+        return $this->render('user/showSpecificOrder.html.twig',[
             'categoryVOs' => $navbar[0],
             'formMenu' => $navbar[1]->createView(),
+            'orderVO' => $orderVO,
         ]);
     }
 }

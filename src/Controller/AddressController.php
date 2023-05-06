@@ -28,7 +28,7 @@ class AddressController extends AbstractController
             ]);
         }
 
-        return $this->render('user/address.html.twig', [
+        return $this->render('user/showAddress.html.twig', [
             'categoryVOs' => $navbar[0],
             'formMenu' => $navbar[1]->createView(),
 

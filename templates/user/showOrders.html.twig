@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Vos Commandes - MotorStore {% endblock %}
+
+{% block body %}
+
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Vos Commandes</h1>
+</div>
+{% block container %}
+<div class="container">
+    <div>
+        <h1 style="text-align: start; margin-left:10%">Bienvenue dans votre espace personnelle ! </h1>
+        <p style="text-align: start; margin-left:10%">C'est dans cette espace que vous allez pouvoir retrouver toutes
+            les informations concernant vos différentes commandes.</p>
+        <hr>
+        {% if orderVOs|length == 0 %}
+        <h6> Vous n'avez pour le moment passez aucune commande sur notre boutique ! </h6>
+        {% else %}
+        <div class="row mt-5">
+            <table class="table table-hover mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Passée le</th>
+                        <th scope="col">Référence</th>
+                        <th scope="col">Produits</th>
+                        <th scope="col">Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for orderVO in orderVOs %}
+                        {% if orderVO.isPaid == true %}
+                        <tr>
+                            <td>{{ orderVO.reference }}</td>
+                            <td>{{ orderVO.createdAt|date('d/m/y ') }}</td>
+                            <td>{{ orderVO.orderDetails|length }}</td>
+                            <td>{{((orderVO.transporterPrice + orderVO.getTotal) /100)|number_format(2,',',',')}} €</td>
+                            <td> <a class="btn btn-success" href="{{path('showSpecificOrder',{'reference': orderVO.reference})}}">Détails</a> </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock container %}
+
+{% endblock %}
