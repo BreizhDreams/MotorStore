@@ -1,20 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Votre Commande - MotorStore {% endblock %}
+{% block title %} Ma Commande - MotorStore {% endblock %}
 
 {% block body %}
 
 <div class="pageTitleDiv">
-    <h1 class="pageTitleH1">Votre Commande</h1>
-</div>
-<div>
-    <p style="text-align: left; margin-left:2em; font-size:smaller">
+    <h1 class="pageTitleH1">Ma Commande</h1>
+    <p class="pageTitleSummary" style="text-align: left; font-size:smaller">
         <a href="{{path('homePage')}}">Accueil</a> / 
         <a href="{{path('profile')}}">Mon Profil</a> / 
-        <a href="{{path('showOrders')}}">Mes Commandes</a> / 
-        <a href="{{path('showSpecificOrder',{'reference': orderVO.reference})}}">Commande n°{{orderVO.reference}}</a>
+        <a href="{{path('showOrders')}}">Mes Commandes</a>
     </p>
-    <hr class="mb-1">
 </div>
 {% block container %}
 <div class="container">

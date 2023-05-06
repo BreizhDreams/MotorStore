@@ -4,6 +4,10 @@
 {% block body %}
 <div class="pageTitleDiv">
     <h1 class="pageTitleH1">{{ subCategoryVO.designation }}</h1>
+    <p class="pageTitleSummary" style="text-align: left; font-size:smaller">
+        <a href="{{path('homePage')}}">Accueil</a> / 
+        <a href="{{path('showCategory',{'slug' : subCategoryVO.categoryVO.slug})}}">{{subCategoryVO.categoryVO}}</a>
+    </p>
 </div>
 {% block container %}
     <div class="container">

@@ -4,6 +4,9 @@
 {% block body %}
     <div class="pageTitleDiv">
         <h1 class="pageTitleH1">{{ categoryVO.designation}}</h1>
+        <p class="pageTitleSummary" style="text-align: left; font-size:smaller">
+            <a href="{{path('homePage')}}">Accueil</a>
+        </p>
     </div>
     {% block container %}
         <div class="container">

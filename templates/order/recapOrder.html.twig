@@ -2,11 +2,16 @@
 {% block javascript %} 
     <script src="https://js.stripe.com/v3/"></script> 
 {% endblock %}
-{% block title %}Paiement - MotorStore{% endblock %}
+{% block title %}Validation - MotorStore{% endblock %}
 
 {% block body %}
 <div class="pageTitleDiv">
-    <h1 class="pageTitleH1">Récapitulatif de la Commande</h1>
+    <h1 class="pageTitleH1">Validation de la Commande</h1>
+    <p class="pageTitleSummary" style="text-align: left; font-size:smaller">
+        <a href="{{path('homePage')}}">Accueil</a> / 
+        <a href="{{path('showCart')}}">Mon Panier</a> /
+        <a href="{{path('showOrder')}}">Adresse et Transporteur</a>
+    </p>
 </div>  
     {% block container %}
         <div class="container">

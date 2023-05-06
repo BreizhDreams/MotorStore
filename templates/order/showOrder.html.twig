@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Valider ma commande - MotorStore{% endblock %}
+{% block title %}Adresse et Transporteur - MotorStore{% endblock %}
 
 {% block body %}
 <div class="pageTitleDiv">
-    <h1 class="pageTitleH1">Votre Commande</h1>
+    <h1 class="pageTitleH1">Adresse et Transporteur</h1>
+    <p class="pageTitleSummary" style="text-align: left; font-size:smaller">
+        <a href="{{path('homePage')}}">Accueil</a> / 
+        <a href="{{path('showCart')}}">Mon Panier</a>
+    </p>
 </div>
     {% block container %}
     <div class="container">
