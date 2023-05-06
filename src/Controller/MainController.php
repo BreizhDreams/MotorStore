@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/ ', name: 'app_main')]
+    #[Route('/ ', name: 'homePage')]
     public function index(EntityManagerInterface $entityManager, NavbarService $navbarService, Request $request): Response
     {
         $productVOs = $entityManager->getRepository(Product::class)->findByIsBest(1);

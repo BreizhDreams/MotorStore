@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-6">
                 {% set formHtml %}
-                {{form_start(form, {action: path('order_recap')})}}
+                {{form_start(form, {action: path('showOrderRecap')})}}
                     {{form_label(form.Adresses,'Choisissez votre Adresse de Livraison:')}}
                         <br/><a href="path:{{'addAddress'}}">Ajouter une adresse</a>
                     {{form_end(form)}}

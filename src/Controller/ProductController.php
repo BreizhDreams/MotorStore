@@ -17,7 +17,7 @@ class ProductController extends AbstractController
      *  Fonction qui renvoi le produit qui a été sélectionner par l'utilisateur
      *  Dans l'url on retrouve le slug
      */
-    #[Route('/product/{slug}', name: "voirProduit")]
+    #[Route('/product/{slug}', name: "showProduct")]
     public function showProduct(EntityManagerInterface $entityManager, $slug, NavbarService $navbarService, HttpFoundationRequest $request): Response
     {
         $navbar = $navbarService->getFullNavbar($entityManager , $request );
@@ -33,7 +33,7 @@ class ProductController extends AbstractController
         
         $productVO = $entityManager->getRepository(Product::class)->findOneBySlug($slug);
         if(!$productVO){
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('homePage');
         }
 
         $productVOs = $entityManager->getRepository(Product::class)->findByIsBest(1);
@@ -49,7 +49,7 @@ class ProductController extends AbstractController
     /**
      * Recherche tous les produits, si filtrage choisi par l'utilisateur alors recherche selon la requête de l'utilisateur. 
      */
-    #[Route('products', name: 'app_products')]
+    #[Route('products', name: 'showFilteredProducts')]
     public function showAllProducts(EntityManagerInterface $entityManager, HttpFoundationRequest $request, NavbarService $navbarService): Response
     {        
 

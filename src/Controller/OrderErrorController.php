@@ -12,13 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderErrorController extends AbstractController
 {
-    #[Route('/order/error/{stripeSessionId}', name: 'app_order_error')]
+    #[Route('/order/error/{stripeSessionId}', name: 'orderError')]
     public function index(EntityManagerInterface $entityManager, $stripeSessionId, Request $request, NavbarService $navbarService): Response
     {
         $orderVO = $entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
         if (!$orderVO || $orderVO->getUserVO() != $this->getUser()){
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('homePage');
         }
 
         $navbar = $navbarService->getFullNavbar($entityManager , $request);

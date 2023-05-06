@@ -26,7 +26,7 @@
                     {% for cartVO in cartVOs %}
             
                     <tr class="text-center">
-                        <a href="{{ path('voirProduit',{'slug' : cartVO.productVO.slug}) }}">
+                        <a href="{{ path('showProduct',{'slug' : cartVO.productVO.slug}) }}">
                             <th><img src="/uploads/{{cartVO.productVO.photoURL}}" alt="{{cartVO.productVO.designation}}"
                                     style="height: 75px"></th>
                             <td>{{cartVO.productVO.designation}}</td>
@@ -34,11 +34,11 @@
                             <td>{{cartVO.quantity}}</td>
                             <td>{{((cartVO.quantity * cartVO.productVO.prixTTC) /100)|number_format(2,',',',')}} €</td>
                             <td>
-                                <a href="{{ path("cart_add", {id : cartVO.productVO.id}) }}" class="btn btn-success"><i
+                                <a href="{{ path("addToCart", {id : cartVO.productVO.id}) }}" class="btn btn-success"><i
                                         class="fa-solid fa-plus"></i></a>
-                                <a href="{{ path("cart_remove", {id : cartVO.productVO.id}) }}" class="btn btn-warning"><i
+                                <a href="{{ path("removeFromCart", {id : cartVO.productVO.id}) }}" class="btn btn-warning"><i
                                         class="fa-solid fa-minus"></i></a>
-                                <a href="{{ path("cart_delete", {id : cartVO.productVO.id}) }}" class="btn btn-danger"><i
+                                <a href="{{ path("deleteCart", {id : cartVO.productVO.id}) }}" class="btn btn-danger"><i
                                         class="fa-solid fa-trash"></i></a>
                             </td>
                         </a>
@@ -62,7 +62,7 @@
                 <b>Nombre de Produits : {{cartVOs|length}} </b><br>
                 <b>Nombre d'Articles : {{articleNb}} </b><br>
                 <b>Total de mon panier : {{(total / 100)|number_format(2,',',',')}} €</b><br>
-                <a href="{{path('order')}}" class="btn btn-success btn-block mt-3">Valider mon Panier</a>
+                <a href="{{path('showOrder')}}" class="btn btn-success btn-block mt-3">Valider mon Panier</a>
             </div>
             {% endif %}
         </div>

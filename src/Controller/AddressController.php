@@ -51,7 +51,7 @@ class AddressController extends AbstractController
             $entityManager->flush();
 
             if ($cartVO->get()) {
-                return $this->redirectToRoute('order');
+                return $this->redirectToRoute('showOrder');
             } else {
                 return $this->redirectToRoute('showAddress');
             }

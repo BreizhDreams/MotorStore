@@ -7,6 +7,15 @@
 <div class="pageTitleDiv">
     <h1 class="pageTitleH1">Votre Commande</h1>
 </div>
+<div>
+    <p style="text-align: left; margin-left:2em; font-size:smaller">
+        <a href="{{path('homePage')}}">Accueil</a> / 
+        <a href="{{path('profile')}}">Mon Profil</a> / 
+        <a href="{{path('showOrders')}}">Mes Commandes</a> / 
+        <a href="{{path('showSpecificOrder',{'reference': orderVO.reference})}}">Commande n°{{orderVO.reference}}</a>
+    </p>
+    <hr class="mb-1">
+</div>
 {% block container %}
 <div class="container">
     <h2>Commande n°{{orderVO.reference}}</h2>

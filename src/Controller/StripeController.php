@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StripeController extends AbstractController
 {
-    #[Route('/order/createSession/{reference}', name: 'stripe_create_session')]
+    #[Route('/order/createSession/{reference}', name: 'createStripeSession')]
     public function index(EntityManagerInterface $entityManager, Cart $cartVO, $reference)
     {
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
@@ -21,7 +21,7 @@ class StripeController extends AbstractController
         // Récupération de l'objet Order par la référence de la commande
         $orderVO = $entityManager->getRepository(Order::class)->findOneByReference($reference);
         if (!$orderVO){
-            return $this->redirectToRoute('order');
+            return $this->redirectToRoute('showOrder');
         }
 
         // Order Products

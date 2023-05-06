@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
 
-    #[Route('/category/{slug}', name: "voirCategorie")]
+    #[Route('/category/{slug}', name: "showCategory")]
     public function showCategory(EntityManagerInterface $entityManager, $slug, Request $request, NavbarService $navbarService): Response
     {
         $categoryVO = $entityManager->getRepository(Category::class)->findOneBySlug($slug);

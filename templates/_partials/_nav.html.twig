@@ -2,7 +2,7 @@
     <div class="row collapse navbar-collapse" id="navbarSupportedContent">
         <div class="col-md-1">
             <h4>
-                <a class="logoHome" href="{{ path('app_main') }}">Motor'Store</a>
+                <a class="logoHome" href="{{ path('homePage') }}">Motor'Store</a>
             </h4>
         </div>
         <div class="col-md-5">
@@ -13,11 +13,11 @@
                         <h5 class="nav-link" style="display: inline-block">{{categoryVO.designation}}</h5>
                     </a>
                     <ul class="dropdown-menu ">
-                        <li><a class="dropdown-item nav-link" href="{{path('voirCategorie', {'slug' : categoryVO.slug })}}">{{categoryVO.designation}}</a></li>
+                        <li><a class="dropdown-item nav-link" href="{{path('showCategory', {'slug' : categoryVO.slug })}}">{{categoryVO.designation}}</a></li>
                         <hr style="margin: 0;">
                         {% for subCategoryVO in categoryVO.subCategoriesVOs %}
                         <li><a class="dropdown-item nav-link"
-                                href="{{path('voirSousCategorie', {'slug' : subCategoryVO.slug })}}">{{subCategoryVO.designation}}</a>
+                                href="{{path('showSubCategory', {'slug' : subCategoryVO.slug })}}">{{subCategoryVO.designation}}</a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -50,7 +50,7 @@
                             <a class="nav-link" href="{{ path('profile') }}">Mon Compte</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('voirProgFidelite')}}">Fideli'trip</a>
+                            <a class="nav-link" href="{{ path('showFidelityProgram')}}">Fideli'trip</a>
                         </li>
                         {% if app.user.roles[0] == "ROLE_ADMIN" %}
                         <li class="nav-item">
@@ -58,20 +58,20 @@
                         </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                            <a class="nav-link" href="{{ path('logOut') }}">Déconnexion</a>
                         </li>
                     </ul>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                    <a class="nav-link" href="{{ path('logIn') }}">Connexion</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+                    <a class="nav-link" href="{{ path('registration') }}">Inscription</a>
                 </li>
                 {% endif %}
                 <li class="nav-item mt-2">
-                    <a href="{{ path('cart') }}">
+                    <a href="{{ path('showCart') }}">
                         <i class="fa-solid fa-cart-shopping" style="font-size: 150%;"></i>
                     </a>
                 </li>

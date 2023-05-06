@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
 {
-    #[Route('/cart', name: 'cart')]
+    #[Route('/showCart', name: 'showCart')]
     public function index(Cart $cart, EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService)
     {
         $navbar = $navbarService->getFullNavbar($entityManager , $request);
@@ -32,26 +32,26 @@ class CartController extends AbstractController
         ]);
     }
 
-    #[Route('cart/add/{id}', name: 'cart_add')]
+    #[Route('cart/add/{id}', name: 'addToCart')]
     public function addToCart(Cart $cart, $id)
     {
         $cart->add($id);
 
-        return $this->redirectToRoute('cart');
+        return $this->redirectToRoute('showCart');
     }
 
-    #[Route('cart/remove/{id}', name: 'cart_remove')]
+    #[Route('cart/remove/{id}', name: 'removeFromCart')]
     public function removeCart(Cart $cart, $id)
     {
         $cart->remove($id);
 
-        return $this->redirectToRoute('cart');
+        return $this->redirectToRoute('showCart');
     }
 
-    #[Route('cart/delete', name: 'cart_delete')]
+    #[Route('cart/delete', name: 'deleteCart')]
     public function deleteCart(Cart $cart)
     {
         $cart->delete();
-        return $this->redirectToRoute('cart');
+        return $this->redirectToRoute('showCart');
     }
 }

@@ -16,10 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
-    #[Route('/order', name: 'order')]
+    #[Route('/order', name: 'showOrder')]
     public function index(EntityManagerInterface $entityManager, Cart $cartVO, Request $request, NavbarService $navbarService): Response
     {
         if (!$this->getUser()->getAddressVOs()->getValues()) {
+            dd();
             return $this->redirectToRoute('addAddress');
         }
 
@@ -37,6 +38,10 @@ class OrderController extends AbstractController
                 'formMenu' => $navbar[1]->createView(),
             ]);
         }
+        if (!$cartVO->getFull()){
+            dd($cartVO->getFull());
+            return $this->redirectToRoute('homePage');
+        }
 
         return $this->render('order/showOrder.html.twig', [
             'categoryVOs' => $navbar[0],
@@ -46,7 +51,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/order/recap', name: 'order_recap')]
+    #[Route('/order/recap', name: 'showOrderRecap')]
     public function add(EntityManagerInterface $entityManager, Cart $cartVO, Request $request, NavbarService $navbarService): Response
     {
 
@@ -120,7 +125,8 @@ class OrderController extends AbstractController
                 'formMenu' => $navbar[1]->createView(),
             ]);
         }
+        dd();
         // Redirect si l'utilisateur essaye d'afficher la page sans panier, transporteur, adresse, etc...
-        return $this->redirectToRoute('cart');
+        return $this->redirectToRoute('homePage');
     }
 }

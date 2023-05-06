@@ -13,13 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderSuccessController extends AbstractController
 {
-    #[Route('/order/success/{stripeSessionId}', name: 'app_order_success')]
+    #[Route('/order/success/{stripeSessionId}', name: 'orderSuccess')]
     public function index(EntityManagerInterface $entityManager,Cart $cartVO ,$stripeSessionId, Request $request, NavbarService $navbarService): Response
     {
         $orderVO = $entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
         if (!$orderVO || $orderVO->getUserVO() != $this->getUser()){
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('homePage');
         }
 
         if (!$orderVO->isIsPaid()) {

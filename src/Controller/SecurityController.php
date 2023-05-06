@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
+    #[Route(path: '/login', name: 'logIn')]
     public function login(AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
     {
         $navbar = $navbarService->getFullNavbar($entityManager , $request);
@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
         }
 
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_main',[
+            return $this->redirectToRoute('homePage',[
                 'categoryVOs' => $navbar[0],
                 'formMenu' => $navbar[1]->createView(),
             ]);
@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
             ]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
+    #[Route(path: '/logout', name: 'logOut')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

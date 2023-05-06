@@ -43,7 +43,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::section('Navigation');
         yield MenuItem::linkToDashboard('Accueil du Panel', 'fa fa-home');
-        yield MenuItem::linkToRoute('Quitter le panel Admin', 'fa fa-arrow-left', 'app_main');
+        yield MenuItem::linkToRoute('Quitter le panel Admin', 'fa fa-arrow-left', 'homePage');
 
         yield MenuItem::linkToCrud('Utilisateur', 'fas fa-add', User::class);
         yield MenuItem::linkToCrud('Commandes', 'fas fa-add', Order::class);

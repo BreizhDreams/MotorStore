@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FidelityCardController extends AbstractController
 {
-    #[Route('/fidelity_card/show', name: 'voirProgFidelite')]
+    #[Route('/fidelity_card/show', name: 'showFidelityProgram')]
     public function index(EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
     {
         $navbar = $navbarService->getFullNavbar($entityManager , $request);

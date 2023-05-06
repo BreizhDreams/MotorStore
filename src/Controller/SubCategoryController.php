@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SubCategoryController extends AbstractController
 {
 
-    #[Route('/sub/category/{slug}', name: "voirSousCategorie")]
+    #[Route('/sub/category/{slug}', name: "showSubCategory")]
     public function showSubCategory(EntityManagerInterface $entityManager, $slug, NavbarService $navbarService, Request $request): Response
     {
 
