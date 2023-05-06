@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Classe\Cart;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
@@ -12,14 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StripeController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/order/createSession/{reference}', name: 'createStripeSession')]
-    public function index(EntityManagerInterface $entityManager, Cart $cartVO, $reference)
+    public function index($reference)
     {
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
         $stripeProduct = [];
         
         // Récupération de l'objet Order par la référence de la commande
-        $orderVO = $entityManager->getRepository(Order::class)->findOneByReference($reference);
+        $orderVO = $this->entityManager->getRepository(Order::class)->findOneByReference($reference);
         if (!$orderVO){
             return $this->redirectToRoute('showOrder');
         }
@@ -65,7 +69,7 @@ class StripeController extends AbstractController
         ]);
         
         $orderVO->setStripeSessionId($checkout_session->id);
-        $entityManager->flush();
+        $this->entityManager->flush();
 
         header("HTTP/1.1 303 See Other");
         header("Location: " . $checkout_session->url);

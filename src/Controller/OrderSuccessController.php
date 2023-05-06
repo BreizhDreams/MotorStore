@@ -13,10 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderSuccessController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/order/success/{stripeSessionId}', name: 'orderSuccess')]
-    public function index(EntityManagerInterface $entityManager,Cart $cartVO ,$stripeSessionId, Request $request, NavbarService $navbarService): Response
+    public function index(Cart $cartVO ,$stripeSessionId, Request $request, NavbarService $navbarService): Response
     {
-        $orderVO = $entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
+        $orderVO = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
         if (!$orderVO || $orderVO->getUserVO() != $this->getUser()){
             return $this->redirectToRoute('homePage');
@@ -25,10 +30,10 @@ class OrderSuccessController extends AbstractController
         if (!$orderVO->isIsPaid()) {
             $cartVO->delete();
             $orderVO->setIsPaid(1);
-            $entityManager->flush();
+            $this->entityManager->flush();
         }
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

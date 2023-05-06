@@ -12,16 +12,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderErrorController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/order/error/{stripeSessionId}', name: 'orderError')]
-    public function index(EntityManagerInterface $entityManager, $stripeSessionId, Request $request, NavbarService $navbarService): Response
+    public function index($stripeSessionId, Request $request, NavbarService $navbarService): Response
     {
-        $orderVO = $entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
+        $orderVO = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
         if (!$orderVO || $orderVO->getUserVO() != $this->getUser()){
             return $this->redirectToRoute('homePage');
         }
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

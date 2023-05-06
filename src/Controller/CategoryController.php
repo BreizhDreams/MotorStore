@@ -12,13 +12,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
 
     #[Route('/category/{slug}', name: "showCategory")]
-    public function showCategory(EntityManagerInterface $entityManager, $slug, Request $request, NavbarService $navbarService): Response
+    public function showCategory($slug, Request $request, NavbarService $navbarService): Response
     {
-        $categoryVO = $entityManager->getRepository(Category::class)->findOneBySlug($slug);
+        $categoryVO = $this->entityManager->getRepository(Category::class)->findOneBySlug($slug);
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

@@ -15,9 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
-{
+{   
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/order', name: 'showOrder')]
-    public function index(EntityManagerInterface $entityManager, Cart $cartVO, Request $request, NavbarService $navbarService): Response
+    public function index(Cart $cartVO, Request $request, NavbarService $navbarService): Response
     {
         if (!$this->getUser()->getAddressVOs()->getValues()) {
             dd();
@@ -28,7 +33,7 @@ class OrderController extends AbstractController
             'user' => $this->getUser()
         ]);
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[
@@ -52,7 +57,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/recap', name: 'showOrderRecap')]
-    public function add(EntityManagerInterface $entityManager, Cart $cartVO, Request $request, NavbarService $navbarService): Response
+    public function add(Cart $cartVO, Request $request, NavbarService $navbarService): Response
     {
 
         if (!$this->getUser()->getAddressVOs()->getValues()) {
@@ -90,7 +95,7 @@ class OrderController extends AbstractController
             $orderVO->setDelivry($addressVO_content);
             $orderVO->setIsPaid(0);
 
-            $entityManager->persist($orderVO);
+            $this->entityManager->persist($orderVO);
 
             // Créer le détail de la commande avec les produits / Quantité / Montant / Montant Total
             foreach ($cartVO->getFull() as $productVO) {
@@ -100,12 +105,12 @@ class OrderController extends AbstractController
                 $orderDetailsVO->setQuantity($productVO['quantity']);
                 $orderDetailsVO->setPrice($productVO['productVO']->getPrixTTC());
                 $orderDetailsVO->setTotal($productVO['productVO']->getPrixTTC() * $productVO['quantity']);
-                $entityManager->persist($orderDetailsVO);
+                $this->entityManager->persist($orderDetailsVO);
             }
 
-            $entityManager->flush();
+            $this->entityManager->flush();
 
-            $navbar = $navbarService->getFullNavbar($entityManager , $request);
+            $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
             if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
                 return $this->render('product/showAllProducts.html.twig',[

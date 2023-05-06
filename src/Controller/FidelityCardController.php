@@ -11,10 +11,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FidelityCardController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/fidelity_card/show', name: 'showFidelityProgram')]
-    public function index(EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
+    public function index( Request $request, NavbarService $navbarService): Response
     {
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

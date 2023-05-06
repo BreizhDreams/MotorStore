@@ -12,10 +12,15 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route(path: '/login', name: 'logIn')]
-    public function login(AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
+    public function login(AuthenticationUtils $authenticationUtils, Request $request, NavbarService $navbarService): Response
     {
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

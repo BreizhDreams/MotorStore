@@ -16,14 +16,19 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/register', name: 'registration')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager, NavbarService $navbarService): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, NavbarService $navbarService): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $searchEmail = $entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
+            $searchEmail = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
 
             if (!$searchEmail) {
                 // encode the plain password
@@ -34,8 +39,8 @@ class RegistrationController extends AbstractController
                         )
                     );
                     
-                $entityManager->persist($user);
-                $entityManager->flush();
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
                 // do anything else you need here, like send an email
                 $notifications = 'Votre inscription s\'est correctement déroulé. Vous pouvez des à présent vous connecter à votre compte.';
 
@@ -51,7 +56,7 @@ class RegistrationController extends AbstractController
             }
         }
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

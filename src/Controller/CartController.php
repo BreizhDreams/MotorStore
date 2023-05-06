@@ -11,10 +11,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/showCart', name: 'showCart')]
-    public function index(Cart $cart, EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService)
+    public function index(Cart $cart, Request $request, NavbarService $navbarService)
     {
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

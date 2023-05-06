@@ -14,10 +14,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AddressController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/profile/address', name: 'showAddress')]
-    public function index(EntityManagerInterface $entityManager, Request $request, NavbarService $navbarService): Response
+    public function index(Request $request, NavbarService $navbarService): Response
     {
-        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[
@@ -36,7 +41,7 @@ class AddressController extends AbstractController
     }
 
     #[Route('/profile/addAddress', name: 'addAddress')]
-    public function addAddress(EntityManagerInterface $entityManager, Request $request, Cart $cartVO, NavbarService $navbarService): Response
+    public function addAddress(Request $request, Cart $cartVO, NavbarService $navbarService): Response
     {
 
         $addressVO = new Address();
@@ -47,8 +52,8 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $addressVO->setUserVO($this->getUser());
 
-            $entityManager->persist($addressVO);
-            $entityManager->flush();
+            $this->entityManager->persist($addressVO);
+            $this->entityManager->flush();
 
             if ($cartVO->get()) {
                 return $this->redirectToRoute('showOrder');
@@ -57,7 +62,7 @@ class AddressController extends AbstractController
             }
         }
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[
@@ -76,10 +81,10 @@ class AddressController extends AbstractController
     }
 
     #[Route('/profile/editAddress/{id}', name: 'editAddress')]
-    public function editAddress(EntityManagerInterface $entityManager, Request $request, int $id, NavbarService $navbarService): Response
+    public function editAddress(Request $request, int $id, NavbarService $navbarService): Response
     {
 
-        $addressVO = $entityManager->getRepository(Address::class)->findOneById($id);
+        $addressVO = $this->entityManager->getRepository(Address::class)->findOneById($id);
         if (!$addressVO || $addressVO->getUserVO()  != $this->getUser()) {
             return $this->redirectToRoute('showAddress');
         }
@@ -88,12 +93,12 @@ class AddressController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('showAddress');
         }
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[
@@ -112,13 +117,13 @@ class AddressController extends AbstractController
     }
 
     #[Route('/profile/removeAddress/{id}', name: 'removeAddress')]
-    public function removeAddress(EntityManagerInterface $entityManager, $id): Response
+    public function removeAddress($id): Response
     {
-        $addressVO = $entityManager->getRepository(Address::class)->findOneById($id);
+        $addressVO = $this->entityManager->getRepository(Address::class)->findOneById($id);
 
         if ($addressVO && $addressVO->getUserVO() == $this->getUser()) {
-            $entityManager->remove($addressVO);
-            $entityManager->flush();
+            $this->entityManager->remove($addressVO);
+            $this->entityManager->flush();
         }
         return $this->redirectToRoute('showAddress');
     }

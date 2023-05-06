@@ -13,13 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/ ', name: 'homePage')]
-    public function index(EntityManagerInterface $entityManager, NavbarService $navbarService, Request $request): Response
-    {
-        $productVOs = $entityManager->getRepository(Product::class)->findByIsBest(1);
-        $headerVOs = $entityManager->getRepository(Header::class)->findAll();
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request);
+    #[Route('/ ', name: 'homePage')]
+    public function index(NavbarService $navbarService, Request $request): Response
+    {
+        $productVOs = $this->entityManager->getRepository(Product::class)->findByIsBest(1);
+        $headerVOs = $this->entityManager->getRepository(Header::class)->findAll();
+
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request);
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[

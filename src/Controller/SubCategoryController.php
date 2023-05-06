@@ -12,14 +12,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SubCategoryController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
 
     #[Route('/sub/category/{slug}', name: "showSubCategory")]
-    public function showSubCategory(EntityManagerInterface $entityManager, $slug, NavbarService $navbarService, Request $request): Response
+    public function showSubCategory($slug, NavbarService $navbarService, Request $request): Response
     {
 
-        $subCategoryVO = $entityManager->getRepository(SubCategory::class)->findOneBySlug($slug);
+        $subCategoryVO = $this->entityManager->getRepository(SubCategory::class)->findOneBySlug($slug);
 
-        $navbar = $navbarService->getFullNavbar($entityManager , $request );
+        $navbar = $navbarService->getFullNavbar($this->entityManager , $request );
 
         if($navbar[1]->isSubmitted() && $navbar[1]->isValid()){
             return $this->render('product/showAllProducts.html.twig',[
