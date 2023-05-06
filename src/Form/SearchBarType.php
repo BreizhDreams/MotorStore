@@ -26,7 +26,7 @@ class SearchBarType extends AbstractType
             ->add('submit', SubmitType::class,[
                 'label' => 'Rechercher',
                 'attr' => [
-                    'class' => 'btn btn-block btn-success'
+                    'class' => 'btn btn-block btn-dark'
                 ]
                 ]);
     }

@@ -50,6 +50,7 @@ class NavbarService extends AbstractController
         //  FORMULAIRE DE FILTRAGE DANS LA PAGE PRODUIT SAISIE PAR L'UTILISATEUR
         if($form->isSubmitted() && $form->isValid()){
             $productVOs = $entityManager->getRepository(Product::class)->findWithSearch($search);
+            $result[] = $productVOs;
         }
         else{
             $productVOs = $entityManager->getRepository(Product::class)->findAll();
