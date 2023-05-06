@@ -22,23 +22,20 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('firstName',TextType::class,[
+            'attr' => [
+                'class' => 'form-control'
+            ],
+            'label' => 'Prénom'
+
+            ])
             ->add('lastName', TextType::class,[
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'label' => 'Nom de Famille'
             ])
-            ->add('firstName',TextType::class,[
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Prénom'
-
-            ])
             ->add('birthDate',BirthdayType::class,[
-                'attr' => [
-                    'class' => 'form-control'
-                ],
                 'label' => 'Date de Naissance'
 
             ])
@@ -120,11 +117,6 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new Length([
-                        'min' => 8,
-                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères',
-                        'max' => 100,
-                    ]),
                     new Regex([
                         'pattern' => "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,100}$/",
                         'message' => 'Le mot de passe doit au minimum contenir 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spéciale.'

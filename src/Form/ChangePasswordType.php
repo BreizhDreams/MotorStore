@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ChangePasswordType extends AbstractType
 {
@@ -72,10 +73,9 @@ class ChangePasswordType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new Length([
-                        'min' => 8,
-                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères',
-                        'max' => 100,
+                    new Regex([
+                        'pattern' => "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,100}$/",
+                        'message' => 'Le mot de passe doit au minimum contenir 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spéciale.'
                     ]),
                 ],
             ])
