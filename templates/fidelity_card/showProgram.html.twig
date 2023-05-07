@@ -5,7 +5,7 @@
 {% block body %}
 <div class="pageTitleDiv">
     <h1 class="pageTitleH1">Fideli'Trip</h1>
-    <p class="pageTitleSummary" style="text-align: left; font-size:smaller">
+    <p class="pageTitleSummary" >
         <a href="{{path('homePage')}}">Accueil</a> 
     </p>
 </div>
@@ -36,7 +36,7 @@
                 achats !
                 Une seule remarque : vous avez besoin d’avoir créé un compte et d’être connecté(e) pour cumuler vos
                 points et en profiter lors de votre achat suivant !</p>
-            <button class="btn btn-dark"> Rejoindre le Programme de Fidélité</button>
+            <a href="{{path('showFidelityBonus')}}" class="btn btn-dark"> Rejoindre le Programme de Fidélité</a>
         </div>
     </div>
 </div>

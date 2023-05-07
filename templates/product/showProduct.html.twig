@@ -4,7 +4,7 @@
 {% block body %}
 <div class="pageTitleDiv">
   <h1 class="pageTitleH1">{{ productVO.designation }}</h1>
-  <p class="pageTitleSummary" style="text-align: left; font-size:smaller">
+  <p class="pageTitleSummary" >
       <a href="{{path('homePage')}}">Accueil</a> / 
       <a href="{{path('showCategory',{'slug' : productVO.categoryVO.slug})}}">{{productVO.categoryVO}}</a> /
       <a href="{{path('showSubCategory',{'slug' : productVO.subCategoryVO.slug})}}">{{productVO.subCategoryVO}}</a>
