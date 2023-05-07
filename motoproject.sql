@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 23 avr. 2023 à 12:41
+-- Généré le : dim. 07 mai 2023 à 14:34
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.2.0
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D4E6F81A837E25D` (`user_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `address`
@@ -50,11 +50,11 @@ CREATE TABLE IF NOT EXISTS `address` (
 
 INSERT INTO `address` (`id`, `user_vo_id`, `name`, `first_name`, `last_name`, `company`, `address`, `postal_code`, `city`, `country`, `phone`) VALUES
 (4, 1, 'Maison', 'François', 'BESNARD', NULL, '3 Rue des Epinais', '22600', 'La Motte', 'FR', '0665198741'),
-(5, 1, 'Orange', 'François', 'BESNARD', 'Orange', '2 Avenue Pierre Marzin', '22300', 'Lannion', 'FR', '0000000000'),
-(6, 1, 'Ploubezre', 'François', 'BESNARD', NULL, '23 Rue Joseph Lesbleiz', '22300', 'Ploubezre', 'FR', '0123456789'),
+(5, 1, 'Orange', 'François', 'BESNARD', 'Orange', '2 Avenue Pierre Marzin', '22300', 'Lannion', 'FR', '0123456789'),
 (8, 2, 'Maison', '12', '12', '12', '12', '1', '212', 'AF', '212'),
 (9, 2, 'Entreprise', '12', '12', '12121', '12', '1', '21212212', 'AF', '12121212'),
-(10, 2, 'Orange', 'Coucou', 'Coucou', 'Coucou', 'Coucou', '22600', 'Coucou', 'FR', 'Coucou');
+(10, 2, 'Orange', 'Coucou', 'Coucou', 'Coucou', 'Coucou', '22600', 'Coucou', 'FR', 'Coucou'),
+(11, 1, 'test', 'test', 'test', 'test', 'test', '22600', 'test', 'TW', '0123456789');
 
 -- --------------------------------------------------------
 
@@ -151,7 +151,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -161,12 +161,12 @@ CREATE TABLE IF NOT EXISTS `category` (
 --
 
 INSERT INTO `category` (`id`, `designation`, `description`, `slug`) VALUES
-(1, 'Casque', 'Le casque moto est incontestablement l’équipement le plus important. Chez MotorStore, nous savons que chaque motard à des besoins spécifiques, c’est pour cela que nous vous proposons une large gamme de casques. Vous recherchez un casque pour vous accompag', 'casque'),
-(2, 'Veste', 'Vous êtes à la recherche d’un blouson, d’une veste ou d’une combinaison ? Du blouson cuir au blouson textile en passant par la veste et la combinaison, chez MotorStore nous avons ce que vous recherchez ! Que ce soit pour une utilisation touring, route, ur', 'veste'),
-(3, 'Gants', 'Les gants moto sont le seul équipement obligatoire en plus du casque. Lors d\'un impact, ce sont probablement vos mains qui seront touchées en premier alors mieux vaut bien choisir vos gants! MotorStore propose une large gamme pour que vous trouviez les ga', 'gants'),
-(4, 'Pantalon', 'Le pantalon moto est souvent le dernier équipement dans lequel nous pensons à investir. Pourtant, lors d’une glissade, tout le côté latéral est touché. Alors il est important d’opter pour un pantalon hautement résistant à l’abrasion et aux déchirures. 3 t', 'pantalon'),
-(5, 'Chaussures', 'La vente de chaussures moto progresse en France. Et ce n\'est pas vraiment surprenant. Aujourd’hui, les codes esthétiques du secteur de la moto se rapprochent de plus en plus de ceux du prêt à porter. Il en devient même difficile de faire la différence ent', 'chaussures'),
-(6, 'Protections', 'Compétiteurs, pilotes sur piste, en position d’attaque sur votre moto vous aurez envie de prendre le point de corde en appui sur les genoux avec les protections sliders, d’enrhumer votre adversaire, mais attention à la gamelle, à la sortie de piste où un ', 'protections');
+(1, 'Casque', 'Le casque moto est incontestablement l’équipement le plus important. Chez MotorStore, nous savons que chaque motard à des besoins spécifiques, c’est pour cela que nous vous proposons une large gamme de casques. Vous recherchez un casque pour vous accompagner lors de vos longues balades ? Optez pour un intégral ! Vous êtres plutôt motard urbain ? Trouvez le jet qu’il vous faut ! Votre cœur balance entre les deux ? Dirigez-vous vers un modulable !', 'casque'),
+(2, 'Veste', 'Vous êtes à la recherche d’un blouson, d’une veste ou d’une combinaison ? Du blouson cuir au blouson textile en passant par la veste et la combinaison, chez Moto-Axxe nous avons ce que vous recherchez ! Que ce soit pour une utilisation touring, route, urbaine, piste, toutes les plus grandes marques sont chez MotorStore ! Alpinestars, Furygan, Bering, Ixon, Segura… Trouvez le produit qu’il vous faut !', 'veste'),
+(3, 'Gants', 'Les gants moto sont le seul équipement obligatoire en plus du casque. Lors d\'un impact, ce sont probablement vos mains qui seront touchées en premier alors mieux vaut bien choisir vos gants! Moto-Axxe propose une large gamme pour que vous trouviez les gants spécifiques à vos besoins. Gants chauffants, gants été, gants hiver, gants en cuir, gants textile... Les plus grandes marques sont chez Moto-Axxe ! Alpinestars, Furygan, Bering, Vquattro, Five...', 'gants'),
+(4, 'Pantalon', 'Le pantalon moto est souvent le dernier équipement dans lequel nous pensons à investir. Pourtant, lors d’une glissade, tout le côté latéral est touché. Alors il est important d’opter pour un pantalon hautement résistant à l’abrasion et aux déchirures. 3 types de pantalons : le textile, le cuir et le jeans classique.', 'pantalon'),
+(5, 'Chaussures', 'La vente de chaussures moto progresse en France. Et ce n\'est pas vraiment surprenant. Aujourd’hui, les codes esthétiques du secteur de la moto se rapprochent de plus en plus de ceux du prêt à porter. Il en devient même difficile de faire la différence entre une basket moto et une basket lambda. Néanmoins, les amateurs de grosses cylindrées ne sont pas laissés de côté  pour autant, les fabricants développent toujours des baskets et des bottes racing au design très affirmé incluant des renforts de plus en plus techniques pour une meilleure protection. Vous trouverez une large gamme de chaussures moto : bottes, bottines, baskets… et les plus grandes marques ! Alpinestars, TCX, Ixon, Furygan, Forma… sont chez Moto-Axxe !', 'chaussures'),
+(6, 'Protections', 'Compétiteurs, pilotes sur piste, en position d’attaque sur votre moto vous aurez envie de prendre le point de corde en appui sur les genoux avec les protections sliders, d’enrhumer votre adversaire, mais attention à la gamelle, à la sortie de piste où un airbag moto vous garantira une protection optimale… La sécurité est également primordiale pour les rouleurs sur route, se mettre au tas, prendre un faussé est une possibilité', 'protections');
 
 -- --------------------------------------------------------
 
@@ -232,7 +232,14 @@ CREATE TABLE IF NOT EXISTS `fidelity_card` (
   `reference` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_points` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `fidelity_card`
+--
+
+INSERT INTO `fidelity_card` (`id`, `reference`, `total_points`) VALUES
+(1, '6457b14cb6dca', 0);
 
 -- --------------------------------------------------------
 
@@ -256,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `header` (
 --
 
 INSERT INTO `header` (`id`, `title`, `btn_title`, `content`, `btn_url`, `image_url`) VALUES
-(1, 'Nos produits', 'Découvrir', 'Découvrez les produits des marques les plus grandes et les plus reconnus du monde de la moto.', '/products', 'road-trip-moto-ouest-americain-2.jpg'),
+(1, 'Nos produits', 'Découvrir', 'Découvrez les produits des marques les plus grandes et les plus reconnus du monde de la moto.', '/products', 'motorcycle.jpg'),
 (2, 'Fideli\'Trip', 'Rejoindre', 'Rejoignez notre programme de Fidélité et bénéficiez d\'avantages exceptionnels sur vos prochaines commandes !', '/fidelity_card/show', 'ktmMoto.jpg');
 
 -- --------------------------------------------------------
@@ -299,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   `stripe_session_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_F5299398A837E25D` (`user_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order`
@@ -307,7 +314,26 @@ CREATE TABLE IF NOT EXISTS `order` (
 
 INSERT INTO `order` (`id`, `user_vo_id`, `created_at`, `transporter_name`, `transporter_price`, `delivry`, `is_paid`, `reference`, `stripe_session_id`) VALUES
 (25, 1, '2023-04-23 12:28:43', 'Collisimo', 1000, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445247b4545f', 'cs_test_b1TaX3JaxoHQ8w9QLqcaHV71ejcPSTZeq9eyNNZOosroj4cbjoJNuLSOe1'),
-(26, 1, '2023-04-23 12:39:55', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445271bc5a2a', 'cs_test_b1nIAMTtMMa7MP9rHA9g4qN2vs4qngNjKM1AmiU6iykKs6GjrZsyULkuKE');
+(26, 1, '2023-04-23 12:39:55', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445271bc5a2a', 'cs_test_b1nIAMTtMMa7MP9rHA9g4qN2vs4qngNjKM1AmiU6iykKs6GjrZsyULkuKE'),
+(27, 1, '2023-04-30 17:10:54', 'La Poste', 499, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '30042023_644ea11ecd9fe', NULL),
+(28, 1, '2023-04-30 17:11:24', 'La Poste', 499, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '30042023_644ea13c538e5', NULL),
+(29, 1, '2023-05-04 09:22:12', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '04052023_645379443d2f3', 'cs_test_b1haOoxFyq5FeODGdEBXd0H3Y563e88tRjzKHMwUEc6rPQpBCfLokVoFG7'),
+(30, 1, '2023-05-04 09:39:17', 'Chronopost', 1500, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '04052023_64537d45afa7f', NULL),
+(31, 1, '2023-05-05 16:26:58', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '05052023_64552e529278d', 'cs_test_b10QWvEsHKJH82EwPVxP2cSv39u1pTf04wKEKvxevtZSnORVd92A1EP722'),
+(32, 1, '2023-05-05 16:29:12', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '05052023_64552ed8f0460', 'cs_test_b1PFynG9oMCVaLEjfhoBMvZOpb4sd9cSCjkYdlBDs0IyFVHCZZzOsULHXb'),
+(33, 1, '2023-05-06 14:17:13', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '06052023_6456616998836', 'cs_test_b1FoEeaDdkg8j9TUkZqa1dCOsLoaTgd788yMjvM7DS7yd16627OZM9NScP'),
+(34, 1, '2023-05-06 15:56:23', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645678a78a301', NULL),
+(35, 1, '2023-05-06 15:56:44', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645678bc10267', NULL),
+(36, 1, '2023-05-06 15:58:42', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64567932b17dc', NULL),
+(37, 1, '2023-05-06 16:02:11', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64567a03df20f', NULL),
+(38, 1, '2023-05-06 16:02:14', 'La Poste', 499, 'test test<br/>0123456789<br/>test<br/>test<br/>22600 test<br/>TW', 0, '06052023_64567a06d9f70', 'cs_test_b1zmj1kKXpTJohE7mbcySnQhdcUQnOqgVIPqSE0xFJ7wGjtfPduALjmU5Z'),
+(39, 1, '2023-05-06 17:22:07', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cbfbbf70', NULL),
+(40, 1, '2023-05-06 17:22:33', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cd98b647', NULL),
+(41, 1, '2023-05-06 17:23:00', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cf440cb3', NULL),
+(42, 1, '2023-05-06 17:44:10', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645691ea33357', NULL),
+(43, 1, '2023-05-06 17:44:32', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645692003393e', NULL),
+(44, 1, '2023-05-06 17:44:38', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_6456920660002', NULL),
+(45, 1, '2023-05-06 17:44:49', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64569211c8020', NULL);
 
 -- --------------------------------------------------------
 
@@ -325,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `total` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_845CA2C1C96B6DF8` (`order_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order_details`
@@ -334,7 +360,27 @@ CREATE TABLE IF NOT EXISTS `order_details` (
 INSERT INTO `order_details` (`id`, `order_vo_id`, `product`, `quantity`, `price`, `total`) VALUES
 (52, 25, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
 (53, 26, 'SMART JACKET', 1, 69995, 69995),
-(54, 26, 'ATOMIC', 1, 39995, 39995);
+(54, 26, 'ATOMIC', 1, 39995, 39995),
+(55, 27, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(56, 28, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(57, 29, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(58, 30, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(59, 31, 'ARGON', 1, 19995, 19995),
+(60, 32, 'ARGON', 1, 19995, 19995),
+(61, 33, 'SUPER SPEED 4', 2, 79995, 159990),
+(62, 33, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(63, 34, 'SKWAL 2 NOXXYS', 1, 29999, 29999),
+(64, 35, 'SKWAL 2 NOXXYS', 1, 29999, 29999),
+(65, 36, 'SKWAL 2 NOXXYS', 1, 29999, 29999),
+(66, 37, 'SKWAL 2 NOXXYS', 1, 29999, 29999),
+(67, 38, 'SKWAL 2 NOXXYS', 1, 29999, 29999),
+(68, 39, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(69, 40, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(70, 41, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(71, 42, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(72, 43, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(73, 44, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(74, 45, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990);
 
 -- --------------------------------------------------------
 
@@ -430,7 +476,7 @@ INSERT INTO `product` (`id`, `category_vo_id`, `brand_vo_id`, `designation`, `pr
 (65, 3, 10, 'IT-ASO', 31999, 'none-9595881a5631a3139c23e9227dd14dd6-9595881.jpg', 11, 'it-aso', 'Gants chauffants en cuir IXON IT-ASO. Construction en cuir de chèvre, Neoprène et softshell sur le dos. Insert étanche et respirant. Doublure chaude Primaloft One®. Isolant aluminium. Technologie chauffante intelligente Clim8. Livrés avec 2 batteries et 1 chargeur.', 0),
 (66, 3, 8, 'BREVA', 23999, 'none-24de18ed3bb5615ebc61b62d50a3fd80-24de18e.jpg', 11, 'breva', 'Gants moto chauffants homme textile hiver en Softshell. Système chauffant B-Warm avec 4 niveaux. Membrane étanche. Doublure thermique Primaloft. Doublure interne en polyester. Grip renforcé. Manchette longue élastiquée. Poignet élastiqué muni de 2 pattes de serrage velcro. Coque de protection métacarpienne. Homologation CE comme EPI.', 0),
 (67, 3, 11, 'HEAT GENESIS', 24990, 'none-3cd5f70f83a60d5384fd02bd4655da95-3cd5f70.jpg', 11, 'heat-genesis', 'Gants moto chauffants en polyamide, élasthanne et néoprène. Doublure thermique hiver \"Dual Lining\". Membrane étanche et respirante. Système chauffant intégré sur le dessus de la main, et sur les 5 doigts. 3 modes de chauffe (jusqu\'à 5) et personnalisables avec l\'application MyFury Connect. Application gratuite disponible sur IOS et Androïd. Bouton \"1click\" (contrôle des 2 gants). Insert Furygan Science Sensitive (écrans tactiles). Homologation CE comme EPI niveau 1.', 0),
-(68, 4, 10, 'MIKE C C-SIZING', 19999, 'none-e8874347badb1b5907446ca94cb599bf-e887434.jpg', 12, 'mike-c-c-sizing', 'Jeans en Cordura® Denim alliant praticité et efficacité. Coupe Regular. Jambes préformées. Fermetures par zip et boutons. Élastique en bas des jambes. Matière très respirante. Homologation CE. Protections CE aux genoux et aux hanches.', 0),
+(68, 4, 10, 'MIKE C C-SIZING', 19999, 'none-e8874347badb1b5907446ca94cb599bf-e887434.jpg', 12, 'mike-c-c-sizing', 'Jeans en Cordura® Denim alliant praticité et efficacité. Coupe Regular. Jambes préformées. Fermetures par zip et boutons. Élastique en bas des jambes. Matière très respirante. Homologation CE. Protections CE aux genoux et aux hanches.', 1),
 (69, 4, 7, 'ARGON', 19995, 'none-c7e49ce0fb0dac0197e1de43ca5e5334-c7e49ce.jpg', 12, 'argon', 'Jeans denim Cordura® stretch, doublure en fibre d’aramide. Coupe slim. Fermeture et bouton et zip. Passants pour ceinture. Empiècements réfléchissants. Protections genoux Nucleon Flex Plus homologuées CE Niveau 1 et protections de hanches Bio Flex Plus homologuées CE Niveau 1.', 0),
 (70, 4, 11, 'K11 X KEVLAR STRETCH GHOST', 19990, '6388-1-553777e.jpg', 12, 'k11-x-kevlar-stretch-ghost', 'Jeans moto pour homme. Matière extérieure ultra résistante conçue en partenariat avec Kevlar. Construction incorporant du stretch pour une aisance maximale. Nouvelle génération de protections D3O® offrant souplesse et une discrétion au quotidien. La coupe droite, straight, se veut confortable en toutes circonstances, et convenir à la majorité des morphologies. La coupe est droite sur l’ensemble des jambes sans se resserrer en bas, ce qui facilite le passage de bottes. Homologué CE EPI niveau AAA.', 0),
 (71, 4, 7, 'COPPER PRO', 25995, '6388-1-553777e.jpg', 12, 'copper-pro', 'Jeans moto homme, fabriqué en tissu denim technique élastique Cordura® avec HDF (fibre haute densité). Coupe regular avec jambes légèrement préformée. Inserts en aramide (durabilité et résistance). Doublure intérieure au niveau des genoux. Protections ultra-souples Nucelon Flex Plus aux genoux certifiées CE EN1621-1 : 2012 Niveau 1. Protections de hanche Bio-Flex intégrés. Homologation CE Cat.II - prEN17092 Classe A.', 0),
@@ -464,7 +510,7 @@ INSERT INTO `product` (`id`, `category_vo_id`, `brand_vo_id`, `designation`, `pr
 (99, 5, 7, 'DISTINCT DRYSTAR', 19500, 'distinct-drystar-boots-black.jpg', 16, 'distinct-drystar', 'Bottines ALPINESTARS Distinct Drystar®. Tige principale en cuir pleine fleur. Membrane Drystar® étanche et respirante. Homologuées CE niveau 2. Renfort malléoles en PU. Talons renforcés.', 0),
 (100, 5, 10, 'ROGUE STAR', 5040, 'none-7fb75bfeceab9979f17a17a593344d32-7fb75bf.jpg', 16, 'rogue-star', 'Chaussures IXON Rogue Star. Matière cuir de vachette pleine fleur. Languette anatomique profilée. Boucle à l\'arrière pour faciliter l\'enfilage. Semelle de propreté antibactérienne. Insert talon en mousse. Renfort bout de pied et talons.', 0),
 (101, 5, 12, 'Zarco Replica', 19999, 'none-0dfa195b17002ef294281cad1c622d61-0dfa195.jpg', 17, 'zarco-replica', 'Bottes racing en microfibre perforée. Soufflet rembourré. Doublure AIR TECH respirante. Système Double Flex Control. Protection du tibia en PU avec prises d\'air. Protection du sélecteur. Sliders en magnésium. Boucle en aluminium, micro-réglable et interchangeable.', 0),
-(102, 6, 10, 'Ix-Airbag U03', 39999, '01-gonfle-0e46a76.jpg', 19, 'ix-airbag-u03', 'Gilet Airbag électronique universel et discret qui se porte sous tous les blousons et les vestes. Intérieur respirant en tissu mesh 3D. Matière stretch sur les côtés. Homologation CE. Classé SRA 5 étoiles. Dorsale CE niveau 1. Protège le thorax, l\'abdomen, la colonne vertébrale, les cervicales et les clavicules. Abonnement à partir 12 euros/mois. *** Prix TTC sans l\'abonnement In&Motion. In&box non fourni, à commander chez In&motion au moment de l’adhésion, formule d\'adhésion obligatoire pour le fonctionnement de l\'airbag ***.', 0),
+(102, 6, 10, 'Ix-Airbag U03', 39999, '01-gonfle-0e46a76.jpg', 19, 'ix-airbag-u03', 'Gilet Airbag électronique universel et discret qui se porte sous tous les blousons et les vestes. Intérieur respirant en tissu mesh 3D. Matière stretch sur les côtés. Homologation CE. Classé SRA 5 étoiles. Dorsale CE niveau 1. Protège le thorax, l\'abdomen, la colonne vertébrale, les cervicales et les clavicules. Abonnement à partir 12 euros/mois. *** Prix TTC sans l\'abonnement In&Motion. In&box non fourni, à commander chez In&motion au moment de l’adhésion, formule d\'adhésion obligatoire pour le fonctionnement de l\'airbag ***.', 1),
 (103, 5, 9, 'AXIAL D1', 59995, 'none-08feca5cf846ba266c085a7ac6f5dbe7-08feca5.jpg', 17, 'axial-d1', 'Bottes. Homologation CE. Construction en tissu D-Stone™ et cuir de vachette. Inserts en stretch. Soufflet d\'aisance sur le coup de pied. Slider en magnésium amovible. Système D-Axial en fibre de carbone et d\'aramide. Renfort au niveau des malléoles. Renfort au niveau du sélecteur.', 1),
 (104, 5, 7, 'SUPERTECH R', 52995, '2220021-1236-4b0661a.jpg', 17, 'supertech-r', 'Bottes racing en cuir et tissu mesh. Zone avant flexible redessinée fabriquée en TPU sur-injecté sur un tissu Mesh. Protège-tibia, sliders et attelle interne biomécanique. Microfibre élastique et flexible en accordéon sur le tendon d\'Achille. Guêtre supérieure en cuir synthétique de qualité supérieure renforcé PU. Homologation CE', 0),
 (105, 5, 7, 'SUPERTECH R - BLANC', 52995, 'none-8b2afff80d68d5a7bc38615f4b7911cd-8b2afff.jpg', 17, 'supertech-r-blanc', 'Bottes moto en cuir et tissu mesh Noir blanc et rouge fluo. Renforts TPU souples et extensibles. Protège-tibia, sliders et attelle interne biomécanique. Homologuées CE', 0),
@@ -480,9 +526,9 @@ INSERT INTO `product` (`id`, `category_vo_id`, `brand_vo_id`, `designation`, `pr
 (114, 6, 7, 'Nucleon Kr-3', 22495, 'none-ce4f4cffd70e9da1c726dae18b6ab786-ce4f4cf.jpg', 18, 'nucleon-kr-3', 'Dorsale en tissu élastique et ventilé. Construction robuste en polymère offrant flexibilité et légèreté. Renfort en mousse au niveau de la colonne vertébrale. Bretelles réglables et détachables. Rembourrage au niveau des épaules. Homologation selon la norme EN 1621-2:2014, niveau 2.', 0),
 (115, 6, 10, 'Warden Comp', 7499, '604304007-1001-7ecdac1.jpg', 18, 'warden-comp', 'Dorsale souple et ergonomique qui s\'adaptera à votre colonne. Homologation CE, niveau 2. Mousse en polyuréthane. Perforations multiples offrant une ventilation optimale. Fournie avec ceinture et bretelles.', 0),
 (116, 6, 8, 'C-Protect Air Sra 2*', 39990, '01-f9d6e7d.jpg', 18, 'c-protect-air-sra-2', 'Airbag en Softshell ajustable aux différentes morphologies. Soufflet d\'aisance. Une fois gonflé, l\'airbag protège le thorax, l\'abdomen et le dos allant des cervicales au coccyx. Homologation CE. Classé SRA 2 étoiles. Dorsale de niveau 1 intégrée. Matière réfléchissante.', 0),
-(117, 6, 9, 'SMART JACKET', 69995, '1d20039-001-7d0de4a.jpg', 19, 'smart-jacket', 'Airbag DAINESE Smart Jacket. Technologie airbag D-air® utilisée en MotoGP™. Se porte sous n\'importe quel blouson. Équivaut à 7 dorsales. Sans câbles ni connexion avec la moto ou le scooter. + de 26h d\'autonomie. Réglementation DOLOMITICERT (2016/425) - Airbag arrière niveau 1 (EN 1621-4 CB L1) Règlement DOLOMITICERT (2016/425) - Airbag thoracique niveau 2 (EN 1621-4 L2)', 0),
+(117, 6, 9, 'SMART JACKET', 69995, '1d20039-001-7d0de4a.jpg', 19, 'smart-jacket', 'Airbag DAINESE Smart Jacket. Technologie airbag D-air® utilisée en MotoGP™. Se porte sous n\'importe quel blouson. Équivaut à 7 dorsales. Sans câbles ni connexion avec la moto ou le scooter. + de 26h d\'autonomie. Réglementation DOLOMITICERT (2016/425) - Airbag arrière niveau 1 (EN 1621-4 CB L1) Règlement DOLOMITICERT (2016/425) - Airbag thoracique niveau 2 (EN 1621-4 L2)', 1),
 (118, 6, 7, 'TECH-AIR 3 SYSTEM', 52995, 'none-2b6dbdbe835615c7d26c0f782c095cc9-2b6dbdb.jpg', 19, 'tech-air-3-system', 'Gilet Airbag, entièrement autonome, ne nécessite aucune connexion ou capteur externe sur la moto pour que le système fonctionne. Le système d\'airbag Tech-Air® 3 s\'active automatiquement via la fermeture à glissière magnétique. La conception compacte signifie que le système peut être rangé dans un sac à dos ou sous la selle lorsqu\'il n\'est pas utilisé. Un affichage LED sur la poitrine avant indique en permanence l\'état de fonctionnement de l\'airbag. La connectivité bluetooth Low Energy (BLE 5.0) avec l\'application Tech-Air® affiche l\'état du système, l\'état de la batterie et les données de conduite.', 0),
-(119, 6, 9, 'Blouson Airbag SMART JACKET LS SPORT', 84995, 'none-822ede73887b1888efb9fb52cef95e74-822ede7.jpg', 19, 'blouson-airbag-smart-jacket-ls-sport', 'Blouson en tissu Mugello. Dotée du systéme airbag D-air®. Ceinture lombaire réglable. Zips d’aisances aux poignets. Structure ventilée. 2 poches extérieures. Empiècements réfléchissants. Protections homologuées CE Niveau 2, Pro Armor aux coudes, à la poitrine et aux épaules. Protections homologués CE Niveau 1 pour la dorsale. Homologation CE.', 1);
+(119, 6, 9, 'Blouson Airbag SMART JACKET LS SPORT', 84995, 'none-822ede73887b1888efb9fb52cef95e74-822ede7.jpg', 19, 'blouson-airbag-smart-jacket-ls-sport', 'Blouson en tissu Mugello. Dotée du systéme airbag D-air®. Ceinture lombaire réglable. Zips d’aisances aux poignets. Structure ventilée. 2 poches extérieures. Empiècements réfléchissants. Protections homologuées CE Niveau 2, Pro Armor aux coudes, à la poitrine et aux épaules. Protections homologués CE Niveau 1 pour la dorsale. Homologation CE.', 0);
 
 -- --------------------------------------------------------
 
@@ -587,15 +633,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`),
   UNIQUE KEY `UNIQ_8D93D649EC8630E3` (`fidelity_card_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `user`
 --
 
 INSERT INTO `user` (`id`, `fidelity_card_vo_id`, `email`, `roles`, `password`, `last_name`, `first_name`, `address`, `zip_code`, `city`, `tel_number`, `birth_date`) VALUES
-(1, NULL, 'fbesnard.ledantec@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$vTiLceOER1nA4H7spaDZ3Ozm.fj8Yv8ZXsSY44C8jwaenMt0cPDVG', 'BESNARD', 'François', '23 Rue joseph lesbleiz', '22300', 'Ploubezre', '0665198741', '1996-12-09'),
-(2, NULL, 'julesthivend@gmail.com', '[]', '$2y$13$H5MXNKf2ehmFilqKL.CwveT81MKpRNEVjkAk6MaVJrpa5QOpPgqa2', 'Thivend', 'Jules', 'COUCOU', '22300', 'COUCOU', '0123456789', '2001-01-01');
+(1, 1, 'fbesnard.ledantec@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$vTiLceOER1nA4H7spaDZ3Ozm.fj8Yv8ZXsSY44C8jwaenMt0cPDVG', 'BESNARD', 'François', '23 Rue joseph lesbleiz', '22300', 'Ploubezre', '0665198741', '1996-12-09'),
+(2, NULL, 'julesthivend@gmail.com', '[]', '$2y$13$ohkNze1F4Wrwudah0ooIwu5Ir8VWEZ8lsmwJzKl4v8Np7hwSSfPCK', 'Thivend', 'Jules', 'COUCOU', '22300', 'COUCOU', '0123456789', '2001-01-01'),
+(3, NULL, 'Frandu22600@hotmail.fr', '[]', '$2y$13$wsAicuQB98YW5INKEHDOse2NG7j9./nfKQosfXDZm4rJpqu1.bGzu', 'Besnard', 'François', '3 Rue des Epinais', '22600', 'La Motte', '0665198741', '1996-12-09'),
+(4, NULL, 'reymysterio@gmail.com', '[]', '$2y$13$Pz5Bttmea1ZFRVzmBf/vI.7Iq0s8wx/lixvESODD60xaG5a1UjsG2', 'Mysterio', 'Rey', 'Mexique', '22600', 'Mexico', '0619619619', '1976-08-09');
 
 --
 -- Contraintes pour les tables déchargées
