@@ -24,12 +24,13 @@ class FidelityCard
     #[ORM\OneToOne(mappedBy: 'fidelityCardVO', cascade: ['persist', 'remove'])]
     private ?User $userVO = null;
 
-    #[ORM\ManyToMany(targetEntity: Advantage::class, mappedBy: 'fidelityCardVOs')]
-    private Collection $advantageVOs;
+
+    #[ORM\OneToMany(mappedBy: 'fidelityCardVO', targetEntity: Contain::class)]
+    private Collection $containVOs;
 
     public function __construct()
     {
-        $this->advantageVOs = new ArrayCollection();
+        $this->containVOs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,30 +84,47 @@ class FidelityCard
         return $this;
     }
 
-    /**
-     * @return Collection<int, Advantage>
-     */
-    public function getAdvantageVOs(): Collection
+    public function getAmountOfPoints(float $totalOrder): int
     {
-        return $this->advantageVOs;
+        $roundTotalOrder = floor($totalOrder) / 100;
+        $totalPoints = floor($roundTotalOrder / 10);
+        return $totalPoints;
     }
 
-    public function addAdvantageVO(Advantage $advantageVO): self
+    public function addPoints(int $totalPoints){
+        $this->setTotalPoints($totalPoints + $this->getTotalPoints());
+    }
+
+    public function removePoints(int $points){
+        $this->setTotalPoints($this->getTotalPoints() - $points);
+    }
+
+    /**
+     * @return Collection<int, Contain>
+     */
+    public function getContainVOs(): Collection
     {
-        if (!$this->advantageVOs->contains($advantageVO)) {
-            $this->advantageVOs->add($advantageVO);
-            $advantageVO->addFidelityCardVO($this);
+        return $this->containVOs;
+    }
+
+    public function addContainVO(Contain $containVO): self
+    {
+        if (!$this->containVOs->contains($containVO)) {
+            $this->containVOs->add($containVO);
+            $containVO->setFidelityCardVO($this);
         }
 
         return $this;
     }
 
-    public function removeAdvantageVO(Advantage $advantageVO): self
+    public function removeContainVO(Contain $containVO): self
     {
-        if ($this->advantageVOs->removeElement($advantageVO)) {
-            $advantageVO->removeFidelityCardVO($this);
+        if ($this->containVOs->removeElement($containVO)) {
+            // set the owning side to null (unless already changed)
+            if ($containVO->getFidelityCardVO() === $this) {
+                $containVO->setFidelityCardVO(null);
+            }
         }
-
         return $this;
     }
 }

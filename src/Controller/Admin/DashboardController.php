@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Advantage;
-use App\Entity\AdvantageType;
 use App\Entity\Brand;
 use App\Entity\Category;
 use App\Entity\Header;
@@ -12,7 +11,6 @@ use App\Entity\Product;
 use App\Entity\SubCategory;
 use App\Entity\Transporter;
 use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -51,7 +49,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Sous-Catégorie', 'fas fa-add', SubCategory::class);
         yield MenuItem::linkToCrud('Produit', 'fas fa-add', Product::class);
         yield MenuItem::linkToCrud('Marque', 'fas fa-add', Brand::class);
-        yield MenuItem::linkToCrud('Types Avantages', 'fas fa-add', AdvantageType::class);
         yield MenuItem::linkToCrud('Avantage', 'fas fa-add', Advantage::class);
         yield MenuItem::linkToCrud('Transporteur', 'fas fa-add', Transporter::class);
         yield MenuItem::linkToCrud('Header', 'fas fa-add', Header::class);

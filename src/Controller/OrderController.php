@@ -25,7 +25,6 @@ class OrderController extends AbstractController
     public function index(Cart $cartVO, Request $request, NavbarService $navbarService): Response
     {
         if (!$this->getUser()->getAddressVOs()->getValues()) {
-            dd();
             return $this->redirectToRoute('addAddress');
         }
 

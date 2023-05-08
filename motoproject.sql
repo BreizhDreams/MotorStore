@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 07 mai 2023 à 14:34
+-- Généré le : lun. 08 mai 2023 à 11:24
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.2.0
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D4E6F81A837E25D` (`user_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `address`
@@ -54,7 +54,8 @@ INSERT INTO `address` (`id`, `user_vo_id`, `name`, `first_name`, `last_name`, `c
 (8, 2, 'Maison', '12', '12', '12', '12', '1', '212', 'AF', '212'),
 (9, 2, 'Entreprise', '12', '12', '12121', '12', '1', '21212212', 'AF', '12121212'),
 (10, 2, 'Orange', 'Coucou', 'Coucou', 'Coucou', 'Coucou', '22600', 'Coucou', 'FR', 'Coucou'),
-(11, 1, 'test', 'test', 'test', 'test', 'test', '22600', 'test', 'TW', '0123456789');
+(11, 1, 'test', 'test', 'test', 'test', 'test', '22600', 'test', 'TW', '0123456789'),
+(13, 3, 'Maison', 'François', 'BESNARD', NULL, '3 Rue des Epinais', '22600', 'La Motte', 'FR', '0665198741');
 
 -- --------------------------------------------------------
 
@@ -65,49 +66,25 @@ INSERT INTO `address` (`id`, `user_vo_id`, `name`, `first_name`, `last_name`, `c
 DROP TABLE IF EXISTS `advantage`;
 CREATE TABLE IF NOT EXISTS `advantage` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `advantage_type_vo_id` int NOT NULL,
   `reference` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration_date` datetime NOT NULL,
   `advantage_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_298E21A1FF70C14C` (`advantage_type_vo_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `advantage_fidelity_card`
---
-
-DROP TABLE IF EXISTS `advantage_fidelity_card`;
-CREATE TABLE IF NOT EXISTS `advantage_fidelity_card` (
-  `advantage_id` int NOT NULL,
-  `fidelity_card_id` int NOT NULL,
-  PRIMARY KEY (`advantage_id`,`fidelity_card_id`),
-  KEY `IDX_6937E86C3864498A` (`advantage_id`),
-  KEY `IDX_6937E86CCA4FE9A9` (`fidelity_card_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `advantage_type`
---
-
-DROP TABLE IF EXISTS `advantage_type`;
-CREATE TABLE IF NOT EXISTS `advantage_type` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `reference` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `advantage_type`
+-- Déchargement des données de la table `advantage`
 --
 
-INSERT INTO `advantage_type` (`id`, `reference`, `designation`) VALUES
-(1, 'REDUC', 'Code de Réduction');
+INSERT INTO `advantage` (`id`, `reference`, `expiration_date`, `advantage_name`, `amount`) VALUES
+(1, 'REDUC5', '2030-12-09 23:59:00', 'Code de Réduction 5€', 5),
+(2, 'REDUC10', '2030-12-09 23:59:00', 'Code de Réduction 10€', 10),
+(3, 'REDUC25', '2030-12-09 23:59:00', 'Code de Réduction 25€', 25),
+(4, 'REDUC50', '2030-12-09 23:59:00', 'Code de Réduction 50€', 50),
+(5, 'REDUC100', '2030-12-09 23:59:00', 'Code de Réduction 100€', 100),
+(6, 'REDUC250', '2030-12-09 23:59:00', 'Code de Réduction 250€', 250),
+(7, 'REDUC500', '2030-12-09 23:59:00', 'Code de Réduction 500€', 500);
 
 -- --------------------------------------------------------
 
@@ -151,7 +128,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -161,12 +138,12 @@ CREATE TABLE IF NOT EXISTS `category` (
 --
 
 INSERT INTO `category` (`id`, `designation`, `description`, `slug`) VALUES
-(1, 'Casque', 'Le casque moto est incontestablement l’équipement le plus important. Chez MotorStore, nous savons que chaque motard à des besoins spécifiques, c’est pour cela que nous vous proposons une large gamme de casques. Vous recherchez un casque pour vous accompagner lors de vos longues balades ? Optez pour un intégral ! Vous êtres plutôt motard urbain ? Trouvez le jet qu’il vous faut ! Votre cœur balance entre les deux ? Dirigez-vous vers un modulable !', 'casque'),
-(2, 'Veste', 'Vous êtes à la recherche d’un blouson, d’une veste ou d’une combinaison ? Du blouson cuir au blouson textile en passant par la veste et la combinaison, chez Moto-Axxe nous avons ce que vous recherchez ! Que ce soit pour une utilisation touring, route, urbaine, piste, toutes les plus grandes marques sont chez MotorStore ! Alpinestars, Furygan, Bering, Ixon, Segura… Trouvez le produit qu’il vous faut !', 'veste'),
-(3, 'Gants', 'Les gants moto sont le seul équipement obligatoire en plus du casque. Lors d\'un impact, ce sont probablement vos mains qui seront touchées en premier alors mieux vaut bien choisir vos gants! Moto-Axxe propose une large gamme pour que vous trouviez les gants spécifiques à vos besoins. Gants chauffants, gants été, gants hiver, gants en cuir, gants textile... Les plus grandes marques sont chez Moto-Axxe ! Alpinestars, Furygan, Bering, Vquattro, Five...', 'gants'),
-(4, 'Pantalon', 'Le pantalon moto est souvent le dernier équipement dans lequel nous pensons à investir. Pourtant, lors d’une glissade, tout le côté latéral est touché. Alors il est important d’opter pour un pantalon hautement résistant à l’abrasion et aux déchirures. 3 types de pantalons : le textile, le cuir et le jeans classique.', 'pantalon'),
-(5, 'Chaussures', 'La vente de chaussures moto progresse en France. Et ce n\'est pas vraiment surprenant. Aujourd’hui, les codes esthétiques du secteur de la moto se rapprochent de plus en plus de ceux du prêt à porter. Il en devient même difficile de faire la différence entre une basket moto et une basket lambda. Néanmoins, les amateurs de grosses cylindrées ne sont pas laissés de côté  pour autant, les fabricants développent toujours des baskets et des bottes racing au design très affirmé incluant des renforts de plus en plus techniques pour une meilleure protection. Vous trouverez une large gamme de chaussures moto : bottes, bottines, baskets… et les plus grandes marques ! Alpinestars, TCX, Ixon, Furygan, Forma… sont chez Moto-Axxe !', 'chaussures'),
-(6, 'Protections', 'Compétiteurs, pilotes sur piste, en position d’attaque sur votre moto vous aurez envie de prendre le point de corde en appui sur les genoux avec les protections sliders, d’enrhumer votre adversaire, mais attention à la gamelle, à la sortie de piste où un airbag moto vous garantira une protection optimale… La sécurité est également primordiale pour les rouleurs sur route, se mettre au tas, prendre un faussé est une possibilité', 'protections');
+(1, 'Casque', 'Le casque moto est incontestablement l’équipement le plus important. Chez MotorStore, nous savons que chaque motard à des besoins spécifiques, c’est pour cela que nous vous proposons une large gamme de casques. Vous recherchez un casque pour vous accompag', 'casque'),
+(2, 'Veste', 'Vous êtes à la recherche d’un blouson, d’une veste ou d’une combinaison ? Du blouson cuir au blouson textile en passant par la veste et la combinaison, chez Moto-Axxe nous avons ce que vous recherchez ! Que ce soit pour une utilisation touring, route, urb', 'veste'),
+(3, 'Gants', 'Les gants moto sont le seul équipement obligatoire en plus du casque. Lors d\'un impact, ce sont probablement vos mains qui seront touchées en premier alors mieux vaut bien choisir vos gants! Moto-Axxe propose une large gamme pour que vous trouviez les gan', 'gants'),
+(4, 'Pantalon', 'Le pantalon moto est souvent le dernier équipement dans lequel nous pensons à investir. Pourtant, lors d’une glissade, tout le côté latéral est touché. Alors il est important d’opter pour un pantalon hautement résistant à l’abrasion et aux déchirures. 3 t', 'pantalon'),
+(5, 'Chaussures', 'La vente de chaussures moto progresse en France. Et ce n\'est pas vraiment surprenant. Aujourd’hui, les codes esthétiques du secteur de la moto se rapprochent de plus en plus de ceux du prêt à porter. Il en devient même difficile de faire la différence ent', 'chaussures'),
+(6, 'Protections', 'Compétiteurs, pilotes sur piste, en position d’attaque sur votre moto vous aurez envie de prendre le point de corde en appui sur les genoux avec les protections sliders, d’enrhumer votre adversaire, mais attention à la gamelle, à la sortie de piste où un ', 'protections');
 
 -- --------------------------------------------------------
 
@@ -182,6 +159,32 @@ CREATE TABLE IF NOT EXISTS `category_advantage` (
   KEY `IDX_EEEEF39112469DE2` (`category_id`),
   KEY `IDX_EEEEF3913864498A` (`advantage_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `contain`
+--
+
+DROP TABLE IF EXISTS `contain`;
+CREATE TABLE IF NOT EXISTS `contain` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `fidelity_card_vo_id` int NOT NULL,
+  `advantage_vo_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_4BEFF7C8EC8630E3` (`fidelity_card_vo_id`),
+  KEY `IDX_4BEFF7C8D4368D01` (`advantage_vo_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `contain`
+--
+
+INSERT INTO `contain` (`id`, `fidelity_card_vo_id`, `advantage_vo_id`, `quantity`) VALUES
+(2, 1, 4, 2),
+(3, 1, 6, 1),
+(4, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +221,11 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 ('DoctrineMigrations\\Version20230420142215', '2023-04-20 14:22:24', 289),
 ('DoctrineMigrations\\Version20230420172009', '2023-04-20 17:20:13', 54),
 ('DoctrineMigrations\\Version20230421214635', '2023-04-21 21:46:46', 346),
-('DoctrineMigrations\\Version20230423100951', '2023-04-23 10:09:56', 129);
+('DoctrineMigrations\\Version20230423100951', '2023-04-23 10:09:56', 129),
+('DoctrineMigrations\\Version20230507170502', '2023-05-07 17:05:38', 209),
+('DoctrineMigrations\\Version20230507170905', '2023-05-07 17:09:11', 20),
+('DoctrineMigrations\\Version20230507180637', '2023-05-07 18:06:47', 38),
+('DoctrineMigrations\\Version20230507202508', '2023-05-07 20:25:33', 304);
 
 -- --------------------------------------------------------
 
@@ -232,14 +239,15 @@ CREATE TABLE IF NOT EXISTS `fidelity_card` (
   `reference` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_points` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `fidelity_card`
 --
 
 INSERT INTO `fidelity_card` (`id`, `reference`, `total_points`) VALUES
-(1, '6457b14cb6dca', 0);
+(1, '6457b14cb6dca', 543),
+(2, '6457cb491a2f0', 0);
 
 -- --------------------------------------------------------
 
@@ -306,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   `stripe_session_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_F5299398A837E25D` (`user_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order`
@@ -333,7 +341,13 @@ INSERT INTO `order` (`id`, `user_vo_id`, `created_at`, `transporter_name`, `tran
 (42, 1, '2023-05-06 17:44:10', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645691ea33357', NULL),
 (43, 1, '2023-05-06 17:44:32', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645692003393e', NULL),
 (44, 1, '2023-05-06 17:44:38', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_6456920660002', NULL),
-(45, 1, '2023-05-06 17:44:49', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64569211c8020', NULL);
+(45, 1, '2023-05-06 17:44:49', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64569211c8020', NULL),
+(46, 1, '2023-05-07 14:59:21', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 1, '07052023_6457bcc9504a2', 'cs_test_b1cCcRVMVzIdqRgeFYtygMuZEFSXzeqKnpZ9ZrcVHEBICFk2t8BgWoExlv'),
+(47, 3, '2023-05-07 15:24:26', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c2aa8ae10', 'cs_test_b1RULprGOuWHX7eRQ1MGC94c4OI9rbMuKRMoEnM28dNYuWJLBRrmqvOUlZ'),
+(48, 1, '2023-05-07 15:37:38', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c5c2671de', 'cs_test_b1EVVqROh2odLWrXo42fV5LD6qIo09w9KfAvxdLxnPa7WI6yE0m6W7L6ES'),
+(49, 1, '2023-05-07 15:39:46', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c642f08ed', 'cs_test_b1xbAMLGDL8poKFMu7sxYdTBScoZtnvw9di0xJU2l05kdM0LO6v6Gp6ooG'),
+(50, 1, '2023-05-08 11:21:28', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 1, '08052023_6458db387a620', 'cs_test_b12Ofe7mpgsO5fUiNyVRdOc7UKD5C8kR90Aj81OCOgaLAV4G0R0I8fNQAW'),
+(51, 1, '2023-05-08 11:23:22', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '08052023_6458dbaa966ea', 'cs_test_b1dJP3FqJJIKtElOjARpdlG5dnlgevFBJMfMqhjMJbVL7qGdiqBwLJxxgq');
 
 -- --------------------------------------------------------
 
@@ -351,7 +365,7 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `total` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_845CA2C1C96B6DF8` (`order_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order_details`
@@ -380,7 +394,13 @@ INSERT INTO `order_details` (`id`, `order_vo_id`, `product`, `quantity`, `price`
 (71, 42, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
 (72, 43, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
 (73, 44, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
-(74, 45, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990);
+(74, 45, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(75, 46, 'D3O FULL BACK FURY', 1, 3990, 3990),
+(76, 47, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(77, 48, 'PRO RAGNAR', 1, 10900, 10900),
+(78, 49, 'MIKE C C-SIZING', 1, 19999, 19999),
+(79, 50, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(80, 51, 'EXO-1400 CARBON AIR Legione', 1, 43950, 43950);
 
 -- --------------------------------------------------------
 
@@ -641,7 +661,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `fidelity_card_vo_id`, `email`, `roles`, `password`, `last_name`, `first_name`, `address`, `zip_code`, `city`, `tel_number`, `birth_date`) VALUES
 (1, 1, 'fbesnard.ledantec@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$vTiLceOER1nA4H7spaDZ3Ozm.fj8Yv8ZXsSY44C8jwaenMt0cPDVG', 'BESNARD', 'François', '23 Rue joseph lesbleiz', '22300', 'Ploubezre', '0665198741', '1996-12-09'),
-(2, NULL, 'julesthivend@gmail.com', '[]', '$2y$13$ohkNze1F4Wrwudah0ooIwu5Ir8VWEZ8lsmwJzKl4v8Np7hwSSfPCK', 'Thivend', 'Jules', 'COUCOU', '22300', 'COUCOU', '0123456789', '2001-01-01'),
+(2, 2, 'julesthivend@gmail.com', '[]', '$2y$13$ohkNze1F4Wrwudah0ooIwu5Ir8VWEZ8lsmwJzKl4v8Np7hwSSfPCK', 'Thivend', 'Jules', 'COUCOU', '22300', 'COUCOU', '0123456789', '2001-01-01'),
 (3, NULL, 'Frandu22600@hotmail.fr', '[]', '$2y$13$wsAicuQB98YW5INKEHDOse2NG7j9./nfKQosfXDZm4rJpqu1.bGzu', 'Besnard', 'François', '3 Rue des Epinais', '22600', 'La Motte', '0665198741', '1996-12-09'),
 (4, NULL, 'reymysterio@gmail.com', '[]', '$2y$13$Pz5Bttmea1ZFRVzmBf/vI.7Iq0s8wx/lixvESODD60xaG5a1UjsG2', 'Mysterio', 'Rey', 'Mexique', '22600', 'Mexico', '0619619619', '1976-08-09');
 
@@ -656,24 +676,18 @@ ALTER TABLE `address`
   ADD CONSTRAINT `FK_D4E6F81A837E25D` FOREIGN KEY (`user_vo_id`) REFERENCES `user` (`id`);
 
 --
--- Contraintes pour la table `advantage`
---
-ALTER TABLE `advantage`
-  ADD CONSTRAINT `FK_298E21A1FF70C14C` FOREIGN KEY (`advantage_type_vo_id`) REFERENCES `advantage_type` (`id`);
-
---
--- Contraintes pour la table `advantage_fidelity_card`
---
-ALTER TABLE `advantage_fidelity_card`
-  ADD CONSTRAINT `FK_6937E86C3864498A` FOREIGN KEY (`advantage_id`) REFERENCES `advantage` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_6937E86CCA4FE9A9` FOREIGN KEY (`fidelity_card_id`) REFERENCES `fidelity_card` (`id`) ON DELETE CASCADE;
-
---
 -- Contraintes pour la table `category_advantage`
 --
 ALTER TABLE `category_advantage`
   ADD CONSTRAINT `FK_EEEEF39112469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_EEEEF3913864498A` FOREIGN KEY (`advantage_id`) REFERENCES `advantage` (`id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `contain`
+--
+ALTER TABLE `contain`
+  ADD CONSTRAINT `FK_4BEFF7C8D4368D01` FOREIGN KEY (`advantage_vo_id`) REFERENCES `advantage` (`id`),
+  ADD CONSTRAINT `FK_4BEFF7C8EC8630E3` FOREIGN KEY (`fidelity_card_vo_id`) REFERENCES `fidelity_card` (`id`);
 
 --
 -- Contraintes pour la table `order`

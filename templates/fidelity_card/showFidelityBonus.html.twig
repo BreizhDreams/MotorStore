@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Vos Bonus Fideli'Trip - MotorStore{% endblock %}
+
+{% block body %}
+<div class="pageTitleDiv">
+    <h1 class="pageTitleH1">Vos Bonus Fideli'Trip</h1>
+    <p class="pageTitleSummary">
+        <a href="{{path('homePage')}}">Accueil</a>
+    </p>
+</div>
+{% block container %}
+<div class="container row">
+    {% set userVO = app.user %}
+    <div class="col-md-6">
+        <div>
+            <h2>Choisir un bon de réduction : </h2>
+        </div>
+        {% for advantageVO in advantageVOs %}
+            {% if userVO.fidelityCardVO.totalPoints >= advantageVO.amount %}
+            <div style="background-color: #fffbcb; margin:20px; padding:10px">
+                <div class="row">
+                    <div class="col-md-8">
+                        <p> {{advantageVO.advantageName}} </p>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{path('addAdvantage',{'amount': advantageVO.amount})}}" class="btn btn-dark">Choisir</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div style="background-color: #fffbcb; margin:20px; padding:10px">
+                <div class="row">
+                    <div class="col-md-8">
+                        <p> {{advantageVO.advantageName}} </p>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-dark" disabled="true">Choisir</button>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="col-md-6">
+        {% if orderVOs|length == 0 %}
+        <div class="accountItem">
+            <p>Vous n'avez pour le moment passez aucune commande sur notre boutique !</p>
+            <i class="fa-solid fa-box-open fa-xl"></i>
+        </div>
+        <h6> </h6>
+        {% else %}
+        <div>
+            <h2>Vos points de fidélité</h2>
+        </div>
+        <div class="accountItem" style="margin-top: 0;">
+            <h4> Grâce à vos différentes commandes, vous avez cumulé
+                <strong>{{userVO.fidelityCardVO.totalPoints}}</strong> points.
+            </h4>
+        </div>
+        <div class="mt-5">
+            <h2>
+                Bons de réductions disponible :
+            </h2>
+        </div>
+        <div style="background-color: #fffbcb; margin:20px; padding:10px">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th >Désignation</th>
+                    <th>Code</th>
+                    <th>Quantité</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for containVO in userVO.fidelityCardVO.containVOs %}                    
+                    <tr>
+                      <td>{{containVO.advantageVO.advantageName}}</td>
+                      <td>{{containVO.advantageVO.reference}}</td>
+                      <td>{{containVO.quantity}}</td>
+                    </tr>
+                      {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock container %}
+{% endblock %}

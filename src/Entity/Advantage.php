@@ -25,24 +25,23 @@ class Advantage
     #[ORM\Column(length: 255)]
     private ?string $advantageName = null;
 
-    #[ORM\ManyToOne(inversedBy: 'advantageVOs')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?AdvantageType $advantageTypeVO = null;
-
-    #[ORM\ManyToMany(targetEntity: FidelityCard::class, inversedBy: 'advantageVOs')]
-    private Collection $fidelityCardVOs;
-
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'advantageVOs')]
     private Collection $productVOs;
 
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'advantageVOs')]
     private Collection $categoryVOs;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $amount = null;
+
+    #[ORM\OneToMany(mappedBy: 'advantageVO', targetEntity: Contain::class)]
+    private Collection $containVOs;
+
     public function __construct()
     {
-        $this->fidelityCardVOs = new ArrayCollection();
         $this->productVOs = new ArrayCollection();
         $this->categoryVOs = new ArrayCollection();
+        $this->containVOs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,42 +81,6 @@ class Advantage
     public function setAdvantageName(string $advantageName): self
     {
         $this->advantageName = $advantageName;
-
-        return $this;
-    }
-
-    public function getAdvantageTypeVO(): ?AdvantageType
-    {
-        return $this->advantageTypeVO;
-    }
-
-    public function setAdvantageTypeVO(?AdvantageType $advantageTypeVO): self
-    {
-        $this->advantageTypeVO = $advantageTypeVO;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, FidelityCard>
-     */
-    public function getFidelityCardVOs(): Collection
-    {
-        return $this->fidelityCardVOs;
-    }
-
-    public function addFidelityCardVO(FidelityCard $fidelityCardVO): self
-    {
-        if (!$this->fidelityCardVOs->contains($fidelityCardVO)) {
-            $this->fidelityCardVOs->add($fidelityCardVO);
-        }
-
-        return $this;
-    }
-
-    public function removeFidelityCardVO(FidelityCard $fidelityCardVO): self
-    {
-        $this->fidelityCardVOs->removeElement($fidelityCardVO);
 
         return $this;
     }
@@ -171,6 +134,48 @@ class Advantage
     {
         if ($this->categoryVOs->removeElement($categoryVO)) {
             $categoryVO->removeAdvantageVO($this);
+        }
+
+        return $this;
+    }
+
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(?int $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contain>
+     */
+    public function getContainVOs(): Collection
+    {
+        return $this->containVOs;
+    }
+
+    public function addContainVO(Contain $containVO): self
+    {
+        if (!$this->containVOs->contains($containVO)) {
+            $this->containVOs->add($containVO);
+            $containVO->setAdvantageVO($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContainVO(Contain $containVO): self
+    {
+        if ($this->containVOs->removeElement($containVO)) {
+            // set the owning side to null (unless already changed)
+            if ($containVO->getAdvantageVO() === $this) {
+                $containVO->setAdvantageVO(null);
+            }
         }
 
         return $this;

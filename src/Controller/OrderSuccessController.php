@@ -30,6 +30,14 @@ class OrderSuccessController extends AbstractController
         if (!$orderVO->isIsPaid()) {
             $cartVO->delete();
             $orderVO->setIsPaid(1);
+
+            if($orderVO->getUserVO()->getFidelityCardVO()){
+                $fidelityCardVO = $orderVO->getUserVO()->getFidelityCardVO();
+                $totalOrder = $orderVO->getTotal();
+                $totalPoints = $fidelityCardVO->getAmountOfPoints($totalOrder);
+                $fidelityCardVO->addPoints($totalPoints);
+            }
+
             $this->entityManager->flush();
         }
 

@@ -14,7 +14,6 @@
 {% block container %}
 <div class="container">
     <div>
-        <h1 style="text-align: start; margin-left:10%">Bienvenue dans votre espace personnelle ! </h1>
         <p style="text-align: start; margin-left:10%">C'est dans cette espace que vous allez pouvoir retrouver toutes
             les informations concernant vos différentes commandes.</p>
         <hr>
@@ -40,7 +39,7 @@
                             <td>{{ orderVO.createdAt|date('d/m/y ') }}</td>
                             <td>{{ orderVO.orderDetails|length }}</td>
                             <td>{{((orderVO.transporterPrice + orderVO.getTotal) /100)|number_format(2,',',',')}} €</td>
-                            <td> <a class="btn btn-success" href="{{path('showSpecificOrder',{'reference': orderVO.reference})}}">Détails</a> </td>
+                            <td> <a class="btn btn-dark" href="{{path('showSpecificOrder',{'reference': orderVO.reference})}}">Détails</a> </td>
                         </tr>
                         {% endif %}
                     {% endfor %}

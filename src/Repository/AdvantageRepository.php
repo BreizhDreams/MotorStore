@@ -39,6 +39,16 @@ class AdvantageRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAdvantageInEuro() {
+        $query = $this
+            ->createQueryBuilder('a')
+            ->select('a')
+            ->andWhere("a.reference LIKE 'REDUC%'");
+
+        return $query->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Advantage[] Returns an array of Advantage objects
 //     */
