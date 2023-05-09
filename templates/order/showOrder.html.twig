@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Adresse et Transporteur - MotorStore{% endblock %}
+{% block title %}Votre Commande - MotorStore{% endblock %}
 
 {% block body %}
 <div class="pageTitleDiv">
-    <h1 class="pageTitleH1">Adresse et Transporteur</h1>
+    <h1 class="pageTitleH1">Votre Commande</h1>
     <p class="pageTitleSummary" >
         <a href="{{path('homePage')}}">Accueil</a> / 
         <a href="{{path('showCart')}}">Mon Panier</a>
@@ -16,15 +16,53 @@
             <div class="col-md-6">
                 {% set formHtml %}
                 {{form_start(form, {action: path('showOrderRecap')})}}
-                    {{form_label(form.Adresses,'Choisissez votre Adresse de Livraison:')}}
-                        <br/><a href="path:{{'addAddress'}}">Ajouter une adresse</a>
-                    {{form_end(form)}}
+                    <strong>
+                        {{form_label(form.Adresses,'Choisissez une adresse existante ou ')}} 
+                    </strong>
+                    <a class="btn btn-dark btn-sm" href="{{path('addAddress')}}">Ajouter une Adresse</a>
+                    <hr>
+                    <div class="row mb-5 mt-2">
+                        {% for address in form.Adresses %}
+                        <div class="col-md-4">
+                            {{form_widget(address)}}
+                            {{form_label(address)}}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <strong >
+                        {{form_label(form.Transporter,'Choisissez le Transporteur:')}}
+                    </strong>
+                    <hr>
+                    <div class="row" >
+                        {% for transporter in form.Transporter %}
+                        <div class="col-md-4">
+                            {{form_widget(transporter)}}
+                            {{form_label(transporter)}}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>
+                                {{form_label(form.DiscountCode,'Code de Réduction:')}}
+                            </strong>
+                        </div>
+                        <div class="col-md-8">
+                            {{form_widget(form.DiscountCode)}}
+                        </div>
+                        {{form_help(form.DiscountCode)}}
+                    </div>
+                    <hr>
+                    {{form_widget(form.submit)}}
+                {{form_end(form)}}
                 {% endset %}
         
                 {{formHtml|replace({'[br]' : '<br/>'})|raw}}
             </div>
             <div class="col-md-6">
                 <b>Récapitulatif de la Commande</b>
+                <hr>
                 {% for productVO in cartVO %}
                     <div class="row">
                         <div class="col-3">

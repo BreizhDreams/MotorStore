@@ -24,6 +24,11 @@ class Contain
     #[ORM\JoinColumn(nullable: false)]
     private ?Advantage $advantageVO = null;
 
+    public function __construct()
+    {
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;

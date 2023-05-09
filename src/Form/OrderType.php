@@ -7,6 +7,7 @@ use App\Entity\Transporter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,17 +26,24 @@ class OrderType extends AbstractType
                 'expanded' => true,
             ])
             ->add('Transporter', EntityType::class, [
-                'label' => 'Choisissez un Transporteur',
+                'label' => false,
                 'required' => true,
                 'class' => Transporter::class,
                 'multiple' => false,
                 'expanded' => true,
             ])
+            ->add('DiscountCode',TextType::class,[
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'help' => 'En cas de code Invalide, vous serez redirigez sur cette page.'
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider la commande',
                 'attr' => [
-                    'class' => 'btn btn-success btn-block'
-                ]
+                    'class' => 'btn btn-block btn-success '
+                ],
             ]);
     }
 

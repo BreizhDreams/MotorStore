@@ -27,7 +27,6 @@
                     {% set total = 0 %}
                     {% set articleNb = 0 %}
                     {% for cartVO in cartVOs %}
-            
                     <tr class="text-center">
                         <a href="{{ path('showProduct',{'slug' : cartVO.productVO.slug}) }}">
                             <th><img src="/uploads/{{cartVO.productVO.photoURL}}" alt="{{cartVO.productVO.designation}}"
@@ -54,11 +53,9 @@
                             Votre panier est Vide
                         </td>
                     </tr>
-            
                     {% endfor %}
                     </tr>
                 </tbody>
-            
             </table>
             {% if cartVOs|length != 0 %}
             <div class="text-end mt-5">

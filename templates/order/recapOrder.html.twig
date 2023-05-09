@@ -10,7 +10,7 @@
     <p class="pageTitleSummary" >
         <a href="{{path('homePage')}}">Accueil</a> / 
         <a href="{{path('showCart')}}">Mon Panier</a> /
-        <a href="{{path('showOrder')}}">Adresse et Transporteur</a>
+        <a href="{{path('showOrder')}}">Votre Commande</a>
     </p>
 </div>  
     {% block container %}
@@ -32,7 +32,9 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <b>Récapitulatif de la Commande</b>
+                    <div style="text-align: left;">
+                        <b>Récapitulatif de la Commande</b>
+                    </div>
                     <hr>
                     {% set total = 0 %}
                     {% for productVO in cartVO %}
@@ -53,10 +55,19 @@
                 <hr>
                 <strong style="text-align: right; padding-right:250px">Sous total : {{(total / 100)|number_format(2,',',',')}} €</strong>
                 <strong style="text-align: right; padding-right:250px">Livraison : {{(transporterVO.price /100)|number_format(2,',',',')}}€</strong>
-                <strong style="text-align: right; padding-right:250px">Total TTC : {{((total / 100)+ (transporterVO.price / 100))|number_format(2,',',',')}} €</strong>
+                {% if advantageVO.reference != null %}
+                <strong style="text-align: right; padding-right:250px">Total TTC : {{((total / 100)+ (transporterVO.price / 100))|number_format(2,',',',')}} €</strong>                    
+                <strong style="text-align: right; padding-right:250px"> {{advantageVO.advantageName}}</strong>
+                <strong style="text-align: right; padding-right:250px">Total avec Réduction : {{(((total / 100)+ (transporterVO.price / 100))- advantageVO.amount)|number_format(2,',',',')}} €</strong>
+                <form action="/order/createSession/{{reference}}" method="POST">
+                    <button type="submit" id="checkout-button" class="btn btn-success btn-block" style="width: 500px; margin:auto">Payer | {{(((total / 100)+ (transporterVO.price / 100))- advantageVO.amount)|number_format(2,',',',')}} €</button>
+                </form>
+                {% else %}
+                <strong style="text-align: right; padding-right:250px">Total TTC : {{((total / 100)+ (transporterVO.price / 100))|number_format(2,',',',')}} €</strong>                    
                 <form action="/order/createSession/{{reference}}" method="POST">
                     <button type="submit" id="checkout-button" class="btn btn-success btn-block" style="width: 500px; margin:auto">Payer | {{((total / 100)+ (transporterVO.price / 100))|number_format(2,',',',')}} €</button>
                 </form>
+                {% endif %}
             </div>
         </div>
     {% endblock container %}

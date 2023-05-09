@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 08 mai 2023 à 11:24
+-- Généré le : mar. 09 mai 2023 à 09:55
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.2.0
 
@@ -50,10 +50,10 @@ CREATE TABLE IF NOT EXISTS `address` (
 
 INSERT INTO `address` (`id`, `user_vo_id`, `name`, `first_name`, `last_name`, `company`, `address`, `postal_code`, `city`, `country`, `phone`) VALUES
 (4, 1, 'Maison', 'François', 'BESNARD', NULL, '3 Rue des Epinais', '22600', 'La Motte', 'FR', '0665198741'),
-(5, 1, 'Orange', 'François', 'BESNARD', 'Orange', '2 Avenue Pierre Marzin', '22300', 'Lannion', 'FR', '0123456789'),
-(8, 2, 'Maison', '12', '12', '12', '12', '1', '212', 'AF', '212'),
-(9, 2, 'Entreprise', '12', '12', '12121', '12', '1', '21212212', 'AF', '12121212'),
-(10, 2, 'Orange', 'Coucou', 'Coucou', 'Coucou', 'Coucou', '22600', 'Coucou', 'FR', 'Coucou'),
+(5, 1, 'Orange', 'François', 'BESNARD', 'Orangee', '2 Avenue Pierre Marzin', '22300', 'Lannion', 'FR', '0123456789'),
+(8, 2, 'Maison', '12', '12', '12', '12', '22300', '212', 'AF', '0123456789'),
+(9, 2, 'Entreprise', '12', '12', '2', '12', '22300', '21212212', 'AF', '0123456789'),
+(10, 2, 'Orange', 'Coucou', 'Coucou', 'Coucou', 'Coucou', '22600', 'Coucou', 'FR', '0123456789'),
 (11, 1, 'test', 'test', 'test', 'test', 'test', '22600', 'test', 'TW', '0123456789'),
 (13, 3, 'Maison', 'François', 'BESNARD', NULL, '3 Rue des Epinais', '22600', 'La Motte', 'FR', '0665198741');
 
@@ -175,16 +175,20 @@ CREATE TABLE IF NOT EXISTS `contain` (
   PRIMARY KEY (`id`),
   KEY `IDX_4BEFF7C8EC8630E3` (`fidelity_card_vo_id`),
   KEY `IDX_4BEFF7C8D4368D01` (`advantage_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `contain`
 --
 
 INSERT INTO `contain` (`id`, `fidelity_card_vo_id`, `advantage_vo_id`, `quantity`) VALUES
-(2, 1, 4, 2),
-(3, 1, 6, 1),
-(4, 1, 3, 1);
+(2, 1, 4, 1),
+(3, 1, 6, 0),
+(4, 1, 3, 0),
+(5, 1, 7, 0),
+(6, 1, 2, 3),
+(7, 1, 5, 1),
+(8, 2, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -225,7 +229,12 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 ('DoctrineMigrations\\Version20230507170502', '2023-05-07 17:05:38', 209),
 ('DoctrineMigrations\\Version20230507170905', '2023-05-07 17:09:11', 20),
 ('DoctrineMigrations\\Version20230507180637', '2023-05-07 18:06:47', 38),
-('DoctrineMigrations\\Version20230507202508', '2023-05-07 20:25:33', 304);
+('DoctrineMigrations\\Version20230507202508', '2023-05-07 20:25:33', 304),
+('DoctrineMigrations\\Version20230508183157', '2023-05-08 18:32:12', 69),
+('DoctrineMigrations\\Version20230508184324', '2023-05-08 18:43:28', 51),
+('DoctrineMigrations\\Version20230509070006', '2023-05-09 07:00:17', 247),
+('DoctrineMigrations\\Version20230509071837', '2023-05-09 07:18:40', 216),
+('DoctrineMigrations\\Version20230509075321', '2023-05-09 07:53:25', 201);
 
 -- --------------------------------------------------------
 
@@ -246,8 +255,8 @@ CREATE TABLE IF NOT EXISTS `fidelity_card` (
 --
 
 INSERT INTO `fidelity_card` (`id`, `reference`, `total_points`) VALUES
-(1, '6457b14cb6dca', 543),
-(2, '6457cb491a2f0', 0);
+(1, '6457b14cb6dca', 0),
+(2, '6457cb491a2f0', 111);
 
 -- --------------------------------------------------------
 
@@ -312,42 +321,78 @@ CREATE TABLE IF NOT EXISTS `order` (
   `is_paid` tinyint(1) NOT NULL,
   `reference` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `stripe_session_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `advantage_vo_id` int DEFAULT NULL,
+  `has_discount_code` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_F5299398A837E25D` (`user_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `IDX_F5299398A837E25D` (`user_vo_id`),
+  KEY `IDX_F5299398D4368D01` (`advantage_vo_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order`
 --
 
-INSERT INTO `order` (`id`, `user_vo_id`, `created_at`, `transporter_name`, `transporter_price`, `delivry`, `is_paid`, `reference`, `stripe_session_id`) VALUES
-(25, 1, '2023-04-23 12:28:43', 'Collisimo', 1000, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445247b4545f', 'cs_test_b1TaX3JaxoHQ8w9QLqcaHV71ejcPSTZeq9eyNNZOosroj4cbjoJNuLSOe1'),
-(26, 1, '2023-04-23 12:39:55', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445271bc5a2a', 'cs_test_b1nIAMTtMMa7MP9rHA9g4qN2vs4qngNjKM1AmiU6iykKs6GjrZsyULkuKE'),
-(27, 1, '2023-04-30 17:10:54', 'La Poste', 499, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '30042023_644ea11ecd9fe', NULL),
-(28, 1, '2023-04-30 17:11:24', 'La Poste', 499, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '30042023_644ea13c538e5', NULL),
-(29, 1, '2023-05-04 09:22:12', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '04052023_645379443d2f3', 'cs_test_b1haOoxFyq5FeODGdEBXd0H3Y563e88tRjzKHMwUEc6rPQpBCfLokVoFG7'),
-(30, 1, '2023-05-04 09:39:17', 'Chronopost', 1500, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '04052023_64537d45afa7f', NULL),
-(31, 1, '2023-05-05 16:26:58', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '05052023_64552e529278d', 'cs_test_b10QWvEsHKJH82EwPVxP2cSv39u1pTf04wKEKvxevtZSnORVd92A1EP722'),
-(32, 1, '2023-05-05 16:29:12', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '05052023_64552ed8f0460', 'cs_test_b1PFynG9oMCVaLEjfhoBMvZOpb4sd9cSCjkYdlBDs0IyFVHCZZzOsULHXb'),
-(33, 1, '2023-05-06 14:17:13', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '06052023_6456616998836', 'cs_test_b1FoEeaDdkg8j9TUkZqa1dCOsLoaTgd788yMjvM7DS7yd16627OZM9NScP'),
-(34, 1, '2023-05-06 15:56:23', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645678a78a301', NULL),
-(35, 1, '2023-05-06 15:56:44', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645678bc10267', NULL),
-(36, 1, '2023-05-06 15:58:42', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64567932b17dc', NULL),
-(37, 1, '2023-05-06 16:02:11', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64567a03df20f', NULL),
-(38, 1, '2023-05-06 16:02:14', 'La Poste', 499, 'test test<br/>0123456789<br/>test<br/>test<br/>22600 test<br/>TW', 0, '06052023_64567a06d9f70', 'cs_test_b1zmj1kKXpTJohE7mbcySnQhdcUQnOqgVIPqSE0xFJ7wGjtfPduALjmU5Z'),
-(39, 1, '2023-05-06 17:22:07', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cbfbbf70', NULL),
-(40, 1, '2023-05-06 17:22:33', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cd98b647', NULL),
-(41, 1, '2023-05-06 17:23:00', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cf440cb3', NULL),
-(42, 1, '2023-05-06 17:44:10', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645691ea33357', NULL),
-(43, 1, '2023-05-06 17:44:32', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645692003393e', NULL),
-(44, 1, '2023-05-06 17:44:38', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_6456920660002', NULL),
-(45, 1, '2023-05-06 17:44:49', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64569211c8020', NULL),
-(46, 1, '2023-05-07 14:59:21', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 1, '07052023_6457bcc9504a2', 'cs_test_b1cCcRVMVzIdqRgeFYtygMuZEFSXzeqKnpZ9ZrcVHEBICFk2t8BgWoExlv'),
-(47, 3, '2023-05-07 15:24:26', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c2aa8ae10', 'cs_test_b1RULprGOuWHX7eRQ1MGC94c4OI9rbMuKRMoEnM28dNYuWJLBRrmqvOUlZ'),
-(48, 1, '2023-05-07 15:37:38', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c5c2671de', 'cs_test_b1EVVqROh2odLWrXo42fV5LD6qIo09w9KfAvxdLxnPa7WI6yE0m6W7L6ES'),
-(49, 1, '2023-05-07 15:39:46', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c642f08ed', 'cs_test_b1xbAMLGDL8poKFMu7sxYdTBScoZtnvw9di0xJU2l05kdM0LO6v6Gp6ooG'),
-(50, 1, '2023-05-08 11:21:28', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 1, '08052023_6458db387a620', 'cs_test_b12Ofe7mpgsO5fUiNyVRdOc7UKD5C8kR90Aj81OCOgaLAV4G0R0I8fNQAW'),
-(51, 1, '2023-05-08 11:23:22', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '08052023_6458dbaa966ea', 'cs_test_b1dJP3FqJJIKtElOjARpdlG5dnlgevFBJMfMqhjMJbVL7qGdiqBwLJxxgq');
+INSERT INTO `order` (`id`, `user_vo_id`, `created_at`, `transporter_name`, `transporter_price`, `delivry`, `is_paid`, `reference`, `stripe_session_id`, `advantage_vo_id`, `has_discount_code`) VALUES
+(25, 1, '2023-04-23 12:28:43', 'Collisimo', 1000, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445247b4545f', 'cs_test_b1TaX3JaxoHQ8w9QLqcaHV71ejcPSTZeq9eyNNZOosroj4cbjoJNuLSOe1', NULL, 0),
+(26, 1, '2023-04-23 12:39:55', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '23042023_6445271bc5a2a', 'cs_test_b1nIAMTtMMa7MP9rHA9g4qN2vs4qngNjKM1AmiU6iykKs6GjrZsyULkuKE', NULL, 0),
+(27, 1, '2023-04-30 17:10:54', 'La Poste', 499, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '30042023_644ea11ecd9fe', NULL, NULL, 0),
+(28, 1, '2023-04-30 17:11:24', 'La Poste', 499, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '30042023_644ea13c538e5', NULL, NULL, 0),
+(29, 1, '2023-05-04 09:22:12', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '04052023_645379443d2f3', 'cs_test_b1haOoxFyq5FeODGdEBXd0H3Y563e88tRjzKHMwUEc6rPQpBCfLokVoFG7', NULL, 0),
+(30, 1, '2023-05-04 09:39:17', 'Chronopost', 1500, 'François BESNARD<br/>0000000000<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '04052023_64537d45afa7f', NULL, NULL, 0),
+(31, 1, '2023-05-05 16:26:58', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '05052023_64552e529278d', 'cs_test_b10QWvEsHKJH82EwPVxP2cSv39u1pTf04wKEKvxevtZSnORVd92A1EP722', NULL, 0),
+(32, 1, '2023-05-05 16:29:12', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '05052023_64552ed8f0460', 'cs_test_b1PFynG9oMCVaLEjfhoBMvZOpb4sd9cSCjkYdlBDs0IyFVHCZZzOsULHXb', NULL, 0),
+(33, 1, '2023-05-06 14:17:13', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '06052023_6456616998836', 'cs_test_b1FoEeaDdkg8j9TUkZqa1dCOsLoaTgd788yMjvM7DS7yd16627OZM9NScP', NULL, 0),
+(34, 1, '2023-05-06 15:56:23', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645678a78a301', NULL, NULL, 0),
+(35, 1, '2023-05-06 15:56:44', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645678bc10267', NULL, NULL, 0),
+(36, 1, '2023-05-06 15:58:42', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64567932b17dc', NULL, NULL, 0),
+(37, 1, '2023-05-06 16:02:11', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64567a03df20f', NULL, NULL, 0),
+(38, 1, '2023-05-06 16:02:14', 'La Poste', 499, 'test test<br/>0123456789<br/>test<br/>test<br/>22600 test<br/>TW', 0, '06052023_64567a06d9f70', 'cs_test_b1zmj1kKXpTJohE7mbcySnQhdcUQnOqgVIPqSE0xFJ7wGjtfPduALjmU5Z', NULL, 0),
+(39, 1, '2023-05-06 17:22:07', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cbfbbf70', NULL, NULL, 0),
+(40, 1, '2023-05-06 17:22:33', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cd98b647', NULL, NULL, 0),
+(41, 1, '2023-05-06 17:23:00', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '06052023_64568cf440cb3', NULL, NULL, 0),
+(42, 1, '2023-05-06 17:44:10', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645691ea33357', NULL, NULL, 0),
+(43, 1, '2023-05-06 17:44:32', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_645692003393e', NULL, NULL, 0),
+(44, 1, '2023-05-06 17:44:38', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_6456920660002', NULL, NULL, 0),
+(45, 1, '2023-05-06 17:44:49', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '06052023_64569211c8020', NULL, NULL, 0),
+(46, 1, '2023-05-07 14:59:21', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 1, '07052023_6457bcc9504a2', 'cs_test_b1cCcRVMVzIdqRgeFYtygMuZEFSXzeqKnpZ9ZrcVHEBICFk2t8BgWoExlv', NULL, 0),
+(47, 3, '2023-05-07 15:24:26', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c2aa8ae10', 'cs_test_b1RULprGOuWHX7eRQ1MGC94c4OI9rbMuKRMoEnM28dNYuWJLBRrmqvOUlZ', NULL, 0),
+(48, 1, '2023-05-07 15:37:38', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c5c2671de', 'cs_test_b1EVVqROh2odLWrXo42fV5LD6qIo09w9KfAvxdLxnPa7WI6yE0m6W7L6ES', NULL, 0),
+(49, 1, '2023-05-07 15:39:46', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '07052023_6457c642f08ed', 'cs_test_b1xbAMLGDL8poKFMu7sxYdTBScoZtnvw9di0xJU2l05kdM0LO6v6Gp6ooG', NULL, 0),
+(50, 1, '2023-05-08 11:21:28', 'La Poste', 499, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 1, '08052023_6458db387a620', 'cs_test_b12Ofe7mpgsO5fUiNyVRdOc7UKD5C8kR90Aj81OCOgaLAV4G0R0I8fNQAW', NULL, 0),
+(51, 1, '2023-05-08 11:23:22', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '08052023_6458dbaa966ea', 'cs_test_b1dJP3FqJJIKtElOjARpdlG5dnlgevFBJMfMqhjMJbVL7qGdiqBwLJxxgq', NULL, 0),
+(52, 1, '2023-05-08 17:16:18', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '08052023_64592e62a62d5', NULL, NULL, 0),
+(53, 1, '2023-05-08 17:18:59', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '08052023_64592f0399b08', NULL, NULL, 0),
+(54, 1, '2023-05-08 17:19:20', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '08052023_64592f18aed0a', NULL, NULL, 0),
+(55, 1, '2023-05-08 17:26:35', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '08052023_645930cb6a875', NULL, NULL, 0),
+(56, 1, '2023-05-08 17:51:15', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '08052023_64593693c3151', NULL, NULL, 0),
+(57, 1, '2023-05-08 17:53:41', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orange<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '08052023_64593725bf91b', NULL, NULL, 0),
+(58, 1, '2023-05-08 18:23:55', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '08052023_64593e3bb5766', NULL, NULL, 0),
+(59, 1, '2023-05-08 19:43:19', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '08052023_645950d7b3976', NULL, NULL, 0),
+(60, 1, '2023-05-09 06:51:53', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_6459ed899a209', NULL, NULL, 0),
+(61, 1, '2023-05-09 07:11:53', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_6459f2390dbea', NULL, NULL, 0),
+(62, 1, '2023-05-09 07:19:47', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_6459f4137c799', NULL, NULL, 0),
+(63, 1, '2023-05-09 07:27:10', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_6459f5cec5485', NULL, NULL, 0),
+(64, 1, '2023-05-09 07:33:04', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_6459f7305510f', NULL, NULL, 0),
+(65, 1, '2023-05-09 07:45:59', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_6459fa3753a92', NULL, NULL, 0),
+(67, 1, '2023-05-09 08:08:55', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_6459ff9775f43', NULL, 4, 1),
+(68, 1, '2023-05-09 08:12:01', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_645a0051e64e0', NULL, 4, 1),
+(69, 1, '2023-05-09 08:12:24', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a006870e49', NULL, NULL, 0),
+(70, 1, '2023-05-09 08:17:12', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a0188a8ea8', NULL, NULL, 0),
+(71, 1, '2023-05-09 08:17:57', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a01b5821bd', NULL, NULL, 0),
+(72, 1, '2023-05-09 08:19:03', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a01f713fbf', NULL, NULL, 0),
+(73, 1, '2023-05-09 08:20:29', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a024df2867', NULL, 3, 1),
+(74, 1, '2023-05-09 08:21:52', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a02a0d7a0b', NULL, 3, 1),
+(75, 1, '2023-05-09 08:22:14', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a02b63f975', NULL, 3, 1),
+(76, 1, '2023-05-09 08:22:31', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a02c75615a', NULL, 3, 1),
+(77, 1, '2023-05-09 08:38:46', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a06969b9d5', NULL, 3, 1),
+(78, 1, '2023-05-09 08:39:49', 'Chronopost', 1500, 'François BESNARD<br/>0123456789<br/>Orangee<br/>2 Avenue Pierre Marzin<br/>22300 Lannion<br/>FR', 0, '09052023_645a06d602008', 'cs_test_b1sviTLARYI2ZkDXMI2fbZttcHOeZLLROVYmPhPj7mipGe4wejBqux3o1W', 3, 1),
+(79, 1, '2023-05-09 08:40:46', 'Collisimo', 1000, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '09052023_645a070e8cf68', 'cs_test_b1Zddl3ZUoNf6vFHQb8luzUjjYEw0bBfyl95k4ZWvOEy6bG3GErGi77PSD', 7, 1),
+(80, 1, '2023-05-09 08:42:12', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_645a0764f0bb0', NULL, 4, 1),
+(81, 1, '2023-05-09 08:42:34', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_645a077abcd7d', NULL, 4, 1),
+(82, 1, '2023-05-09 08:52:38', 'La Poste', 499, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 1, '09052023_645a09d660a6d', 'cs_test_b1R0RZjCeZk4nrUF4WaaxvJr2oz6bdUmYfsbLvoKjxUhfnty1xmb3CTUG8', 3, 1),
+(83, 2, '2023-05-09 09:08:22', 'Collisimo', 1000, '12 12<br/>0123456789<br/>12<br/>12<br/>22300 212<br/>AF', 1, '09052023_645a0d86e4630', 'cs_test_b1XscZCs0jogJxw8y2RdQGnenpQ4BzVMksnzGlV7bXm3jonSi4kdX2Fmwo', NULL, 0),
+(84, 2, '2023-05-09 09:10:59', 'Chronopost', 1500, '12 12<br/>0123456789<br/>12<br/>12<br/>22300 212<br/>AF', 1, '09052023_645a0e2359238', 'cs_test_b1MOFuFNYjFi7Ctnd0QOkFjFgv7vVNCBMMbYOXNyk1IkPXu668Ba7Qwnsz', 5, 1),
+(85, 1, '2023-05-09 09:43:08', 'Chronopost', 1500, 'François BESNARD<br/>0665198741<br/>3 Rue des Epinais<br/>22600 La Motte<br/>FR', 0, '09052023_645a15ac81462', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -365,7 +410,7 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `total` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_845CA2C1C96B6DF8` (`order_vo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `order_details`
@@ -400,7 +445,54 @@ INSERT INTO `order_details` (`id`, `order_vo_id`, `product`, `quantity`, `price`
 (77, 48, 'PRO RAGNAR', 1, 10900, 10900),
 (78, 49, 'MIKE C C-SIZING', 1, 19999, 19999),
 (79, 50, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
-(80, 51, 'EXO-1400 CARBON AIR Legione', 1, 43950, 43950);
+(80, 51, 'EXO-1400 CARBON AIR Legione', 1, 43950, 43950),
+(81, 52, 'YORK D-WP®', 1, 18995, 18995),
+(82, 53, 'YORK D-WP®', 1, 18995, 18995),
+(83, 54, 'YORK D-WP®', 1, 18995, 18995),
+(84, 55, 'YORK D-WP®', 1, 18995, 18995),
+(85, 56, 'YORK D-WP®', 1, 18995, 18995),
+(86, 57, 'YORK D-WP®', 1, 18995, 18995),
+(87, 58, 'YORK D-WP®', 1, 18995, 18995),
+(88, 59, 'YORK D-WP®', 1, 18995, 18995),
+(89, 60, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(90, 61, 'MIKE C C-SIZING', 1, 19999, 19999),
+(91, 62, 'MIKE C C-SIZING', 1, 19999, 19999),
+(92, 63, 'MIKE C C-SIZING', 1, 19999, 19999),
+(93, 64, 'MIKE C C-SIZING', 1, 19999, 19999),
+(94, 65, 'MIKE C C-SIZING', 1, 19999, 19999),
+(96, 67, 'MIKE C C-SIZING', 1, 19999, 19999),
+(97, 67, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(98, 68, 'MIKE C C-SIZING', 1, 19999, 19999),
+(99, 68, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(100, 69, 'MIKE C C-SIZING', 1, 19999, 19999),
+(101, 69, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(102, 70, 'MIKE C C-SIZING', 1, 19999, 19999),
+(103, 70, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(104, 71, 'MIKE C C-SIZING', 1, 19999, 19999),
+(105, 71, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(106, 72, 'MIKE C C-SIZING', 1, 19999, 19999),
+(107, 72, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(108, 73, 'MIKE C C-SIZING', 1, 19999, 19999),
+(109, 73, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(110, 74, 'MIKE C C-SIZING', 1, 19999, 19999),
+(111, 74, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(112, 75, 'MIKE C C-SIZING', 1, 19999, 19999),
+(113, 75, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(114, 76, 'MIKE C C-SIZING', 1, 19999, 19999),
+(115, 76, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(116, 77, 'MIKE C C-SIZING', 1, 19999, 19999),
+(117, 77, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(118, 78, 'MIKE C C-SIZING', 1, 19999, 19999),
+(119, 78, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(120, 79, 'MIKE C C-SIZING', 1, 19999, 19999),
+(121, 79, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(122, 80, 'D3O FULL BACK FURY', 1, 3990, 3990),
+(123, 81, 'D3O FULL BACK FURY', 1, 3990, 3990),
+(124, 82, 'D3O FULL BACK FURY', 1, 3990, 3990),
+(125, 83, 'LAGUNA SECA 5 PERF', 1, 139995, 139995),
+(126, 83, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990),
+(127, 84, 'MIKE C C-SIZING', 1, 19999, 19999),
+(128, 85, 'EXO-R1 AIR Fabio Monster Replica', 1, 52990, 52990);
 
 -- --------------------------------------------------------
 
@@ -628,7 +720,7 @@ CREATE TABLE IF NOT EXISTS `transporter` (
 INSERT INTO `transporter` (`id`, `name`, `description`, `price`) VALUES
 (1, 'Collisimo', 'Profitez d\'une livraison prémium avec un colis chez vous dans les 72 prochaines heures !', 1000),
 (2, 'Chronopost', 'Profitez du seul transporteur au monde qui est capable de ne jamais réussir à vous livrer vos colis en temps et en heure !', 1500),
-(3, 'La Poste', 'Par ce que voila quoi.', 499);
+(3, 'La Poste', 'Profitez d\'une livraison normal à un prix attractif, le suivi du colis est inclus dans l\'offre.', 499);
 
 -- --------------------------------------------------------
 
@@ -693,7 +785,8 @@ ALTER TABLE `contain`
 -- Contraintes pour la table `order`
 --
 ALTER TABLE `order`
-  ADD CONSTRAINT `FK_F5299398A837E25D` FOREIGN KEY (`user_vo_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `FK_F5299398A837E25D` FOREIGN KEY (`user_vo_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FK_F5299398D4368D01` FOREIGN KEY (`advantage_vo_id`) REFERENCES `advantage` (`id`);
 
 --
 -- Contraintes pour la table `order_details`

@@ -52,6 +52,12 @@ class Order
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $stripeSessionId = null;
 
+    #[ORM\Column]
+    private ?bool $hasDiscountCode = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orderVOs')]
+    private ?Advantage $advantageVO = null;
+
     public function __construct()
     {
         $this->orderDetailsVOs = new ArrayCollection();
@@ -196,4 +202,29 @@ class Order
 
         return $this;
     }
+
+    public function isHasDiscountCode(): ?bool
+    {
+        return $this->hasDiscountCode;
+    }
+
+    public function setHasDiscountCode(bool $hasDiscountCode): self
+    {
+        $this->hasDiscountCode = $hasDiscountCode;
+
+        return $this;
+    }
+
+    public function getAdvantageVO(): ?Advantage
+    {
+        return $this->advantageVO;
+    }
+
+    public function setAdvantageVO(?Advantage $advantageVO): self
+    {
+        $this->advantageVO = $advantageVO;
+
+        return $this;
+    }
+
 }

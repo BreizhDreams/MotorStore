@@ -38,7 +38,11 @@
                             <td>{{ orderVO.reference }}</td>
                             <td>{{ orderVO.createdAt|date('d/m/y ') }}</td>
                             <td>{{ orderVO.orderDetails|length }}</td>
+                            {% if orderVO.hasDiscountCode == true %}
+                            <td>{{(((orderVO.transporterPrice + orderVO.getTotal)/100)- orderVO.advantageVO.amount)|number_format(2,',',',')}} €</td>   
+                            {% else %}
                             <td>{{((orderVO.transporterPrice + orderVO.getTotal) /100)|number_format(2,',',',')}} €</td>
+                            {% endif %}
                             <td> <a class="btn btn-dark" href="{{path('showSpecificOrder',{'reference': orderVO.reference})}}">Détails</a> </td>
                         </tr>
                         {% endif %}

@@ -33,7 +33,7 @@ class AdvantageController extends AbstractController
         $userVO = $this->getUser();
         $fidelityCardVO = $userVO->getFidelityCardVO();
 
-        if($amount < $fidelityCardVO->getTotalPoints()){
+        if($amount <= $fidelityCardVO->getTotalPoints()){
             $fidelityCardVO->removePoints($amount);
 
             $advantageVO = $this->entityManager->getRepository(Advantage::class)->findOneByAmount($amount);

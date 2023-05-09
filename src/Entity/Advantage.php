@@ -37,11 +37,15 @@ class Advantage
     #[ORM\OneToMany(mappedBy: 'advantageVO', targetEntity: Contain::class)]
     private Collection $containVOs;
 
+    #[ORM\OneToMany(mappedBy: 'advantageVO', targetEntity: Order::class)]
+    private Collection $orderVOs;
+
     public function __construct()
     {
         $this->productVOs = new ArrayCollection();
         $this->categoryVOs = new ArrayCollection();
         $this->containVOs = new ArrayCollection();
+        $this->orderVOs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +179,36 @@ class Advantage
             // set the owning side to null (unless already changed)
             if ($containVO->getAdvantageVO() === $this) {
                 $containVO->setAdvantageVO(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrderVOs(): Collection
+    {
+        return $this->orderVOs;
+    }
+
+    public function addOrderVO(Order $orderVO): self
+    {
+        if (!$this->orderVOs->contains($orderVO)) {
+            $this->orderVOs->add($orderVO);
+            $orderVO->setAdvantageVO($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderVO(Order $orderVO): self
+    {
+        if ($this->orderVOs->removeElement($orderVO)) {
+            // set the owning side to null (unless already changed)
+            if ($orderVO->getAdvantageVO() === $this) {
+                $orderVO->setAdvantageVO(null);
             }
         }
 

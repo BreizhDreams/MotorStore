@@ -52,7 +52,13 @@
         <p>Sous total :<strong> {{(orderVO.getTotal / 100)|number_format(2,',',',')}} €</strong></p>
         <p>Livraison :<strong> {{(orderVO.transporterPrice /100)|number_format(2,',',',')}}€</strong>
         </p>
+        {% if orderVO.hasDiscountCode == true %}
+        <p>Total TTC : <strong> {{((orderVO.getTotal / 100)+ (orderVO.transporterPrice / 100))|number_format(2,',',',')}} €</strong></p>                    
+        <p> <strong>{{orderVO.advantageVO.advantageName}}</strong> </p>
+        <p>Total avec Réduction : <strong>{{(((orderVO.getTotal / 100)+ (orderVO.transporterPrice / 100))- orderVO.advantageVO.amount)|number_format(2,',',',')}} €</strong> </p>
+        {% else %}
         <p>Total TTC :<strong> {{((orderVO.getTotal / 100)+ (orderVO.transporterPrice / 100))|number_format(2,',',',')}} €</strong>
+        {% endif %}
         </p>
     </div>
 </div>

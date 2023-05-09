@@ -75,9 +75,11 @@
                 <tbody>
                     {% for containVO in userVO.fidelityCardVO.containVOs %}                    
                     <tr>
-                      <td>{{containVO.advantageVO.advantageName}}</td>
-                      <td>{{containVO.advantageVO.reference}}</td>
-                      <td>{{containVO.quantity}}</td>
+                        {% if containVO.quantity != 0 %}
+                        <td>{{containVO.advantageVO.advantageName}}</td>
+                        <td>{{containVO.advantageVO.reference}}</td>
+                        <td>{{containVO.quantity}}</td>
+                        {% endif %}
                     </tr>
                       {% endfor %}
                 </tbody>

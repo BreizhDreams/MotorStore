@@ -45,10 +45,10 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
-             'error' => $error,
-             'categoryVOs' => $navbar[0],
-             'formMenu' => $navbar[1]->createView(),
-            ]);
+            'error' => $error,
+            'categoryVOs' => $navbar[0],
+            'formMenu' => $navbar[1]->createView(),
+        ]);
     }
 
     #[Route(path: '/logout', name: 'logOut')]
