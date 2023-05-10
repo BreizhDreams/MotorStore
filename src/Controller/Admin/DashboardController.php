@@ -6,6 +6,7 @@ use App\Entity\Advantage;
 use App\Entity\Brand;
 use App\Entity\Category;
 use App\Entity\Header;
+use App\Entity\Limitation;
 use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\SubCategory;
@@ -52,5 +53,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Avantage', 'fas fa-add', Advantage::class);
         yield MenuItem::linkToCrud('Transporteur', 'fas fa-add', Transporter::class);
         yield MenuItem::linkToCrud('Header', 'fas fa-add', Header::class);
+        yield MenuItem::linkToCrud('Limitation', 'fas fa-add', Limitation::class);
     }
 }

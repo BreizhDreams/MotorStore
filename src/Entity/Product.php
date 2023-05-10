@@ -57,9 +57,13 @@ class Product
     #[ORM\Column]
     private ?bool $isBest = null;
 
+    #[ORM\OneToMany(mappedBy: 'productVO', targetEntity: Limitation::class)]
+    private Collection $limitationVOs;
+
     public function __construct()
     {
         $this->advantageVOs = new ArrayCollection();
+        $this->limitationVOs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,5 +201,40 @@ class Product
         $this->isBest = $isBest;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Limitation>
+     */
+    public function getLimitationVOs(): Collection
+    {
+        return $this->limitationVOs;
+    }
+
+    public function addLimitationVO(Limitation $limitationVO): self
+    {
+        if (!$this->limitationVOs->contains($limitationVO)) {
+            $this->limitationVOs->add($limitationVO);
+            $limitationVO->setProductVO($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLimitationVO(Limitation $limitationVO): self
+    {
+        if ($this->limitationVOs->removeElement($limitationVO)) {
+            // set the owning side to null (unless already changed)
+            if ($limitationVO->getProductVO() === $this) {
+                $limitationVO->setProductVO(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->designation;
     }
 }
